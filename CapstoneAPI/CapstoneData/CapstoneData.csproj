@@ -42,6 +42,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,11 +53,75 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Models\Entities\Building.cs">
+      <DependentUpon>CapstoneEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\CapstoneEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CapstoneEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\CapstoneEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CapstoneEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\CapstoneEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CapstoneEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Device.cs">
+      <DependentUpon>CapstoneEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\District.cs">
+      <DependentUpon>CapstoneEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Map.cs">
+      <DependentUpon>CapstoneEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Province.cs">
+      <DependentUpon>CapstoneEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Role.cs">
+      <DependentUpon>CapstoneEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\User.cs">
+      <DependentUpon>CapstoneEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EntityDeploy Include="Models\Entities\CapstoneEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CapstoneEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Models\Entities\CapstoneEntities.edmx.diagram">
+      <DependentUpon>CapstoneEntities.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Entities\Respositories\" />
+    <Folder Include="Models\Entities\Services\" />
+    <Folder Include="Models\ViewModels\" />
+    <Folder Include="Utility\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Models\Entities\CapstoneEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CapstoneEntities.edmx</DependentUpon>
+      <LastGenOutput>CapstoneEntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Entities\CapstoneEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CapstoneEntities.edmx</DependentUpon>
+      <LastGenOutput>CapstoneEntities.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
