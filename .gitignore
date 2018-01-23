@@ -3,3 +3,5 @@ CapstoneAPI/.vs/CapstoneAPI/v15/sqlite3/storage.ide
 *.lock
 *.ide
 *.cache
+CapstoneAPI/.vs/CapstoneAPI/v15/Server/sqlite3/storage.ide-wal
+CapstoneAPI/.vs/CapstoneAPI/v15/Server/sqlite3/storage.ide-shm
