@@ -19,7 +19,7 @@ namespace CapstoneAPI.Controllers
             try
             {
                 IUserService userService = this.Service<IUserService>();
-                User user = userService.GetByUsername(username);
+                User user = userService.GetByUsername(username, password);
 
                 return new HttpResponseMessage()
                 {

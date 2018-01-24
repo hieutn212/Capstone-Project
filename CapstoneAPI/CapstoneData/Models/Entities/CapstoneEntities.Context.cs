@@ -32,5 +32,6 @@ namespace CapstoneData.Models.Entities
         public virtual DbSet<Province> Provinces { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Product_position> Product_position { get; set; }
     }
 }

@@ -140,6 +140,12 @@
     <Compile Include="Models\Entities\MapRefined.cs">
       <DependentUpon>EntityRefinery.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\Product_position.cs">
+      <DependentUpon>CapstoneEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Product_positionRefined.cs">
+      <DependentUpon>EntityRefinery.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entities\Province.cs">
       <DependentUpon>CapstoneEntities.tt</DependentUpon>
     </Compile>
@@ -156,6 +162,9 @@
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Repositories\MapRepositoryGen.cs">
+      <DependentUpon>Repositories.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Repositories\Product_positionRepositoryGen.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Repositories\ProvinceRepositoryGen.cs">
@@ -190,6 +199,9 @@
     <Compile Include="Models\Entities\Services\MapServiceGen.cs">
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\Services\Product_positionServiceGen.cs">
+      <DependentUpon>Services.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entities\Services\ProvinceServiceGen.cs">
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>
@@ -201,6 +213,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\Services\ProductPositionService.cs" />
     <Compile Include="Models\Entities\Services\UserService.cs" />
     <Compile Include="Models\Entities\Services\UserServiceGen.cs">
       <DependentUpon>Services.tt</DependentUpon>
@@ -221,6 +234,9 @@
       <DependentUpon>ViewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\MapViewModelGen.cs">
+      <DependentUpon>ViewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewModels\Product_positionViewModelGen.cs">
       <DependentUpon>ViewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\ProvinceViewModelGen.cs">

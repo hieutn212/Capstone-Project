@@ -35,6 +35,16 @@
     <Property Name="BuildingId" Type="int" Nullable="false" />
     <Property Name="MapUrl" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
+  <EntityType Name="Product_position">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="latitude" Type="float" />
+    <Property Name="longitude" Type="float" />
+    <Property Name="altitude" Type="float" />
+    <Property Name="deviceId" Type="nvarchar" MaxLength="250" />
+  </EntityType>
   <EntityType Name="Province">
     <Key>
       <PropertyRef Name="Id" />
@@ -89,6 +99,7 @@
     <EntitySet Name="Device" EntityType="Self.Device" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="District" EntityType="Self.District" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Map" EntityType="Self.Map" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product_position" EntityType="Self.Product_position" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />

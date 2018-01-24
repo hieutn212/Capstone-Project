@@ -104,5 +104,16 @@
       <End Role="Role" EntitySet="Roles" />
       <End Role="User" EntitySet="Users" />
     </AssociationSet>
+    <EntitySet Name="Product_position" EntityType="CapstoneModel.Product_position" />
   </EntityContainer>
+  <EntityType Name="Product_position">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="latitude" Type="Double" />
+    <Property Name="longitude" Type="Double" />
+    <Property Name="altitude" Type="Double" />
+    <Property Name="deviceId" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+  </EntityType>
 </Schema>
