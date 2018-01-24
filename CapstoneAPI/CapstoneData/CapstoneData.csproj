@@ -201,6 +201,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\Services\UserService.cs" />
     <Compile Include="Models\Entities\Services\UserServiceGen.cs">
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>
