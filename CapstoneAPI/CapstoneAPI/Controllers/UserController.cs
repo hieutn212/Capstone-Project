@@ -14,14 +14,16 @@ namespace CapstoneAPI.Controllers
 {
     public class UserController : BaseApiController
     {
-        public HttpResponseMessage Get(int id)
+        public HttpResponseMessage Get(string username, string password)
         {
             try
             {
-                var userService = this.Service<IUserService>();
+                IUserService userService = this.Service<IUserService>();
+                User user = userService.GetByUsername(username);
+
                 return new HttpResponseMessage()
                 {
-                    Content = new JsonContent("")
+                    Content = new JsonContent(user)
                 };
             }
             catch (Exception e)
