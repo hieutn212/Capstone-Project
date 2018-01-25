@@ -34,6 +34,7 @@ namespace CapstoneAPI.Controllers
             {
                 return new HttpResponseMessage()
                 {
+                    StatusCode = System.Net.HttpStatusCode.BadRequest,
                     Content = new JsonContent(e.Message)
                 };
             }
