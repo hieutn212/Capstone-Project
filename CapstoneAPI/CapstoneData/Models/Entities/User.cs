@@ -26,6 +26,7 @@ namespace CapstoneData.Models.Entities
         public int RoleId { get; set; }
         public string Fullname { get; set; }
         public Nullable<System.DateTime> Birthday { get; set; }
+        public bool Active { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Device> Devices { get; set; }

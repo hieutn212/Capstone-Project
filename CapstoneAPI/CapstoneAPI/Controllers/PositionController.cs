@@ -11,31 +11,52 @@ namespace CapstoneAPI.Controllers
 {
     public class PositionController : BaseApiController
     {
-        public bool createProductPosition(float latitude, float longitude, float altitude, string deviceId)
+        public bool CreateProductPosition(float latitude, float longitude, float altitude, string deviceId)
         {
-            Product_position model = new Product_position();
-            IProduct_PositionService productPositionService = this.Service<IProduct_PositionService>();
+            IProduct_positionService productPositionService = this.Service<IProduct_positionService>();
+            IDeviceService deviceService = this.Service<IDeviceService>();
 
-            model = productPositionService.CheckProduct(latitude,longitude,altitude,deviceId);
-            if (model == null)
+            Device device = deviceService.GetById(deviceId);
+
+            if (device != null)
             {
-                model.latitude = latitude;
-                model.longitude = longitude;
-                model.altitude = altitude;
-                model.deviceId = deviceId;
-                try
+                Product_position model = productPositionService.CheckProduct(latitude, longitude, altitude, deviceId);
+                if (model == null)
                 {
-                    productPositionService.CreateProduct(model);
+                    Product_position newPosition = new Product_position()
+                    {
+                        Latitude = latitude,
+                        Longitude = longitude,
+                        Altitude = altitude,
+                        DeviceId = deviceId,
+                        Active = true,
+                        CreatedDate = DateTime.Now,
+                    };
+
+                    try
+                    {
+                        productPositionService.CreateProduct(model);
+                    }
+                    catch (Exception e)
+                    {
+                        return false;
+                    }
                 }
-                catch (Exception e)
+                else
                 {
-                    return false;
+                    model.Active = true;
+                    try
+                    {
+                        productPositionService.Update(model);
+                        return true;
+                    }
+                    catch (Exception e)
+                    {
+                        return false;
+                    }
                 }
             }
-            else
-            {
-                return false;
-            }
+
             return true;
         }
     }

@@ -14,11 +14,19 @@ namespace CapstoneData.Models.Entities
     
     public partial class Device
     {
-        public int Id { get; set; }
-        public string MACAddress { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Device()
+        {
+            this.Product_position = new HashSet<Product_position>();
+        }
+    
+        public string Id { get; set; }
         public string Name { get; set; }
         public int UserId { get; set; }
+        public bool Active { get; set; }
     
         public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Product_position> Product_position { get; set; }
     }
 }

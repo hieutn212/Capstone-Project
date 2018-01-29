@@ -10,8 +10,6 @@ F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\EntityFramework.
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\EntityFramework.SqlServer.dll
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\Microsoft.Web.Infrastructure.dll
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\Newtonsoft.Json.dll
-F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\SkyWeb.DatVM.Data.dll
-F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\SkyWeb.DatVM.Mvc.dll
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\System.Web.Helpers.dll
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\System.Web.Mvc.dll
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\System.Web.Razor.dll
@@ -65,3 +63,5 @@ C:\Users\huynt\Desktop\Do_an\ProjectAPI\CapstoneAPI\CapstoneData\bin\Debug\Syste
 C:\Users\huynt\Desktop\Do_an\ProjectAPI\CapstoneAPI\CapstoneData\obj\Debug\CapstoneData.csprojResolveAssemblyReference.cache
 C:\Users\huynt\Desktop\Do_an\ProjectAPI\CapstoneAPI\CapstoneData\obj\Debug\CapstoneData.dll
 C:\Users\huynt\Desktop\Do_an\ProjectAPI\CapstoneAPI\CapstoneData\obj\Debug\CapstoneData.pdb
+F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\Microsoft.AspNet.Identity.Core.xml

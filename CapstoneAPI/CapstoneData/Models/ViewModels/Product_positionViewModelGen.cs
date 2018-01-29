@@ -15,11 +15,13 @@ namespace CapstoneData.Models.ViewModels
     public partial class Product_positionViewModel : SkyWeb.DatVM.Mvc.BaseEntityViewModel<CapstoneData.Models.Entities.Product_position>
     {
     	
-    			public virtual int id { get; set; }
-    			public virtual Nullable<double> latitude { get; set; }
-    			public virtual Nullable<double> longitude { get; set; }
-    			public virtual Nullable<double> altitude { get; set; }
-    			public virtual string deviceId { get; set; }
+    			public virtual int Id { get; set; }
+    			public virtual Nullable<double> Latitude { get; set; }
+    			public virtual Nullable<double> Longitude { get; set; }
+    			public virtual Nullable<double> Altitude { get; set; }
+    			public virtual string DeviceId { get; set; }
+    			public virtual System.DateTime CreatedDate { get; set; }
+    			public virtual bool Active { get; set; }
     	
     	public Product_positionViewModel() : base() { }
     	public Product_positionViewModel(CapstoneData.Models.Entities.Product_position entity) : base(entity) { }

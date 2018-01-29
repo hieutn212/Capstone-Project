@@ -9,15 +9,16 @@
     <Property Name="Province" Type="int" Nullable="false" />
     <Property Name="District" Type="int" Nullable="false" />
     <Property Name="Address" Type="nvarchar" MaxLength="250" />
+    <Property Name="Active" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Device">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="MACAddress" Type="nvarchar" MaxLength="110" Nullable="false" />
+    <Property Name="Id" Type="nvarchar" MaxLength="250" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
     <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="Active" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="District">
     <Key>
@@ -35,15 +36,27 @@
     <Property Name="BuildingId" Type="int" Nullable="false" />
     <Property Name="MapUrl" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
+  <EntityType Name="Marker">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Longitude" Type="float" />
+    <Property Name="Latitude" Type="float" />
+    <Property Name="Altitude" Type="float" />
+    <Property Name="MapId" Type="int" />
+  </EntityType>
   <EntityType Name="Product_position">
     <Key>
-      <PropertyRef Name="id" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="latitude" Type="float" />
-    <Property Name="longitude" Type="float" />
-    <Property Name="altitude" Type="float" />
-    <Property Name="deviceId" Type="nvarchar" MaxLength="250" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Latitude" Type="float" />
+    <Property Name="Longitude" Type="float" />
+    <Property Name="Altitude" Type="float" />
+    <Property Name="DeviceId" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="Active" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Province">
     <Key>
@@ -69,7 +82,32 @@
     <Property Name="RoleId" Type="int" Nullable="false" />
     <Property Name="Fullname" Type="nvarchar" MaxLength="250" />
     <Property Name="Birthday" Type="datetime" />
+    <Property Name="Active" Type="bit" Nullable="false" />
   </EntityType>
+  <Association Name="FK_Building_District">
+    <End Role="District" Type="Self.District" Multiplicity="1" />
+    <End Role="Building" Type="Self.Building" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="District">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Building">
+        <PropertyRef Name="District" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Building_Province">
+    <End Role="Province" Type="Self.Province" Multiplicity="1" />
+    <End Role="Building" Type="Self.Building" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Province">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Building">
+        <PropertyRef Name="Province" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Device_User">
     <End Role="User" Type="Self.User" Multiplicity="1" />
     <End Role="Device" Type="Self.Device" Multiplicity="*" />
@@ -79,6 +117,42 @@
       </Principal>
       <Dependent Role="Device">
         <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Map_Building">
+    <End Role="Building" Type="Self.Building" Multiplicity="1" />
+    <End Role="Map" Type="Self.Map" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Building">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Map">
+        <PropertyRef Name="BuildingId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Marker_Map">
+    <End Role="Map" Type="Self.Map" Multiplicity="0..1" />
+    <End Role="Marker" Type="Self.Marker" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Map">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Marker">
+        <PropertyRef Name="MapId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_position_Device">
+    <End Role="Device" Type="Self.Device" Multiplicity="1" />
+    <End Role="Product_position" Type="Self.Product_position" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Device">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product_position">
+        <PropertyRef Name="DeviceId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -99,13 +173,34 @@
     <EntitySet Name="Device" EntityType="Self.Device" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="District" EntityType="Self.District" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Map" EntityType="Self.Map" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Marker" EntityType="Self.Marker" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Product_position" EntityType="Self.Product_position" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Building_District" Association="Self.FK_Building_District">
+      <End Role="District" EntitySet="District" />
+      <End Role="Building" EntitySet="Building" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Building_Province" Association="Self.FK_Building_Province">
+      <End Role="Province" EntitySet="Province" />
+      <End Role="Building" EntitySet="Building" />
+    </AssociationSet>
     <AssociationSet Name="FK_Device_User" Association="Self.FK_Device_User">
       <End Role="User" EntitySet="User" />
       <End Role="Device" EntitySet="Device" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Map_Building" Association="Self.FK_Map_Building">
+      <End Role="Building" EntitySet="Building" />
+      <End Role="Map" EntitySet="Map" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Marker_Map" Association="Self.FK_Marker_Map">
+      <End Role="Map" EntitySet="Map" />
+      <End Role="Marker" EntitySet="Marker" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_position_Device" Association="Self.FK_Product_position_Device">
+      <End Role="Device" EntitySet="Device" />
+      <End Role="Product_position" EntitySet="Product_position" />
     </AssociationSet>
     <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
       <End Role="Role" EntitySet="Role" />

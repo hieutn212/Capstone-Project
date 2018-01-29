@@ -7,21 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CapstoneData.Models.Entities
+namespace CapstoneData.Models.Entities.Services
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Product_position
-    {
-        public int Id { get; set; }
-        public Nullable<double> Latitude { get; set; }
-        public Nullable<double> Longitude { get; set; }
-        public Nullable<double> Altitude { get; set; }
-        public string DeviceId { get; set; }
-        public System.DateTime CreatedDate { get; set; }
-        public bool Active { get; set; }
     
-        public virtual Device Device { get; set; }
+    public partial interface IMarkerService : SkyWeb.DatVM.Data.IBaseService<Marker>
+    {
+    }
+    
+    public partial class MarkerService : SkyWeb.DatVM.Data.BaseService<Marker>, IMarkerService
+    {
+        public MarkerService(SkyWeb.DatVM.Data.IUnitOfWork unitOfWork, Repositories.IMarkerRepository repository) : base(unitOfWork, repository)
+        {
+        }
     }
 }

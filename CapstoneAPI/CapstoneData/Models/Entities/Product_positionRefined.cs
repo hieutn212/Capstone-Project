@@ -12,7 +12,7 @@ namespace CapstoneData.Models.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class Product_position : SkyWeb.DatVM.Data.IEntity
+    public partial class Product_position : SkyWeb.DatVM.Data.IEntity, SkyWeb.DatVM.Data.IActivable
     {
     }
 }

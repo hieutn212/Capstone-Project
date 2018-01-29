@@ -12,16 +12,7 @@ namespace CapstoneData.Models.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class Product_position
+    public partial class Marker : SkyWeb.DatVM.Data.IEntity
     {
-        public int Id { get; set; }
-        public Nullable<double> Latitude { get; set; }
-        public Nullable<double> Longitude { get; set; }
-        public Nullable<double> Altitude { get; set; }
-        public string DeviceId { get; set; }
-        public System.DateTime CreatedDate { get; set; }
-        public bool Active { get; set; }
-    
-        public virtual Device Device { get; set; }
     }
 }

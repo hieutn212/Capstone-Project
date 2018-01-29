@@ -1,31 +1,84 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="CapstoneModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Users" Relationship="CapstoneModel.FK_User_Role" FromRole="Role" ToRole="User" />
+  </EntityType>
+  <EntityContainer Name="CapstoneEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Roles" EntityType="Self.Role" />
+    <EntitySet Name="Buildings" EntityType="CapstoneModel.Building" />
+    <EntitySet Name="Devices" EntityType="CapstoneModel.Device" />
+    <EntitySet Name="Districts" EntityType="CapstoneModel.District" />
+    <EntitySet Name="Maps" EntityType="CapstoneModel.Map" />
+    <EntitySet Name="Markers" EntityType="CapstoneModel.Marker" />
+    <EntitySet Name="Product_position" EntityType="CapstoneModel.Product_position" />
+    <EntitySet Name="Provinces" EntityType="CapstoneModel.Province" />
+    <EntitySet Name="Users" EntityType="CapstoneModel.User" />
+    <AssociationSet Name="FK_Building_District" Association="CapstoneModel.FK_Building_District">
+      <End Role="District" EntitySet="Districts" />
+      <End Role="Building" EntitySet="Buildings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Building_Province" Association="CapstoneModel.FK_Building_Province">
+      <End Role="Province" EntitySet="Provinces" />
+      <End Role="Building" EntitySet="Buildings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Map_Building" Association="CapstoneModel.FK_Map_Building">
+      <End Role="Building" EntitySet="Buildings" />
+      <End Role="Map" EntitySet="Maps" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Device_User" Association="CapstoneModel.FK_Device_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Device" EntitySet="Devices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_position_Device" Association="CapstoneModel.FK_Product_position_Device">
+      <End Role="Device" EntitySet="Devices" />
+      <End Role="Product_position" EntitySet="Product_position" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Marker_Map" Association="CapstoneModel.FK_Marker_Map">
+      <End Role="Map" EntitySet="Maps" />
+      <End Role="Marker" EntitySet="Markers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Role" Association="CapstoneModel.FK_User_Role">
+      <End Role="Role" EntitySet="Roles" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+  </EntityContainer>
   <EntityType Name="Building">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
     <Property Name="Province" Type="Int32" Nullable="false" />
     <Property Name="District" Type="Int32" Nullable="false" />
     <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="District1" Relationship="CapstoneModel.FK_Building_District" FromRole="Building" ToRole="District" />
+    <NavigationProperty Name="Province1" Relationship="CapstoneModel.FK_Building_Province" FromRole="Building" ToRole="Province" />
+    <NavigationProperty Name="Maps" Relationship="CapstoneModel.FK_Map_Building" FromRole="Building" ToRole="Map" />
   </EntityType>
   <EntityType Name="Device">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="MACAddress" Type="String" MaxLength="110" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="UserId" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="User" Relationship="Self.FK_Device_User" FromRole="Device" ToRole="User" />
+    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="CapstoneModel.FK_Device_User" FromRole="Device" ToRole="User" />
+    <NavigationProperty Name="Product_position" Relationship="CapstoneModel.FK_Product_position_Device" FromRole="Device" ToRole="Product_position" />
   </EntityType>
   <EntityType Name="District">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Name" Type="String" MaxLength="110" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="110" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Buildings" Relationship="CapstoneModel.FK_Building_District" FromRole="District" ToRole="Building" />
   </EntityType>
   <EntityType Name="Map">
     <Key>
@@ -34,7 +87,33 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" MaxLength="110" FixedLength="false" Unicode="true" />
     <Property Name="BuildingId" Type="Int32" Nullable="false" />
-    <Property Name="MapUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="MapUrl" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Building" Relationship="CapstoneModel.FK_Map_Building" FromRole="Map" ToRole="Building" />
+    <NavigationProperty Name="Markers" Relationship="CapstoneModel.FK_Marker_Map" FromRole="Map" ToRole="Marker" />
+  </EntityType>
+  <EntityType Name="Marker">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Longitude" Type="Double" />
+    <Property Name="Latitude" Type="Double" />
+    <Property Name="Altitude" Type="Double" />
+    <Property Name="MapId" Type="Int32" />
+    <NavigationProperty Name="Map" Relationship="CapstoneModel.FK_Marker_Map" FromRole="Marker" ToRole="Map" />
+  </EntityType>
+  <EntityType Name="Product_position">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Latitude" Type="Double" />
+    <Property Name="Longitude" Type="Double" />
+    <Property Name="Altitude" Type="Double" />
+    <Property Name="DeviceId" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Device" Relationship="CapstoneModel.FK_Product_position_Device" FromRole="Product_position" ToRole="Device" />
   </EntityType>
   <EntityType Name="Province">
     <Key>
@@ -42,31 +121,61 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" MaxLength="110" FixedLength="false" Unicode="true" />
-  </EntityType>
-  <EntityType Name="Role">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="Users" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
+    <NavigationProperty Name="Buildings" Relationship="CapstoneModel.FK_Building_Province" FromRole="Province" ToRole="Building" />
   </EntityType>
   <EntityType Name="User">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Username" Type="String" MaxLength="110" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Password" Type="String" MaxLength="110" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="110" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="110" FixedLength="false" Unicode="true" />
     <Property Name="RoleId" Type="Int32" Nullable="false" />
     <Property Name="Fullname" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Birthday" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="Devices" Relationship="Self.FK_Device_User" FromRole="User" ToRole="Device" />
-    <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
+    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Devices" Relationship="CapstoneModel.FK_Device_User" FromRole="User" ToRole="Device" />
+    <NavigationProperty Name="Role" Relationship="CapstoneModel.FK_User_Role" FromRole="User" ToRole="Role" />
   </EntityType>
+  <Association Name="FK_Building_District">
+    <End Type="CapstoneModel.District" Role="District" Multiplicity="1" />
+    <End Type="CapstoneModel.Building" Role="Building" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="District">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Building">
+        <PropertyRef Name="District" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Building_Province">
+    <End Type="CapstoneModel.Province" Role="Province" Multiplicity="1" />
+    <End Type="CapstoneModel.Building" Role="Building" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Province">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Building">
+        <PropertyRef Name="Province" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Map_Building">
+    <End Type="CapstoneModel.Building" Role="Building" Multiplicity="1" />
+    <End Type="CapstoneModel.Map" Role="Map" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Building">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Map">
+        <PropertyRef Name="BuildingId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Device_User">
-    <End Role="User" Type="Self.User" Multiplicity="1" />
-    <End Role="Device" Type="Self.Device" Multiplicity="*" />
+    <End Type="CapstoneModel.User" Role="User" Multiplicity="1" />
+    <End Type="CapstoneModel.Device" Role="Device" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="User">
         <PropertyRef Name="Id" />
@@ -76,9 +185,33 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Product_position_Device">
+    <End Type="CapstoneModel.Device" Role="Device" Multiplicity="1" />
+    <End Type="CapstoneModel.Product_position" Role="Product_position" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Device">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product_position">
+        <PropertyRef Name="DeviceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Marker_Map">
+    <End Type="CapstoneModel.Map" Role="Map" Multiplicity="0..1" />
+    <End Type="CapstoneModel.Marker" Role="Marker" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Map">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Marker">
+        <PropertyRef Name="MapId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_User_Role">
-    <End Role="Role" Type="Self.Role" Multiplicity="1" />
-    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <End Type="CapstoneModel.Role" Role="Role" Multiplicity="1" />
+    <End Type="CapstoneModel.User" Role="User" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Role">
         <PropertyRef Name="Id" />
@@ -88,32 +221,4 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="CapstoneEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="Buildings" EntityType="Self.Building" />
-    <EntitySet Name="Devices" EntityType="Self.Device" />
-    <EntitySet Name="Districts" EntityType="Self.District" />
-    <EntitySet Name="Maps" EntityType="Self.Map" />
-    <EntitySet Name="Provinces" EntityType="Self.Province" />
-    <EntitySet Name="Roles" EntityType="Self.Role" />
-    <EntitySet Name="Users" EntityType="Self.User" />
-    <AssociationSet Name="FK_Device_User" Association="Self.FK_Device_User">
-      <End Role="User" EntitySet="Users" />
-      <End Role="Device" EntitySet="Devices" />
-    </AssociationSet>
-    <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
-      <End Role="Role" EntitySet="Roles" />
-      <End Role="User" EntitySet="Users" />
-    </AssociationSet>
-    <EntitySet Name="Product_position" EntityType="CapstoneModel.Product_position" />
-  </EntityContainer>
-  <EntityType Name="Product_position">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="latitude" Type="Double" />
-    <Property Name="longitude" Type="Double" />
-    <Property Name="altitude" Type="Double" />
-    <Property Name="deviceId" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-  </EntityType>
 </Schema>

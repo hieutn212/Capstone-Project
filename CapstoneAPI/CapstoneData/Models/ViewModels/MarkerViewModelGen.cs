@@ -12,16 +12,17 @@ namespace CapstoneData.Models.ViewModels
     using System;
     using System.Collections.Generic;
     
-    public partial class DeviceViewModel : SkyWeb.DatVM.Mvc.BaseEntityViewModel<CapstoneData.Models.Entities.Device>
+    public partial class MarkerViewModel : SkyWeb.DatVM.Mvc.BaseEntityViewModel<CapstoneData.Models.Entities.Marker>
     {
     	
-    			public virtual string Id { get; set; }
-    			public virtual string Name { get; set; }
-    			public virtual int UserId { get; set; }
-    			public virtual bool Active { get; set; }
+    			public virtual int Id { get; set; }
+    			public virtual Nullable<double> Longitude { get; set; }
+    			public virtual Nullable<double> Latitude { get; set; }
+    			public virtual Nullable<double> Altitude { get; set; }
+    			public virtual Nullable<int> MapId { get; set; }
     	
-    	public DeviceViewModel() : base() { }
-    	public DeviceViewModel(CapstoneData.Models.Entities.Device entity) : base(entity) { }
+    	public MarkerViewModel() : base() { }
+    	public MarkerViewModel(CapstoneData.Models.Entities.Marker entity) : base(entity) { }
     
     }
 }

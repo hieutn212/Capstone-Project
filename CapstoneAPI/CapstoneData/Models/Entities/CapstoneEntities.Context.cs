@@ -25,13 +25,14 @@ namespace CapstoneData.Models.Entities
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Building> Buildings { get; set; }
         public virtual DbSet<Device> Devices { get; set; }
         public virtual DbSet<District> Districts { get; set; }
         public virtual DbSet<Map> Maps { get; set; }
-        public virtual DbSet<Province> Provinces { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Marker> Markers { get; set; }
         public virtual DbSet<Product_position> Product_position { get; set; }
+        public virtual DbSet<Province> Provinces { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }

@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace CapstoneData.Models.Entities.Services
 {
-    public partial interface IProduct_PositionService
+    public partial interface IProduct_positionService
     {
         Product_position CheckProduct(float latitude, float longitude, float altitude, string deviceId);
+
         Task CreateProduct(Product_position model);
     }
 
@@ -16,8 +17,9 @@ namespace CapstoneData.Models.Entities.Services
     {
         public Product_position CheckProduct(float latitude, float longitude, float altitude, string deviceId)
         {
-            return this.GetActive(q => q.latitude == latitude && q.longitude == longitude && q.altitude == altitude && q.deviceId.Equals(deviceId)).FirstOrDefault();
+            return this.GetActive(q => q.Latitude == latitude && q.Longitude == longitude && q.Altitude == altitude && q.DeviceId.Equals(deviceId)).FirstOrDefault();
         }
+
         public async Task CreateProduct(Product_position model)
         {
             await this.CreateAsync(model);

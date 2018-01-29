@@ -1,53 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="CapstoneModelStoreContainer" CdmEntityContainer="CapstoneEntities">
-    <EntitySetMapping Name="Buildings">
-      <EntityTypeMapping TypeName="CapstoneModel.Building">
-        <MappingFragment StoreEntitySet="Building">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Province" ColumnName="Province" />
-          <ScalarProperty Name="District" ColumnName="District" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Devices">
-      <EntityTypeMapping TypeName="CapstoneModel.Device">
-        <MappingFragment StoreEntitySet="Device">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="MACAddress" ColumnName="MACAddress" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Districts">
-      <EntityTypeMapping TypeName="CapstoneModel.District">
-        <MappingFragment StoreEntitySet="District">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Maps">
-      <EntityTypeMapping TypeName="CapstoneModel.Map">
-        <MappingFragment StoreEntitySet="Map">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
-          <ScalarProperty Name="MapUrl" ColumnName="MapUrl" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Provinces">
-      <EntityTypeMapping TypeName="CapstoneModel.Province">
-        <MappingFragment StoreEntitySet="Province">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Roles">
       <EntityTypeMapping TypeName="CapstoneModel.Role">
         <MappingFragment StoreEntitySet="Role">
@@ -56,26 +9,88 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Users">
-      <EntityTypeMapping TypeName="CapstoneModel.User">
-        <MappingFragment StoreEntitySet="User">
+    <EntitySetMapping Name="Buildings">
+      <EntityTypeMapping TypeName="CapstoneModel.Building">
+        <MappingFragment StoreEntitySet="Building">
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="District" ColumnName="District" />
+          <ScalarProperty Name="Province" ColumnName="Province" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Username" ColumnName="Username" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-          <ScalarProperty Name="Fullname" ColumnName="Fullname" />
-          <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Devices">
+      <EntityTypeMapping TypeName="CapstoneModel.Device">
+        <MappingFragment StoreEntitySet="Device">
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Districts">
+      <EntityTypeMapping TypeName="CapstoneModel.District">
+        <MappingFragment StoreEntitySet="District">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Maps">
+      <EntityTypeMapping TypeName="CapstoneModel.Map">
+        <MappingFragment StoreEntitySet="Map">
+          <ScalarProperty Name="MapUrl" ColumnName="MapUrl" />
+          <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Markers">
+      <EntityTypeMapping TypeName="CapstoneModel.Marker">
+        <MappingFragment StoreEntitySet="Marker">
+          <ScalarProperty Name="MapId" ColumnName="MapId" />
+          <ScalarProperty Name="Altitude" ColumnName="Altitude" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Product_position">
       <EntityTypeMapping TypeName="CapstoneModel.Product_position">
         <MappingFragment StoreEntitySet="Product_position">
-          <ScalarProperty Name="deviceId" ColumnName="deviceId" />
-          <ScalarProperty Name="altitude" ColumnName="altitude" />
-          <ScalarProperty Name="longitude" ColumnName="longitude" />
-          <ScalarProperty Name="latitude" ColumnName="latitude" />
-          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+          <ScalarProperty Name="Altitude" ColumnName="Altitude" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Provinces">
+      <EntityTypeMapping TypeName="CapstoneModel.Province">
+        <MappingFragment StoreEntitySet="Province">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="CapstoneModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+          <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

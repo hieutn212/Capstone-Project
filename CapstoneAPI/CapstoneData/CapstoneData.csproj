@@ -140,6 +140,12 @@
     <Compile Include="Models\Entities\MapRefined.cs">
       <DependentUpon>EntityRefinery.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\Marker.cs">
+      <DependentUpon>CapstoneEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\MarkerRefined.cs">
+      <DependentUpon>EntityRefinery.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entities\Product_position.cs">
       <DependentUpon>CapstoneEntities.tt</DependentUpon>
     </Compile>
@@ -162,6 +168,9 @@
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Repositories\MapRepositoryGen.cs">
+      <DependentUpon>Repositories.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Repositories\MarkerRepositoryGen.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Repositories\Product_positionRepositoryGen.cs">
@@ -187,9 +196,11 @@
     <Compile Include="Models\Entities\RoleRefined.cs">
       <DependentUpon>EntityRefinery.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\Services\BuildingService.cs" />
     <Compile Include="Models\Entities\Services\BuildingServiceGen.cs">
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\Services\DeviceService.cs" />
     <Compile Include="Models\Entities\Services\DeviceServiceGen.cs">
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>
@@ -197,6 +208,9 @@
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Services\MapServiceGen.cs">
+      <DependentUpon>Services.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Services\MarkerServiceGen.cs">
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Services\Product_positionServiceGen.cs">
@@ -234,6 +248,9 @@
       <DependentUpon>ViewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\MapViewModelGen.cs">
+      <DependentUpon>ViewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewModels\MarkerViewModelGen.cs">
       <DependentUpon>ViewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\Product_positionViewModelGen.cs">

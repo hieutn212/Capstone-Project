@@ -21,6 +21,7 @@ namespace CapstoneData.Models.ViewModels
     			public virtual int RoleId { get; set; }
     			public virtual string Fullname { get; set; }
     			public virtual Nullable<System.DateTime> Birthday { get; set; }
+    			public virtual bool Active { get; set; }
     	
     	public UserViewModel() : base() { }
     	public UserViewModel(CapstoneData.Models.Entities.User entity) : base(entity) { }

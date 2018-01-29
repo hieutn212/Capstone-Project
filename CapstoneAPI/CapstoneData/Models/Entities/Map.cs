@@ -14,9 +14,19 @@ namespace CapstoneData.Models.Entities
     
     public partial class Map
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Map()
+        {
+            this.Markers = new HashSet<Marker>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
         public int BuildingId { get; set; }
         public string MapUrl { get; set; }
+    
+        public virtual Building Building { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Marker> Markers { get; set; }
     }
 }
