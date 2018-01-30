@@ -13,14 +13,14 @@ namespace CapstoneAPI.Controllers
 {
     public class DeviceController : BaseApiController
     {
-        public HttpResponseMessage CreateProduct(string macAddress, string name, int userId)
+        public HttpResponseMessage CreateProduct(string IMEI, string name, int userId)
         {
             IDeviceService deviceService = this.Service<IDeviceService>();
             Device model = new Device();
-            model = deviceService.CheckProduct(macAddress);
+            model = deviceService.CheckProduct(IMEI);
             if (model == null)
             {
-                model.MACAddress = macAddress;
+                model.Id = IMEI;
                 model.Name = name;
                 model.UserId = userId;
                 try
@@ -31,7 +31,7 @@ namespace CapstoneAPI.Controllers
                 {
                     return new HttpResponseMessage()
                     {
-                        StatusCode = System.Net.HttpStatusCode.BadRequest,
+                        StatusCode = System.Net.HttpStatusCode.ExpectationFailed,
                         Content = new JsonContent(e.Message)
                     };
                 }

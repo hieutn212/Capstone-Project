@@ -4,6 +4,8 @@ using System;
 using System.Net.Http;
 using SkyWeb.DatVM.Mvc.Autofac;
 using CapstoneAPI.Models;
+using System.Web.Http;
+using CapstoneData.Utility;
 
 namespace CapstoneAPI.Controllers
 {
@@ -14,9 +16,9 @@ namespace CapstoneAPI.Controllers
             try
             {
                 IUserService userService = this.Service<IUserService>();
-                User user = userService.GetByUsername(username, password);
+                User user = userService.GetByUsernameAndPassword(username, password);
 
-                if(user != null)
+                if (user != null)
                 {
                     return new HttpResponseMessage()
                     {
@@ -38,6 +40,37 @@ namespace CapstoneAPI.Controllers
                     Content = new JsonContent(e.Message)
                 };
             }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage CreateAccount([FromBody] User user)
+        {
+            IUserService userService = this.Service<IUserService>();
+            User newUser = userService.GetByUsername(user.Username);
+            if (newUser == null)
+            {
+                try
+                {
+                    var md5 = new MD5Hasher(System.Web.Configuration.FormsAuthPasswordFormat.MD5);
+                    user.Password = md5.HashPassword(user.Password);
+                    userService.Create(user);
+                    return new HttpResponseMessage()
+                    {
+                        StatusCode = System.Net.HttpStatusCode.OK,
+                    };
+                }
+                catch (Exception e)
+                {
+                    return new HttpResponseMessage()
+                    {
+                        StatusCode = System.Net.HttpStatusCode.ExpectationFailed,
+                    };
+                }
+            }
+            return new HttpResponseMessage()
+            {
+                StatusCode = System.Net.HttpStatusCode.Conflict,
+            };
         }
     }
 }
