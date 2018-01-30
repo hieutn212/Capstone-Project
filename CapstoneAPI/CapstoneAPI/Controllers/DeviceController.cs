@@ -16,39 +16,48 @@ namespace CapstoneAPI.Controllers
         public HttpResponseMessage CreateProduct(string IMEI, string name, int userId)
         {
             IDeviceService deviceService = this.Service<IDeviceService>();
-            Device model = new Device();
-            model = deviceService.CheckProduct(IMEI);
-            if (model == null)
+            IUserService userService = this.Service<IUserService>();
+            User user = userService.GetById(userId);
+            if(user != null)
             {
-                model.Id = IMEI;
-                model.Name = name;
-                model.UserId = userId;
-                try
+                Device model = new Device();
+                model = deviceService.CheckProduct(IMEI);
+                if (model == null)
                 {
-                    deviceService.CreateProduct(model);
+                    model.Id = IMEI;
+                    model.Name = name;
+                    model.UserId = userId;
+                    model.Active = true;
+                    try
+                    {
+                        deviceService.CreateProduct(model);
+                    }
+                    catch (Exception e)
+                    {
+                        return new HttpResponseMessage()
+                        {
+                            StatusCode = System.Net.HttpStatusCode.BadRequest,
+                            Content = new JsonContent(e.Message)
+                        };
+                    }
                 }
-                catch (Exception e)
+                else
                 {
                     return new HttpResponseMessage()
                     {
-                        StatusCode = System.Net.HttpStatusCode.ExpectationFailed,
-                        Content = new JsonContent(e.Message)
+                        StatusCode = System.Net.HttpStatusCode.Found,
+                        Content = new JsonContent(model)
                     };
                 }
-            }
-            else
-            {
                 return new HttpResponseMessage()
                 {
-                    StatusCode = System.Net.HttpStatusCode.Found,
-                    Content = new JsonContent(model)
+                    StatusCode = System.Net.HttpStatusCode.OK,
                 };
             }
             return new HttpResponseMessage()
             {
-                StatusCode = System.Net.HttpStatusCode.OK,
+                StatusCode = System.Net.HttpStatusCode.BadRequest,
             };
-
         }
     }
 }

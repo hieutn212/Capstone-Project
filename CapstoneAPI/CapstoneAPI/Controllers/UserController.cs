@@ -63,7 +63,7 @@ namespace CapstoneAPI.Controllers
                 {
                     return new HttpResponseMessage()
                     {
-                        StatusCode = System.Net.HttpStatusCode.ExpectationFailed,
+                        StatusCode = System.Net.HttpStatusCode.BadRequest,
                     };
                 }
             }

@@ -11,7 +11,6 @@ namespace CapstoneData.Models.Entities.Services
         Device GetById(string id);
         Task CreateProduct(Device model);
         Device CheckProduct(string IMEI);
-
     }
     public partial class DeviceService
     {
