@@ -2,6 +2,7 @@
 using CapstoneData.Models.Entities;
 using CapstoneData.Models.Entities.Services;
 using System;
+using SkyWeb.DatVM.Mvc.Autofac;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -12,12 +13,12 @@ namespace CapstoneAPI.Controllers
 {
     public class DeviceController : BaseApiController
     {
-        public HttpResponseMessage Get(string macAddress, string name, int userId)
+        public HttpResponseMessage CreateProduct(string macAddress, string name, int userId)
         {
             IDeviceService deviceService = this.Service<IDeviceService>();
             Device model = new Device();
             model = deviceService.CheckProduct(macAddress);
-            if (model != null)
+            if (model == null)
             {
                 model.MACAddress = macAddress;
                 model.Name = name;
