@@ -18,12 +18,12 @@ namespace CapstoneAPI.Controllers
             IDeviceService deviceService = this.Service<IDeviceService>();
             IUserService userService = this.Service<IUserService>();
             User user = userService.GetById(userId);
-            if(user != null)
+            if (user != null)
             {
-                Device model = new Device();
-                model = deviceService.CheckProduct(IMEI);
+                Device model = deviceService.CheckProduct(IMEI);
                 if (model == null)
                 {
+                    model = new Device();
                     model.Id = IMEI;
                     model.Name = name;
                     model.UserId = userId;
@@ -31,6 +31,10 @@ namespace CapstoneAPI.Controllers
                     try
                     {
                         deviceService.CreateProduct(model);
+                        return new HttpResponseMessage()
+                        {
+                            StatusCode = System.Net.HttpStatusCode.OK,
+                        };
                     }
                     catch (Exception e)
                     {
@@ -49,10 +53,6 @@ namespace CapstoneAPI.Controllers
                         Content = new JsonContent(model)
                     };
                 }
-                return new HttpResponseMessage()
-                {
-                    StatusCode = System.Net.HttpStatusCode.OK,
-                };
             }
             return new HttpResponseMessage()
             {
