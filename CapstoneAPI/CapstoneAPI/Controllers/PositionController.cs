@@ -2,15 +2,13 @@
 using CapstoneData.Models.Entities;
 using CapstoneData.Models.Entities.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+using System.Web.Http;
 
 namespace CapstoneAPI.Controllers
 {
     public class PositionController : BaseApiController
     {
+        [HttpPost]
         public bool CreateProductPosition(float latitude, float longitude, float altitude, string deviceId)
         {
             IProduct_positionService productPositionService = this.Service<IProduct_positionService>();
