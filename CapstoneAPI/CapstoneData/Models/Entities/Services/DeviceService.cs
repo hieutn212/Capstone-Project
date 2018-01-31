@@ -16,7 +16,7 @@ namespace CapstoneData.Models.Entities.Services
     {
         public Device GetById(string id)
         {
-            return this.GetActive(q => q.Id.Contains(id)).FirstOrDefault();
+            return this.GetActive(q => q.Id.ToUpper().Equals(id.ToUpper())).FirstOrDefault();
         }
         public async Task CreateProduct(Device model)
         {

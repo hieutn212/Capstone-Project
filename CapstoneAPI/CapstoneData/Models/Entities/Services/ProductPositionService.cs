@@ -8,6 +8,8 @@ namespace CapstoneData.Models.Entities.Services
 {
     public partial interface IProduct_positionService
     {
+        Product_position trackingProduct(string deviceId);
+
         Product_position CheckProduct(float latitude, float longitude, float altitude, string deviceId);
 
         Task CreateProduct(Product_position model);
@@ -17,7 +19,11 @@ namespace CapstoneData.Models.Entities.Services
     {
         public Product_position CheckProduct(float latitude, float longitude, float altitude, string deviceId)
         {
-            return this.GetActive(q => q.Latitude == latitude && q.Longitude == longitude && q.Altitude == altitude && q.DeviceId.Equals(deviceId)).FirstOrDefault();
+            return this.Get(q => q.Latitude == latitude && q.Longitude == longitude && q.Altitude == altitude && q.DeviceId.ToUpper().Equals(deviceId.ToUpper())).FirstOrDefault();
+        }
+        public Product_position trackingProduct(string deviceId)
+        {
+            return this.GetActive(q => q.DeviceId.ToUpper().Equals(deviceId.ToUpper())).OrderByDescending(a => a.CreatedDate).FirstOrDefault();
         }
 
         public async Task CreateProduct(Product_position model)

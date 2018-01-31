@@ -3,11 +3,8 @@ using CapstoneData.Models.Entities;
 using CapstoneData.Models.Entities.Services;
 using System;
 using SkyWeb.DatVM.Mvc.Autofac;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Web;
 using System.Web.Mvc;
+using System.Net.Http;
 
 namespace CapstoneAPI.Controllers
 {
@@ -20,7 +17,7 @@ namespace CapstoneAPI.Controllers
             User user = userService.GetById(userId);
             if (user != null)
             {
-                Device model = deviceService.CheckProduct(IMEI);
+                Device model = deviceService.GetById(IMEI);
                 if (model == null)
                 {
                     model = new Device();
@@ -34,6 +31,7 @@ namespace CapstoneAPI.Controllers
                         return new HttpResponseMessage()
                         {
                             StatusCode = System.Net.HttpStatusCode.OK,
+                            Content = new JsonContent("Add device is success")
                         };
                     }
                     catch (Exception e)
@@ -41,7 +39,7 @@ namespace CapstoneAPI.Controllers
                         return new HttpResponseMessage()
                         {
                             StatusCode = System.Net.HttpStatusCode.BadRequest,
-                            Content = new JsonContent(e.Message)
+                            Content = new JsonContent("An error occurred. Please try again.")
                         };
                     }
                 }
@@ -49,15 +47,18 @@ namespace CapstoneAPI.Controllers
                 {
                     return new HttpResponseMessage()
                     {
-                        StatusCode = System.Net.HttpStatusCode.Found,
-                        Content = new JsonContent(model)
+                        StatusCode = System.Net.HttpStatusCode.Conflict,
+                        Content = new JsonContent("Device is exist")
                     };
                 }
-            }
-            return new HttpResponseMessage()
+            } else
             {
-                StatusCode = System.Net.HttpStatusCode.BadRequest,
-            };
+                return new HttpResponseMessage()
+                {
+                    StatusCode = System.Net.HttpStatusCode.NotFound,
+                    Content = new JsonContent("User is not exist")
+                };
+            }
         }
     }
 }
