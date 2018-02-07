@@ -11,6 +11,7 @@ namespace CapstoneData.Models.Entities.Services
         Device GetById(string id);
         Task CreateProduct(Device model);
         Device CheckProduct(string IMEI);
+        List<DeviceViewModel> getByUserId(int userId);
     }
     public partial class DeviceService
     {
@@ -26,6 +27,25 @@ namespace CapstoneData.Models.Entities.Services
         {
             return this.GetActive(a => a.Id.ToUpper().Contains(IMEI.ToUpper())).FirstOrDefault();
         }
+        public List<DeviceViewModel> getByUserId(int userId)
+        {
+            List<DeviceViewModel> result = this.GetActive(a => a.UserId == userId)
+                .Select(q => new DeviceViewModel
+                {
+                    Id = q.Id,
+                    Name = q.Name,
+                    UserId = q.UserId,
+                    Active = q.Active
+                }
+                ).ToList();
+            return result;
+        }
 
+    }
+    public class DeviceViewModel {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public int UserId { get; set; }
+        public bool Active { get; set; }
     }
 }

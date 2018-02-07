@@ -5,6 +5,7 @@ using System;
 using SkyWeb.DatVM.Mvc.Autofac;
 using System.Web.Mvc;
 using System.Net.Http;
+using System.Collections.Generic;
 
 namespace CapstoneAPI.Controllers
 {
@@ -60,5 +61,41 @@ namespace CapstoneAPI.Controllers
                 };
             }
         }
+
+        public HttpResponseMessage getListProduct(int userId)
+        {
+            IDeviceService deviceService = this.Service<IDeviceService>();
+            IUserService userService = this.Service<IUserService>();
+            User user = userService.GetById(userId);
+            if (user != null)
+            {
+                List<DeviceViewModel> list = deviceService.getByUserId(userId);
+                if (list == null)
+                {
+                    return new HttpResponseMessage()
+                    {
+                        StatusCode = System.Net.HttpStatusCode.NotFound,
+                        Content = new JsonContent("List device is empty")
+                    };
+                }
+                else
+                {
+                    return new HttpResponseMessage()
+                    {
+                        StatusCode = System.Net.HttpStatusCode.OK,
+                        Content = new JsonContent(list)
+                    };
+                }
+            }
+            else
+            {
+                return new HttpResponseMessage()
+                {
+                    StatusCode = System.Net.HttpStatusCode.NotFound,
+                    Content = new JsonContent("User is not exist")
+                };
+            }
+        }
     }
+    
 }
