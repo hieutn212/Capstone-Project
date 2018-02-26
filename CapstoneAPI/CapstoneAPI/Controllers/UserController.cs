@@ -20,10 +20,20 @@ namespace CapstoneAPI.Controllers
 
                 if (user != null)
                 {
+                    User model = new User()
+                    {
+                        Id = user.Id,
+                        Username = user.Username,
+                        Password = user.Password,
+                        Birthday = user.Birthday,
+                        Fullname = user.Fullname,
+                        RoleId = user.RoleId,
+                        Active = user.Active,
+                    };
                     return new HttpResponseMessage()
                     {
                         StatusCode = System.Net.HttpStatusCode.OK,
-                        Content = new JsonContent(user)
+                        Content = new JsonContent(model)
                     };
                 }
 
