@@ -30,7 +30,7 @@ namespace CapstoneAPI.Controllers
                     model.CreatedDate = DateTime.Now;
                     try
                     {
-                        productPositionService.CreateProduct(model);
+                        productPositionService.Create(model);
                         return new HttpResponseMessage()
                         {
                             StatusCode = System.Net.HttpStatusCode.OK,

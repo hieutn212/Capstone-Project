@@ -28,7 +28,7 @@ namespace CapstoneAPI.Controllers
                     model.Active = true;
                     try
                     {
-                        deviceService.CreateProduct(model);
+                        deviceService.Create(model);
                         return new HttpResponseMessage()
                         {
                             StatusCode = System.Net.HttpStatusCode.OK,
