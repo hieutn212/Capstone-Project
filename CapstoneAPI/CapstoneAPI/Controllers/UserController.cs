@@ -53,16 +53,23 @@ namespace CapstoneAPI.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage CreateAccount([FromBody] User user)
+        public HttpResponseMessage CreateAccount(string username, string password, int roleId, string fullname, DateTime birthday, bool active)
         {
             IUserService userService = this.Service<IUserService>();
-            User newUser = userService.GetByUsername(user.Username);
+            User newUser = userService.GetByUsername(username);
             if (newUser == null)
             {
                 try
                 {
                     var md5 = new MD5Hasher(System.Web.Configuration.FormsAuthPasswordFormat.MD5);
-                    user.Password = md5.HashPassword(user.Password);
+                    password = md5.HashPassword(password);
+                    User user = new User();
+                    user.Username = username;
+                    user.Password = password;
+                    user.RoleId = roleId;
+                    user.Fullname = fullname;
+                    user.Birthday = birthday;
+                    user.Active = active;
                     userService.Create(user);
                     return new HttpResponseMessage()
                     {
