@@ -20,7 +20,7 @@ namespace CapstoneData.Models.Entities.Services
         {
             var md5 = new MD5Hasher(System.Web.Configuration.FormsAuthPasswordFormat.MD5);
             string passwordHash = md5.HashPassword(password);
-            return this.GetActive(q => q.Username.Equals(username) && q.Password.Contains(password)).FirstOrDefault();
+            return this.GetActive(q => q.Username.Equals(username) && q.Password.Equals(passwordHash)).FirstOrDefault();
         }
 
         public User GetByUsername(string username)
