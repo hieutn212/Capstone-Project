@@ -232,6 +232,7 @@
     <Compile Include="Models\Entities\Services\RoleServiceGen.cs">
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\Services\RoomService.cs" />
     <Compile Include="Models\Entities\Services\RoomServiceGen.cs">
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>
