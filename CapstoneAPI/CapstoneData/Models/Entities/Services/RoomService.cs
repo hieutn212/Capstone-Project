@@ -13,7 +13,7 @@ namespace CapstoneData.Models.Entities.Services
 
     public partial class RoomService
     {
-        IQueryable GetListRoom(int mapId, int floor)
+        public IQueryable GetListRoom(int mapId, int floor)
         {
             return this.GetActive(q => q.MapId == mapId && q.Floor == floor);
         }
