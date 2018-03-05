@@ -43,5 +43,36 @@ namespace CapstoneAPI.Controllers
                 };
             }
         }
+        public HttpResponseMessage searchRoom(string name, int mapId)
+        {
+            try
+            {
+                IRoomService roomService = this.Service<IRoomService>();
+                Room rooms = roomService.searchRoom(name, 1);
+
+                if (rooms != null)
+                {
+                    return new HttpResponseMessage()
+                    {
+                        StatusCode = System.Net.HttpStatusCode.OK,
+                        Content = new JsonContent(rooms)
+                    };
+                }
+
+                return new HttpResponseMessage()
+                {
+                    StatusCode = System.Net.HttpStatusCode.BadRequest,
+                    Content = new JsonContent("Bad Request"),
+                };
+            }
+            catch (Exception e)
+            {
+                return new HttpResponseMessage()
+                {
+                    StatusCode = System.Net.HttpStatusCode.BadRequest,
+                    Content = new JsonContent(e.Message)
+                };
+            }
+        }
     }
 }
