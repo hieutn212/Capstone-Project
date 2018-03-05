@@ -40,6 +40,7 @@ namespace CapstoneAPI.Controllers
                 return new HttpResponseMessage()
                 {
                     StatusCode = System.Net.HttpStatusCode.Unauthorized,
+                    Content = new JsonContent("Unauthorized"),
                 };
             }
             catch (Exception e)

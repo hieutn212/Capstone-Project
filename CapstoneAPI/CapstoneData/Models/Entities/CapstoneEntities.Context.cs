@@ -33,6 +33,7 @@ namespace CapstoneData.Models.Entities
         public virtual DbSet<Marker> Markers { get; set; }
         public virtual DbSet<Product_position> Product_position { get; set; }
         public virtual DbSet<Province> Provinces { get; set; }
+        public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<User> Users { get; set; }
     }
 }

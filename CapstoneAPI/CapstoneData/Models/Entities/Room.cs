@@ -12,20 +12,19 @@ namespace CapstoneData.Models.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class Marker
+    public partial class Room
     {
         public int Id { get; set; }
-        public double Longitude { get; set; }
-        public double Latitude { get; set; }
-        public Nullable<double> Altitude { get; set; }
-        public int MapId { get; set; }
         public string Name { get; set; }
+        public int Floor { get; set; }
+        public double Length { get; set; }
+        public double Width { get; set; }
+        public int MapId { get; set; }
+        public Nullable<double> Longitude { get; set; }
+        public Nullable<double> Latitude { get; set; }
         public Nullable<int> PosAX { get; set; }
         public Nullable<int> PosAY { get; set; }
         public Nullable<int> PosBX { get; set; }
         public Nullable<int> PosBY { get; set; }
-        public Nullable<int> Type { get; set; }
-    
-        public virtual Map Map { get; set; }
     }
 }

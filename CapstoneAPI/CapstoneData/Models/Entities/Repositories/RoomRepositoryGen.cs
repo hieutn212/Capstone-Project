@@ -7,20 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CapstoneData.Models.ViewModels
+namespace CapstoneData.Models.Entities.Repositories
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class DistrictViewModel : SkyWeb.DatVM.Mvc.BaseEntityViewModel<CapstoneData.Models.Entities.District>
-    {
-    	
-    			public virtual int Id { get; set; }
-    			public virtual string Name { get; set; }
-    			public virtual int ProvinceId { get; set; }
-    	
-    	public DistrictViewModel() : base() { }
-    	public DistrictViewModel(CapstoneData.Models.Entities.District entity) : base(entity) { }
     
+    public partial interface IRoomRepository : SkyWeb.DatVM.Data.IBaseRepository<Room>
+    {
+    }
+    
+    public partial class RoomRepository : SkyWeb.DatVM.Data.BaseRepository<Room>, IRoomRepository
+    {
+    	public RoomRepository(System.Data.Entity.DbContext dbContext) : base(dbContext)
+        {
+        }
     }
 }

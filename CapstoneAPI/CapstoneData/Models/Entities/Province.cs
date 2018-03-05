@@ -17,13 +17,13 @@ namespace CapstoneData.Models.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Province()
         {
-            this.Buildings = new HashSet<Building>();
+            this.Districts = new HashSet<District>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Building> Buildings { get; set; }
+        public virtual ICollection<District> Districts { get; set; }
     }
 }

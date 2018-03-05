@@ -188,6 +188,9 @@
     <Compile Include="Models\Entities\Repositories\RoleRepositoryGen.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\Repositories\RoomRepositoryGen.cs">
+      <DependentUpon>Repositories.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entities\Repositories\UserRepositoryGen.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
@@ -195,6 +198,12 @@
       <DependentUpon>CapstoneEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\RoleRefined.cs">
+      <DependentUpon>EntityRefinery.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Room.cs">
+      <DependentUpon>CapstoneEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\RoomRefined.cs">
       <DependentUpon>EntityRefinery.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Services\BuildingService.cs" />
@@ -221,6 +230,9 @@
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Services\RoleServiceGen.cs">
+      <DependentUpon>Services.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Services\RoomServiceGen.cs">
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Services\Services.cs">
@@ -261,6 +273,9 @@
       <DependentUpon>ViewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\RoleViewModelGen.cs">
+      <DependentUpon>ViewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewModels\RoomViewModelGen.cs">
       <DependentUpon>ViewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\UserViewModelGen.cs">

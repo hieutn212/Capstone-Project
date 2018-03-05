@@ -22,13 +22,11 @@ namespace CapstoneData.Models.Entities
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Province { get; set; }
         public int District { get; set; }
         public string Address { get; set; }
         public bool Active { get; set; }
     
         public virtual District District1 { get; set; }
-        public virtual Province Province1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Map> Maps { get; set; }
     }

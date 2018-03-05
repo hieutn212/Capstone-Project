@@ -24,6 +24,7 @@ namespace CapstoneData.Models.Entities
         public string Name { get; set; }
         public int BuildingId { get; set; }
         public string MapUrl { get; set; }
+        public int Floor { get; set; }
     
         public virtual Building Building { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

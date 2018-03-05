@@ -19,6 +19,7 @@ namespace CapstoneData.Models.ViewModels
     			public virtual string Name { get; set; }
     			public virtual int BuildingId { get; set; }
     			public virtual string MapUrl { get; set; }
+    			public virtual int Floor { get; set; }
     	
     	public MapViewModel() : base() { }
     	public MapViewModel(CapstoneData.Models.Entities.Map entity) : base(entity) { }
