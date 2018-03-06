@@ -1,7 +1,9 @@
 ﻿using CapstoneAPI.Models;
 using CapstoneData.Models.Entities;
 using CapstoneData.Models.Entities.Services;
+using CapstoneData.Utility;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Web.Http;
 
@@ -119,6 +121,44 @@ namespace CapstoneAPI.Controllers
                 {
                     StatusCode = System.Net.HttpStatusCode.NotFound,
                     Content = new JsonContent("Device is not exist")
+                };
+            }
+        }
+
+        public HttpResponseMessage CalculatePosition(int floor, int mapId, double latitude, double longitude)
+        {
+            IRoomService roomService = this.Service<IRoomService>();
+            List<Room> rooms = roomService.GetListRoom(mapId,floor);
+            CalObject calObj = new CalObject();
+
+            if (rooms != null || rooms.Count > 0)
+            {
+                foreach (Room room in rooms)
+                {
+                    double cal = Utils.HaversineInM(latitude, longitude, room.Latitude??0, room.Longitude??0);
+                    if(cal <= 3.5)
+                    {
+                        calObj.Room = room;
+                        calObj.Cal = cal;
+                        return new HttpResponseMessage()
+                        {
+                            StatusCode = System.Net.HttpStatusCode.OK,
+                            Content = new JsonContent(calObj)
+                        };
+                    }
+                }
+                return new HttpResponseMessage()
+                {
+                    StatusCode = System.Net.HttpStatusCode.NotFound,
+                    Content = new JsonContent(calObj)
+                };
+            }
+            else
+            {
+                return new HttpResponseMessage()
+                {
+                    StatusCode = System.Net.HttpStatusCode.NotFound,
+                    Content = new JsonContent("The map does not exist")
                 };
             }
         }

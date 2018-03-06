@@ -17,7 +17,7 @@ namespace CapstoneAPI.Controllers
             try
             {
                 IRoomService roomService = this.Service<IRoomService>();
-                IQueryable rooms = roomService.GetListRoom(1, 1);
+                List<Room> rooms = roomService.GetListRoom(mapId, floor);
 
                 if (rooms != null)
                 {
