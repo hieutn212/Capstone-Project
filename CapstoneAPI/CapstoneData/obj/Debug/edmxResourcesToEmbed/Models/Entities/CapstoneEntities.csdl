@@ -17,13 +17,10 @@
     <EntitySet Name="Markers" EntityType="CapstoneModel.Marker" />
     <EntitySet Name="Product_position" EntityType="CapstoneModel.Product_position" />
     <EntitySet Name="Provinces" EntityType="CapstoneModel.Province" />
+    <EntitySet Name="Rooms" EntityType="CapstoneModel.Room" />
     <EntitySet Name="Users" EntityType="CapstoneModel.User" />
     <AssociationSet Name="FK_Building_District" Association="CapstoneModel.FK_Building_District">
       <End Role="District" EntitySet="Districts" />
-      <End Role="Building" EntitySet="Buildings" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Building_Province" Association="CapstoneModel.FK_Building_Province">
-      <End Role="Province" EntitySet="Provinces" />
       <End Role="Building" EntitySet="Buildings" />
     </AssociationSet>
     <AssociationSet Name="FK_Map_Building" Association="CapstoneModel.FK_Map_Building">
@@ -37,6 +34,10 @@
     <AssociationSet Name="FK_Product_position_Device" Association="CapstoneModel.FK_Product_position_Device">
       <End Role="Device" EntitySet="Devices" />
       <End Role="Product_position" EntitySet="Product_position" />
+    </AssociationSet>
+    <AssociationSet Name="FK_District_Province" Association="CapstoneModel.FK_District_Province">
+      <End Role="Province" EntitySet="Provinces" />
+      <End Role="District" EntitySet="Districts" />
     </AssociationSet>
     <AssociationSet Name="FK_Marker_Map" Association="CapstoneModel.FK_Marker_Map">
       <End Role="Map" EntitySet="Maps" />
@@ -53,12 +54,10 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-    <Property Name="Province" Type="Int32" Nullable="false" />
     <Property Name="District" Type="Int32" Nullable="false" />
     <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Active" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="District1" Relationship="CapstoneModel.FK_Building_District" FromRole="Building" ToRole="District" />
-    <NavigationProperty Name="Province1" Relationship="CapstoneModel.FK_Building_Province" FromRole="Building" ToRole="Province" />
     <NavigationProperty Name="Maps" Relationship="CapstoneModel.FK_Map_Building" FromRole="Building" ToRole="Map" />
   </EntityType>
   <EntityType Name="Device">
@@ -78,7 +77,9 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" Nullable="false" MaxLength="110" FixedLength="false" Unicode="true" />
+    <Property Name="ProvinceId" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Buildings" Relationship="CapstoneModel.FK_Building_District" FromRole="District" ToRole="Building" />
+    <NavigationProperty Name="Province" Relationship="CapstoneModel.FK_District_Province" FromRole="District" ToRole="Province" />
   </EntityType>
   <EntityType Name="Map">
     <Key>
@@ -88,6 +89,7 @@
     <Property Name="Name" Type="String" MaxLength="110" FixedLength="false" Unicode="true" />
     <Property Name="BuildingId" Type="Int32" Nullable="false" />
     <Property Name="MapUrl" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Floor" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Building" Relationship="CapstoneModel.FK_Map_Building" FromRole="Map" ToRole="Building" />
     <NavigationProperty Name="Markers" Relationship="CapstoneModel.FK_Marker_Map" FromRole="Map" ToRole="Marker" />
   </EntityType>
@@ -96,10 +98,16 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Longitude" Type="Double" />
-    <Property Name="Latitude" Type="Double" />
+    <Property Name="Longitude" Type="Double" Nullable="false" />
+    <Property Name="Latitude" Type="Double" Nullable="false" />
     <Property Name="Altitude" Type="Double" />
-    <Property Name="MapId" Type="Int32" />
+    <Property Name="MapId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="PosAX" Type="Int32" />
+    <Property Name="PosAY" Type="Int32" />
+    <Property Name="PosBX" Type="Int32" />
+    <Property Name="PosBY" Type="Int32" />
+    <Property Name="Type" Type="Int32" />
     <NavigationProperty Name="Map" Relationship="CapstoneModel.FK_Marker_Map" FromRole="Marker" ToRole="Map" />
   </EntityType>
   <EntityType Name="Product_position">
@@ -121,7 +129,24 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" MaxLength="110" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Buildings" Relationship="CapstoneModel.FK_Building_Province" FromRole="Province" ToRole="Building" />
+    <NavigationProperty Name="Districts" Relationship="CapstoneModel.FK_District_Province" FromRole="Province" ToRole="District" />
+  </EntityType>
+  <EntityType Name="Room">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Floor" Type="Int32" Nullable="false" />
+    <Property Name="Length" Type="Double" Nullable="false" />
+    <Property Name="Width" Type="Double" Nullable="false" />
+    <Property Name="MapId" Type="Int32" Nullable="false" />
+    <Property Name="Longitude" Type="Double" />
+    <Property Name="Latitude" Type="Double" />
+    <Property Name="PosAX" Type="Int32" />
+    <Property Name="PosAY" Type="Int32" />
+    <Property Name="PosBX" Type="Int32" />
+    <Property Name="PosBY" Type="Int32" />
   </EntityType>
   <EntityType Name="User">
     <Key>
@@ -146,18 +171,6 @@
       </Principal>
       <Dependent Role="Building">
         <PropertyRef Name="District" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Building_Province">
-    <End Type="CapstoneModel.Province" Role="Province" Multiplicity="1" />
-    <End Type="CapstoneModel.Building" Role="Building" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Province">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Building">
-        <PropertyRef Name="Province" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -197,8 +210,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_District_Province">
+    <End Type="CapstoneModel.Province" Role="Province" Multiplicity="1" />
+    <End Type="CapstoneModel.District" Role="District" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Province">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="District">
+        <PropertyRef Name="ProvinceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Marker_Map">
-    <End Type="CapstoneModel.Map" Role="Map" Multiplicity="0..1" />
+    <End Type="CapstoneModel.Map" Role="Map" Multiplicity="1" />
     <End Type="CapstoneModel.Marker" Role="Marker" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Map">

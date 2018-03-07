@@ -15,7 +15,6 @@
           <ScalarProperty Name="Active" ColumnName="Active" />
           <ScalarProperty Name="Address" ColumnName="Address" />
           <ScalarProperty Name="District" ColumnName="District" />
-          <ScalarProperty Name="Province" ColumnName="Province" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
@@ -34,6 +33,7 @@
     <EntitySetMapping Name="Districts">
       <EntityTypeMapping TypeName="CapstoneModel.District">
         <MappingFragment StoreEntitySet="District">
+          <ScalarProperty Name="ProvinceId" ColumnName="ProvinceId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
@@ -42,6 +42,7 @@
     <EntitySetMapping Name="Maps">
       <EntityTypeMapping TypeName="CapstoneModel.Map">
         <MappingFragment StoreEntitySet="Map">
+          <ScalarProperty Name="Floor" ColumnName="Floor" />
           <ScalarProperty Name="MapUrl" ColumnName="MapUrl" />
           <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
@@ -52,6 +53,12 @@
     <EntitySetMapping Name="Markers">
       <EntityTypeMapping TypeName="CapstoneModel.Marker">
         <MappingFragment StoreEntitySet="Marker">
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="PosBY" ColumnName="PosBY" />
+          <ScalarProperty Name="PosBX" ColumnName="PosBX" />
+          <ScalarProperty Name="PosAY" ColumnName="PosAY" />
+          <ScalarProperty Name="PosAX" ColumnName="PosAX" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="MapId" ColumnName="MapId" />
           <ScalarProperty Name="Altitude" ColumnName="Altitude" />
           <ScalarProperty Name="Latitude" ColumnName="Latitude" />
@@ -76,6 +83,24 @@
     <EntitySetMapping Name="Provinces">
       <EntityTypeMapping TypeName="CapstoneModel.Province">
         <MappingFragment StoreEntitySet="Province">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rooms">
+      <EntityTypeMapping TypeName="CapstoneModel.Room">
+        <MappingFragment StoreEntitySet="Room">
+          <ScalarProperty Name="PosBY" ColumnName="PosBY" />
+          <ScalarProperty Name="PosBX" ColumnName="PosBX" />
+          <ScalarProperty Name="PosAY" ColumnName="PosAY" />
+          <ScalarProperty Name="PosAX" ColumnName="PosAX" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="MapId" ColumnName="MapId" />
+          <ScalarProperty Name="Width" ColumnName="Width" />
+          <ScalarProperty Name="Length" ColumnName="Length" />
+          <ScalarProperty Name="Floor" ColumnName="Floor" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
