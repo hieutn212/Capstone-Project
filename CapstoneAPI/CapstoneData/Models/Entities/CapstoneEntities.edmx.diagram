@@ -20,6 +20,8 @@
         <AssociationConnector Association="CapstoneModel.FK_Product_position_Device" />
         <AssociationConnector Association="CapstoneModel.FK_District_Province" />
         <AssociationConnector Association="CapstoneModel.FK_Marker_Map" />
+        <AssociationConnector Association="CapstoneModel.FK_Room_Building" />
+        <AssociationConnector Association="CapstoneModel.FK_Room_Map" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

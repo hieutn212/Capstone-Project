@@ -18,6 +18,7 @@ namespace CapstoneData.Models.Entities
         public Map()
         {
             this.Markers = new HashSet<Marker>();
+            this.Rooms = new HashSet<Room>();
         }
     
         public int Id { get; set; }
@@ -29,5 +30,7 @@ namespace CapstoneData.Models.Entities
         public virtual Building Building { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Marker> Markers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Room> Rooms { get; set; }
     }
 }

@@ -10,7 +10,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="District" Type="int" Nullable="false" />
           <Property Name="Address" Type="nvarchar" MaxLength="250" />
           <Property Name="Active" Type="bit" Nullable="false" />
@@ -100,6 +100,7 @@
           <Property Name="PosAY" Type="int" />
           <Property Name="PosBX" Type="int" />
           <Property Name="PosBY" Type="int" />
+          <Property Name="BuildingId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -185,6 +186,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Room_Building">
+          <End Role="Building" Type="Self.Building" Multiplicity="1" />
+          <End Role="Room" Type="Self.Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Building">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Room">
+              <PropertyRef Name="BuildingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Room_Map">
+          <End Role="Map" Type="Self.Map" Multiplicity="1" />
+          <End Role="Room" Type="Self.Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Map">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Room">
+              <PropertyRef Name="MapId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_User_Role">
           <End Role="Role" Type="Self.Role" Multiplicity="1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
@@ -231,6 +256,14 @@
           <AssociationSet Name="FK_Product_position_Device" Association="Self.FK_Product_position_Device">
             <End Role="Device" EntitySet="Device" />
             <End Role="Product_position" EntitySet="Product_position" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Room_Building" Association="Self.FK_Room_Building">
+            <End Role="Building" EntitySet="Building" />
+            <End Role="Room" EntitySet="Room" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Room_Map" Association="Self.FK_Room_Map">
+            <End Role="Map" EntitySet="Map" />
+            <End Role="Room" EntitySet="Room" />
           </AssociationSet>
           <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
             <End Role="Role" EntitySet="Role" />
@@ -288,18 +321,27 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="User" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="FK_Room_Building" Association="CapstoneModel.FK_Room_Building">
+            <End Role="Building" EntitySet="Buildings" />
+            <End Role="Room" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Room_Map" Association="CapstoneModel.FK_Room_Map">
+            <End Role="Map" EntitySet="Maps" />
+            <End Role="Room" EntitySet="Rooms" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Building">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="District" Type="Int32" Nullable="false" />
           <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Active" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="District1" Relationship="CapstoneModel.FK_Building_District" FromRole="Building" ToRole="District" />
           <NavigationProperty Name="Maps" Relationship="CapstoneModel.FK_Map_Building" FromRole="Building" ToRole="Map" />
+          <NavigationProperty Name="Rooms" Relationship="CapstoneModel.FK_Room_Building" FromRole="Building" ToRole="Room" />
         </EntityType>
         <EntityType Name="Device">
           <Key>
@@ -333,6 +375,7 @@
           <Property Name="Floor" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Building" Relationship="CapstoneModel.FK_Map_Building" FromRole="Map" ToRole="Building" />
           <NavigationProperty Name="Markers" Relationship="CapstoneModel.FK_Marker_Map" FromRole="Map" ToRole="Marker" />
+          <NavigationProperty Name="Rooms" Relationship="CapstoneModel.FK_Room_Map" FromRole="Map" ToRole="Room" />
         </EntityType>
         <EntityType Name="Marker">
           <Key>
@@ -388,6 +431,9 @@
           <Property Name="PosAY" Type="Int32" />
           <Property Name="PosBX" Type="Int32" />
           <Property Name="PosBY" Type="Int32" />
+          <Property Name="BuildingId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Building" Relationship="CapstoneModel.FK_Room_Building" FromRole="Room" ToRole="Building" />
+          <NavigationProperty Name="Map" Relationship="CapstoneModel.FK_Room_Map" FromRole="Room" ToRole="Map" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -487,6 +533,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Room_Building">
+          <End Type="CapstoneModel.Building" Role="Building" Multiplicity="1" />
+          <End Type="CapstoneModel.Room" Role="Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Building">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Room">
+              <PropertyRef Name="BuildingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Room_Map">
+          <End Type="CapstoneModel.Map" Role="Map" Multiplicity="1" />
+          <End Type="CapstoneModel.Room" Role="Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Map">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Room">
+              <PropertyRef Name="MapId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -583,6 +653,7 @@
           <EntitySetMapping Name="Rooms">
             <EntityTypeMapping TypeName="CapstoneModel.Room">
               <MappingFragment StoreEntitySet="Room">
+                <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
                 <ScalarProperty Name="PosBY" ColumnName="PosBY" />
                 <ScalarProperty Name="PosBX" ColumnName="PosBX" />
                 <ScalarProperty Name="PosAY" ColumnName="PosAY" />

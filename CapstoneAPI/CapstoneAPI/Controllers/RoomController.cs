@@ -43,12 +43,12 @@ namespace CapstoneAPI.Controllers
                 };
             }
         }
-        public HttpResponseMessage searchRoom(string name, int mapId)
+        public HttpResponseMessage searchRoom(string name, int buildingId)
         {
             try
             {
                 IRoomService roomService = this.Service<IRoomService>();
-                Room rooms = roomService.searchRoom(name, 1);
+                Room rooms = roomService.searchRoom(name, buildingId);
 
                 if (rooms != null)
                 {
