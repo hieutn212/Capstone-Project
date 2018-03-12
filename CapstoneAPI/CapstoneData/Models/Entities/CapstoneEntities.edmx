@@ -301,6 +301,10 @@
             <End Role="Building" EntitySet="Buildings" />
             <End Role="Map" EntitySet="Maps" />
           </AssociationSet>
+          <AssociationSet Name="FK_Room_Building" Association="CapstoneModel.FK_Room_Building">
+            <End Role="Building" EntitySet="Buildings" />
+            <End Role="Room" EntitySet="Rooms" />
+          </AssociationSet>
           <AssociationSet Name="FK_Device_User" Association="CapstoneModel.FK_Device_User">
             <End Role="User" EntitySet="Users" />
             <End Role="Device" EntitySet="Devices" />
@@ -316,6 +320,10 @@
           <AssociationSet Name="FK_Marker_Map" Association="CapstoneModel.FK_Marker_Map">
             <End Role="Map" EntitySet="Maps" />
             <End Role="Marker" EntitySet="Markers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Room_Map" Association="CapstoneModel.FK_Room_Map">
+            <End Role="Map" EntitySet="Maps" />
+            <End Role="Room" EntitySet="Rooms" />
           </AssociationSet>
           <AssociationSet Name="FK_User_Role" Association="CapstoneModel.FK_User_Role">
             <End Role="Role" EntitySet="Roles" />
@@ -473,6 +481,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Room_Building">
+          <End Type="CapstoneModel.Building" Role="Building" Multiplicity="1" />
+          <End Type="CapstoneModel.Room" Role="Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Building">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Room">
+              <PropertyRef Name="BuildingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Device_User">
           <End Type="CapstoneModel.User" Role="User" Multiplicity="1" />
           <End Type="CapstoneModel.Device" Role="Device" Multiplicity="*" />
@@ -517,6 +537,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Marker">
+              <PropertyRef Name="MapId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Room_Map">
+          <End Type="CapstoneModel.Map" Role="Map" Multiplicity="1" />
+          <End Type="CapstoneModel.Room" Role="Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Map">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Room">
               <PropertyRef Name="MapId" />
             </Dependent>
           </ReferentialConstraint>
