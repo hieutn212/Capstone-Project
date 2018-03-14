@@ -9,10 +9,10 @@
         <EntityTypeShape EntityType="CapstoneModel.Device" Width="1.5" PointX="3" PointY="8.25" />
         <EntityTypeShape EntityType="CapstoneModel.District" Width="1.5" PointX="3" PointY="4.25" />
         <EntityTypeShape EntityType="CapstoneModel.Map" Width="1.5" PointX="7.5" PointY="3.875" />
-        <EntityTypeShape EntityType="CapstoneModel.Marker" Width="1.5" PointX="9.75" PointY="8.25" />
+        <EntityTypeShape EntityType="CapstoneModel.Marker" Width="1.5" PointX="9.75" PointY="3.5" />
         <EntityTypeShape EntityType="CapstoneModel.Product_position" Width="1.5" PointX="5.25" PointY="8" />
         <EntityTypeShape EntityType="CapstoneModel.Province" Width="1.5" PointX="0.75" PointY="4.375" />
-        <EntityTypeShape EntityType="CapstoneModel.Room" Width="1.5" PointX="9.75" PointY="3.25" />
+        <EntityTypeShape EntityType="CapstoneModel.Room" Width="1.5" PointX="12.75" PointY="3.25" />
         <EntityTypeShape EntityType="CapstoneModel.User" Width="1.5" PointX="0.75" PointY="8" />
         <AssociationConnector Association="CapstoneModel.FK_Building_District" />
         <AssociationConnector Association="CapstoneModel.FK_Map_Building" />
@@ -21,7 +21,6 @@
         <AssociationConnector Association="CapstoneModel.FK_Product_position_Device" />
         <AssociationConnector Association="CapstoneModel.FK_District_Province" />
         <AssociationConnector Association="CapstoneModel.FK_Marker_Map" />
-        <AssociationConnector Association="CapstoneModel.FK_Room_Building" />
         <AssociationConnector Association="CapstoneModel.FK_Room_Map" />
       </Diagram>
     </edmx:Diagrams>

@@ -3,7 +3,6 @@ F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\obj\Debug\CapstoneData.csp
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\CapstoneData.dll.config
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\CapstoneData.dll
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\CapstoneData.pdb
-F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\Autofac.dll
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\Autofac.Integration.Mvc.dll
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\AutoMapper.dll
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\EntityFramework.dll
@@ -65,3 +64,5 @@ C:\Users\huynt\Desktop\Do_an\ProjectAPI\CapstoneAPI\CapstoneData\obj\Debug\Capst
 C:\Users\huynt\Desktop\Do_an\ProjectAPI\CapstoneAPI\CapstoneData\obj\Debug\CapstoneData.pdb
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\Microsoft.AspNet.Identity.Core.dll
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\SkyWeb.DatVM.Data.dll
+F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\SkyWeb.DatVM.Mvc.dll

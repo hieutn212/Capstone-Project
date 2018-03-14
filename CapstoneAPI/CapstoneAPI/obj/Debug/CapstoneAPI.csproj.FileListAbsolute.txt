@@ -31,7 +31,6 @@ F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneAPI\bin\CapstoneAPI.dll.config
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneAPI\bin\CapstoneAPI.dll
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneAPI\bin\CapstoneAPI.pdb
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneAPI\bin\Antlr3.Runtime.dll
-F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneAPI\bin\Autofac.dll
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneAPI\bin\Autofac.Integration.Mvc.dll
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneAPI\bin\AutoMapper.dll
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneAPI\bin\CapstoneData.dll
@@ -241,3 +240,5 @@ F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneAPI\bin\zh-Hans\System.Spatial.
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneAPI\bin\zh-Hant\System.Spatial.resources.dll
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneAPI\bin\EntityFramework.SqlServer.dll
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneAPI\bin\EntityFramework.SqlServer.xml
+F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneAPI\bin\SkyWeb.DatVM.Data.dll
+F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneAPI\bin\SkyWeb.DatVM.Mvc.dll
