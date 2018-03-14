@@ -26,9 +26,7 @@ namespace CapstoneData.Models.Entities
         public Nullable<int> PosAY { get; set; }
         public Nullable<int> PosBX { get; set; }
         public Nullable<int> PosBY { get; set; }
-        public int BuildingId { get; set; }
     
-        public virtual Building Building { get; set; }
         public virtual Map Map { get; set; }
     }
 }

@@ -95,7 +95,6 @@
     <Property Name="PosAY" Type="int" />
     <Property Name="PosBX" Type="int" />
     <Property Name="PosBY" Type="int" />
-    <Property Name="BuildingId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="User">
     <Key>
@@ -181,18 +180,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Room_Building">
-    <End Role="Building" Type="Self.Building" Multiplicity="1" />
-    <End Role="Room" Type="Self.Room" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Building">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Room">
-        <PropertyRef Name="BuildingId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Room_Map">
     <End Role="Map" Type="Self.Map" Multiplicity="1" />
     <End Role="Room" Type="Self.Room" Multiplicity="*" />
@@ -251,10 +238,6 @@
     <AssociationSet Name="FK_Product_position_Device" Association="Self.FK_Product_position_Device">
       <End Role="Device" EntitySet="Device" />
       <End Role="Product_position" EntitySet="Product_position" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Room_Building" Association="Self.FK_Room_Building">
-      <End Role="Building" EntitySet="Building" />
-      <End Role="Room" EntitySet="Room" />
     </AssociationSet>
     <AssociationSet Name="FK_Room_Map" Association="Self.FK_Room_Map">
       <End Role="Map" EntitySet="Map" />

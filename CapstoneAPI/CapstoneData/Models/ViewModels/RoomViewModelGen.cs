@@ -27,7 +27,6 @@ namespace CapstoneData.Models.ViewModels
     			public virtual Nullable<int> PosAY { get; set; }
     			public virtual Nullable<int> PosBX { get; set; }
     			public virtual Nullable<int> PosBY { get; set; }
-    			public virtual int BuildingId { get; set; }
     	
     	public RoomViewModel() : base() { }
     	public RoomViewModel(CapstoneData.Models.Entities.Room entity) : base(entity) { }

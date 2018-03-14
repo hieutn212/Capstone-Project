@@ -48,14 +48,34 @@ namespace CapstoneAPI.Controllers
             try
             {
                 IRoomService roomService = this.Service<IRoomService>();
-                Room rooms = roomService.searchRoom(name, buildingId);
-
-                if (rooms != null)
+                IMapService mapService = this.Service<IMapService>();
+                List<Room> listRoom = roomService.searchRoom(name);
+                List<Map> listMap = mapService.searchMap(buildingId);
+                var model = from room in listRoom
+                            join map in listMap
+                                 on room.MapId equals map.Id
+                            select new Room
+                            {
+                                Id = room.Id,
+                                MapId = room.MapId,
+                                Name = room.Name,
+                                Floor = room.Floor,
+                                Latitude = room.Latitude,
+                                Length = room.Length,
+                                Longitude = room.Longitude,
+                                PosAX = room.PosAX,
+                                PosAY = room.PosAY,
+                                PosBX = room.PosBX,
+                                PosBY = room.PosBY,
+                                Width = room.Width
+                            };
+                Room roomModel = model.FirstOrDefault();
+                if (roomModel != null)
                 {
                     return new HttpResponseMessage()
                     {
                         StatusCode = System.Net.HttpStatusCode.OK,
-                        Content = new JsonContent(rooms)
+                        Content = new JsonContent(roomModel)
                     };
                 }
 

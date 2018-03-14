@@ -91,7 +91,6 @@
     <EntitySetMapping Name="Rooms">
       <EntityTypeMapping TypeName="CapstoneModel.Room">
         <MappingFragment StoreEntitySet="Room">
-          <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
           <ScalarProperty Name="PosBY" ColumnName="PosBY" />
           <ScalarProperty Name="PosBX" ColumnName="PosBX" />
           <ScalarProperty Name="PosAY" ColumnName="PosAY" />

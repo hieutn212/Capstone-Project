@@ -9,7 +9,7 @@ namespace CapstoneData.Models.Entities.Services
     public partial interface IRoomService
     {
         List<Room> GetListRoom(int mapId, int floor);
-        Room searchRoom(string name, int buildingId);
+        List<Room> searchRoom(string name);
     }
 
     public partial class RoomService
@@ -18,9 +18,9 @@ namespace CapstoneData.Models.Entities.Services
         {
             return this.GetActive(q => q.MapId == mapId && q.Floor == floor).ToList();
         }
-        public Room searchRoom(string name, int buildingId)
+        public List<Room> searchRoom(string name)
         {
-            return this.GetActive(q => q.Name.ToUpper().Equals(name) && q.BuildingId == buildingId).FirstOrDefault();
+            return this.GetActive(q => q.Name.ToUpper().Equals(name)).ToList();
         }
 
     }
