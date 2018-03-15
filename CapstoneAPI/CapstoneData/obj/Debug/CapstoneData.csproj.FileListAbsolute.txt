@@ -64,5 +64,4 @@ C:\Users\huynt\Desktop\Do_an\ProjectAPI\CapstoneAPI\CapstoneData\obj\Debug\Capst
 C:\Users\huynt\Desktop\Do_an\ProjectAPI\CapstoneAPI\CapstoneData\obj\Debug\CapstoneData.pdb
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\Microsoft.AspNet.Identity.Core.dll
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\Microsoft.AspNet.Identity.Core.xml
-F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\SkyWeb.DatVM.Data.dll
-F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\SkyWeb.DatVM.Mvc.dll
+F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\Autofac.dll

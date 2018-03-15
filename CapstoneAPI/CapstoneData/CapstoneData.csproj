@@ -217,6 +217,7 @@
     <Compile Include="Models\Entities\Services\DistrictServiceGen.cs">
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\Services\MapService.cs" />
     <Compile Include="Models\Entities\Services\MapServiceGen.cs">
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>

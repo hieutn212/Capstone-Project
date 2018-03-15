@@ -129,28 +129,40 @@ namespace CapstoneAPI.Controllers
         {
             IRoomService roomService = this.Service<IRoomService>();
             List<Room> rooms = roomService.GetListRoom(mapId,floor);
-            CalObject calObj = new CalObject();
 
             if (rooms != null || rooms.Count > 0)
             {
                 foreach (Room room in rooms)
                 {
                     double cal = Utils.HaversineInM(latitude, longitude, room.Latitude??0, room.Longitude??0);
-                    if(cal <= 3.5)
+                    if(cal <= 3)
                     {
-                        calObj.Room = room;
-                        calObj.Cal = cal;
+                        Room response = new Room()
+                        {
+                            Id = room.Id,
+                            MapId = room.MapId,
+                            Floor = room.Floor,
+                            Latitude = room.Latitude,
+                            Length = room.Length,
+                            Longitude = room.Longitude,
+                            Name = room.Name,
+                            PosAX = room.PosAX,
+                            PosAY = room.PosAY,
+                            PosBX = room.PosBX,
+                            PosBY = room.PosBY,
+                            Width = room.Width,
+                        };
                         return new HttpResponseMessage()
                         {
                             StatusCode = System.Net.HttpStatusCode.OK,
-                            Content = new JsonContent(calObj)
+                            Content = new JsonContent(response)
                         };
                     }
                 }
                 return new HttpResponseMessage()
                 {
                     StatusCode = System.Net.HttpStatusCode.NotFound,
-                    Content = new JsonContent(calObj)
+                    Content = new JsonContent("Not Found")
                 };
             }
             else
