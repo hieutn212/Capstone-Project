@@ -135,7 +135,7 @@ namespace CapstoneAPI.Controllers
                 foreach (Room room in rooms)
                 {
                     double cal = Utils.HaversineInM(latitude, longitude, room.Latitude??0, room.Longitude??0);
-                    if(cal <= 3)
+                    if(cal <= 2)
                     {
                         Room response = new Room()
                         {

@@ -41,6 +41,7 @@
           <Property Name="BuildingId" Type="int" Nullable="false" />
           <Property Name="MapUrl" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Floor" Type="int" Nullable="false" />
+          <Property Name="Altitide" Type="float" />
         </EntityType>
         <EntityType Name="Marker">
           <Key>
@@ -351,6 +352,7 @@
           <Property Name="BuildingId" Type="Int32" Nullable="false" />
           <Property Name="MapUrl" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Floor" Type="Int32" Nullable="false" />
+          <Property Name="Altitide" Type="Double" />
           <NavigationProperty Name="Building" Relationship="CapstoneModel.FK_Map_Building" FromRole="Map" ToRole="Building" />
           <NavigationProperty Name="Markers" Relationship="CapstoneModel.FK_Marker_Map" FromRole="Map" ToRole="Marker" />
           <NavigationProperty Name="Rooms" Relationship="CapstoneModel.FK_Room_Map" FromRole="Map" ToRole="Room" />
@@ -568,6 +570,7 @@
           <EntitySetMapping Name="Maps">
             <EntityTypeMapping TypeName="CapstoneModel.Map">
               <MappingFragment StoreEntitySet="Map">
+                <ScalarProperty Name="Altitide" ColumnName="Altitide" />
                 <ScalarProperty Name="Floor" ColumnName="Floor" />
                 <ScalarProperty Name="MapUrl" ColumnName="MapUrl" />
                 <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />

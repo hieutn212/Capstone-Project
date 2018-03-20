@@ -18,7 +18,21 @@ namespace CapstoneAPI.Controllers
             {
                 IRoomService roomService = this.Service<IRoomService>();
                 List<Room> rooms = roomService.GetListRoom(mapId, floor);
-
+                rooms = rooms.Select(q => new Room()
+                {
+                    Id = q.Id,
+                    Floor = q.Floor,
+                    Latitude = q.Latitude,
+                    Longitude = q.Longitude,
+                    Length = q.Length,
+                    MapId = q.MapId,
+                    Name = q.Name,
+                    PosAX = q.PosAX,
+                    PosAY = q.PosAY,
+                    PosBX = q.PosBX,
+                    PosBY = q.PosBY,
+                    Width = q.Width
+                }).ToList();
                 if (rooms != null)
                 {
                     return new HttpResponseMessage()
