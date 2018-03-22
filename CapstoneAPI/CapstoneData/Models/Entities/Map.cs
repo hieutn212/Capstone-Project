@@ -17,6 +17,7 @@ namespace CapstoneData.Models.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Map()
         {
+            this.Corners = new HashSet<Corner>();
             this.Markers = new HashSet<Marker>();
             this.Rooms = new HashSet<Room>();
         }
@@ -29,6 +30,8 @@ namespace CapstoneData.Models.Entities
         public Nullable<double> Altitide { get; set; }
     
         public virtual Building Building { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Corner> Corners { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Marker> Markers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -15,6 +15,18 @@
           <Property Name="Address" Type="nvarchar" MaxLength="250" />
           <Property Name="Active" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Corner">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Latitude" Type="float" Nullable="false" />
+          <Property Name="Longitude" Type="float" Nullable="false" />
+          <Property Name="MapId" Type="int" Nullable="false" />
+          <Property Name="Floor" Type="int" Nullable="false" />
+          <Property Name="Position" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+        </EntityType>
         <EntityType Name="Device">
           <Key>
             <PropertyRef Name="Id" />
@@ -126,6 +138,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Corner_Map">
+          <End Role="Map" Type="Self.Map" Multiplicity="1" />
+          <End Role="Corner" Type="Self.Corner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Map">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Corner">
+              <PropertyRef Name="MapId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Device_User">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Device" Type="Self.Device" Multiplicity="*" />
@@ -212,6 +236,7 @@
         </Association>
         <EntityContainer Name="CapstoneModelStoreContainer">
           <EntitySet Name="Building" EntityType="Self.Building" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Corner" EntityType="Self.Corner" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Device" EntityType="Self.Device" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="District" EntityType="Self.District" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Map" EntityType="Self.Map" Schema="dbo" store:Type="Tables" />
@@ -224,6 +249,10 @@
           <AssociationSet Name="FK_Building_District" Association="Self.FK_Building_District">
             <End Role="District" EntitySet="District" />
             <End Role="Building" EntitySet="Building" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Corner_Map" Association="Self.FK_Corner_Map">
+            <End Role="Map" EntitySet="Map" />
+            <End Role="Corner" EntitySet="Corner" />
           </AssociationSet>
           <AssociationSet Name="FK_Device_User" Association="Self.FK_Device_User">
             <End Role="User" EntitySet="User" />
@@ -269,6 +298,7 @@
         <EntityContainer Name="CapstoneEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Roles" EntityType="Self.Role" />
           <EntitySet Name="Buildings" EntityType="CapstoneModel.Building" />
+          <EntitySet Name="Corners" EntityType="CapstoneModel.Corner" />
           <EntitySet Name="Devices" EntityType="CapstoneModel.Device" />
           <EntitySet Name="Districts" EntityType="CapstoneModel.District" />
           <EntitySet Name="Maps" EntityType="CapstoneModel.Map" />
@@ -284,6 +314,10 @@
           <AssociationSet Name="FK_Map_Building" Association="CapstoneModel.FK_Map_Building">
             <End Role="Building" EntitySet="Buildings" />
             <End Role="Map" EntitySet="Maps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Corner_Map" Association="CapstoneModel.FK_Corner_Map">
+            <End Role="Map" EntitySet="Maps" />
+            <End Role="Corner" EntitySet="Corners" />
           </AssociationSet>
           <AssociationSet Name="FK_Device_User" Association="CapstoneModel.FK_Device_User">
             <End Role="User" EntitySet="Users" />
@@ -322,6 +356,19 @@
           <NavigationProperty Name="District1" Relationship="CapstoneModel.FK_Building_District" FromRole="Building" ToRole="District" />
           <NavigationProperty Name="Maps" Relationship="CapstoneModel.FK_Map_Building" FromRole="Building" ToRole="Map" />
         </EntityType>
+        <EntityType Name="Corner">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Latitude" Type="Double" Nullable="false" />
+          <Property Name="Longitude" Type="Double" Nullable="false" />
+          <Property Name="MapId" Type="Int32" Nullable="false" />
+          <Property Name="Floor" Type="Int32" Nullable="false" />
+          <Property Name="Position" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Map" Relationship="CapstoneModel.FK_Corner_Map" FromRole="Corner" ToRole="Map" />
+        </EntityType>
         <EntityType Name="Device">
           <Key>
             <PropertyRef Name="Id" />
@@ -354,6 +401,7 @@
           <Property Name="Floor" Type="Int32" Nullable="false" />
           <Property Name="Altitide" Type="Double" />
           <NavigationProperty Name="Building" Relationship="CapstoneModel.FK_Map_Building" FromRole="Map" ToRole="Building" />
+          <NavigationProperty Name="Corners" Relationship="CapstoneModel.FK_Corner_Map" FromRole="Map" ToRole="Corner" />
           <NavigationProperty Name="Markers" Relationship="CapstoneModel.FK_Marker_Map" FromRole="Map" ToRole="Marker" />
           <NavigationProperty Name="Rooms" Relationship="CapstoneModel.FK_Room_Map" FromRole="Map" ToRole="Room" />
         </EntityType>
@@ -451,6 +499,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Corner_Map">
+          <End Type="CapstoneModel.Map" Role="Map" Multiplicity="1" />
+          <End Type="CapstoneModel.Corner" Role="Corner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Map">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Corner">
+              <PropertyRef Name="MapId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Device_User">
           <End Type="CapstoneModel.User" Role="User" Multiplicity="1" />
           <End Type="CapstoneModel.Device" Role="Device" Multiplicity="*" />
@@ -544,6 +604,19 @@
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="District" ColumnName="District" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Corners">
+            <EntityTypeMapping TypeName="CapstoneModel.Corner">
+              <MappingFragment StoreEntitySet="Corner">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Floor" ColumnName="Floor" />
+                <ScalarProperty Name="MapId" ColumnName="MapId" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -11,6 +11,7 @@
   <EntityContainer Name="CapstoneEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Roles" EntityType="Self.Role" />
     <EntitySet Name="Buildings" EntityType="CapstoneModel.Building" />
+    <EntitySet Name="Corners" EntityType="CapstoneModel.Corner" />
     <EntitySet Name="Devices" EntityType="CapstoneModel.Device" />
     <EntitySet Name="Districts" EntityType="CapstoneModel.District" />
     <EntitySet Name="Maps" EntityType="CapstoneModel.Map" />
@@ -26,6 +27,10 @@
     <AssociationSet Name="FK_Map_Building" Association="CapstoneModel.FK_Map_Building">
       <End Role="Building" EntitySet="Buildings" />
       <End Role="Map" EntitySet="Maps" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Corner_Map" Association="CapstoneModel.FK_Corner_Map">
+      <End Role="Map" EntitySet="Maps" />
+      <End Role="Corner" EntitySet="Corners" />
     </AssociationSet>
     <AssociationSet Name="FK_Device_User" Association="CapstoneModel.FK_Device_User">
       <End Role="User" EntitySet="Users" />
@@ -64,6 +69,19 @@
     <NavigationProperty Name="District1" Relationship="CapstoneModel.FK_Building_District" FromRole="Building" ToRole="District" />
     <NavigationProperty Name="Maps" Relationship="CapstoneModel.FK_Map_Building" FromRole="Building" ToRole="Map" />
   </EntityType>
+  <EntityType Name="Corner">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Latitude" Type="Double" Nullable="false" />
+    <Property Name="Longitude" Type="Double" Nullable="false" />
+    <Property Name="MapId" Type="Int32" Nullable="false" />
+    <Property Name="Floor" Type="Int32" Nullable="false" />
+    <Property Name="Position" Type="Int32" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Map" Relationship="CapstoneModel.FK_Corner_Map" FromRole="Corner" ToRole="Map" />
+  </EntityType>
   <EntityType Name="Device">
     <Key>
       <PropertyRef Name="Id" />
@@ -94,7 +112,9 @@
     <Property Name="BuildingId" Type="Int32" Nullable="false" />
     <Property Name="MapUrl" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Floor" Type="Int32" Nullable="false" />
+    <Property Name="Altitide" Type="Double" />
     <NavigationProperty Name="Building" Relationship="CapstoneModel.FK_Map_Building" FromRole="Map" ToRole="Building" />
+    <NavigationProperty Name="Corners" Relationship="CapstoneModel.FK_Corner_Map" FromRole="Map" ToRole="Corner" />
     <NavigationProperty Name="Markers" Relationship="CapstoneModel.FK_Marker_Map" FromRole="Map" ToRole="Marker" />
     <NavigationProperty Name="Rooms" Relationship="CapstoneModel.FK_Room_Map" FromRole="Map" ToRole="Room" />
   </EntityType>
@@ -189,6 +209,18 @@
       </Principal>
       <Dependent Role="Map">
         <PropertyRef Name="BuildingId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Corner_Map">
+    <End Type="CapstoneModel.Map" Role="Map" Multiplicity="1" />
+    <End Type="CapstoneModel.Corner" Role="Corner" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Map">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Corner">
+        <PropertyRef Name="MapId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
