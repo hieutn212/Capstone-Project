@@ -12,33 +12,28 @@ namespace CapstoneAPI.Controllers
 {
     public class MapController : BaseApiController
     {
-        public HttpResponseMessage GetListRoom(int buildingId)
+        public HttpResponseMessage GetListMap(int buildingId)
         {
             try
             {
                 IMapService mapService = this.Service<IMapService>();
                 List<Map> maps = mapService.searchMap(buildingId);
-                //maps = maps.Select(q => new Map()
-                //{
-                //    Id = q.Id,
-                //    Floor = q.Floor,
-                //    Latitude = q.Latitude,
-                //    Longitude = q.Longitude,
-                //    Length = q.Length,
-                //    MapId = q.MapId,
-                //    Name = q.Name,
-                //    PosAX = q.PosAX,
-                //    PosAY = q.PosAY,
-                //    PosBX = q.PosBX,
-                //    PosBY = q.PosBY,
-                //    Width = q.Width
-                //}).ToList();
+
                 if (maps != null)
                 {
+                    var result = from map in maps
+                                 select new Map
+                                 {
+                                     Id = map.Id,
+                                     Name = map.Name,
+                                     MapUrl = map.MapUrl,
+                                     Floor = map.Floor,
+                                     BuildingId = map.BuildingId
+                                 };
                     return new HttpResponseMessage()
                     {
                         StatusCode = System.Net.HttpStatusCode.OK,
-                        Content = new JsonContent(maps)
+                        Content = new JsonContent(result)
                     };
                 }
 
