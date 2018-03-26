@@ -216,6 +216,7 @@
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\DeviceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\PositionController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
     <Compile Include="Controllers\UserController.cs" />

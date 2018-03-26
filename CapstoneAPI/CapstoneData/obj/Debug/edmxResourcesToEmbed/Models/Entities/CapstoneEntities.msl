@@ -20,6 +20,19 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Corners">
+      <EntityTypeMapping TypeName="CapstoneModel.Corner">
+        <MappingFragment StoreEntitySet="Corner">
+          <ScalarProperty Name="Desciption" ColumnName="Desciption" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="Floor" ColumnName="Floor" />
+          <ScalarProperty Name="MapId" ColumnName="MapId" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Devices">
       <EntityTypeMapping TypeName="CapstoneModel.Device">
         <MappingFragment StoreEntitySet="Device">
@@ -42,6 +55,7 @@
     <EntitySetMapping Name="Maps">
       <EntityTypeMapping TypeName="CapstoneModel.Map">
         <MappingFragment StoreEntitySet="Map">
+          <ScalarProperty Name="Altitide" ColumnName="Altitide" />
           <ScalarProperty Name="Floor" ColumnName="Floor" />
           <ScalarProperty Name="MapUrl" ColumnName="MapUrl" />
           <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />

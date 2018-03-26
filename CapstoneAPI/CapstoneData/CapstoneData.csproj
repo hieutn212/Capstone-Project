@@ -118,6 +118,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CapstoneEntities.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\Corner.cs">
+      <DependentUpon>CapstoneEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\CornerRefined.cs">
+      <DependentUpon>EntityRefinery.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entities\Device.cs">
       <DependentUpon>CapstoneEntities.tt</DependentUpon>
     </Compile>
@@ -160,6 +166,9 @@
       <DependentUpon>EntityRefinery.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Repositories\BuildingRepositoryGen.cs">
+      <DependentUpon>Repositories.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Repositories\CornerRepositoryGen.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Repositories\DeviceRepositoryGen.cs">
@@ -210,6 +219,9 @@
     <Compile Include="Models\Entities\Services\BuildingServiceGen.cs">
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\Services\CornerServiceGen.cs">
+      <DependentUpon>Services.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entities\Services\DeviceService.cs" />
     <Compile Include="Models\Entities\Services\DeviceServiceGen.cs">
       <DependentUpon>Services.tt</DependentUpon>
@@ -254,6 +266,9 @@
       <DependentUpon>EntityRefinery.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\BuildingViewModelGen.cs">
+      <DependentUpon>ViewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewModels\CornerViewModelGen.cs">
       <DependentUpon>ViewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\DeviceViewModelGen.cs">

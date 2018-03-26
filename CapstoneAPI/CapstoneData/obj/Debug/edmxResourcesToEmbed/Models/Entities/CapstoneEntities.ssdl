@@ -10,6 +10,18 @@
     <Property Name="Address" Type="nvarchar" MaxLength="250" />
     <Property Name="Active" Type="bit" Nullable="false" />
   </EntityType>
+  <EntityType Name="Corner">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Latitude" Type="float" Nullable="false" />
+    <Property Name="Longitude" Type="float" Nullable="false" />
+    <Property Name="MapId" Type="int" Nullable="false" />
+    <Property Name="Floor" Type="int" Nullable="false" />
+    <Property Name="Position" Type="int" Nullable="false" />
+    <Property Name="Desciption" Type="nvarchar" MaxLength="250" />
+  </EntityType>
   <EntityType Name="Device">
     <Key>
       <PropertyRef Name="Id" />
@@ -36,6 +48,7 @@
     <Property Name="BuildingId" Type="int" Nullable="false" />
     <Property Name="MapUrl" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Floor" Type="int" Nullable="false" />
+    <Property Name="Altitide" Type="float" />
   </EntityType>
   <EntityType Name="Marker">
     <Key>
@@ -117,6 +130,18 @@
       </Principal>
       <Dependent Role="Building">
         <PropertyRef Name="District" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Corner_Map">
+    <End Role="Map" Type="Self.Map" Multiplicity="1" />
+    <End Role="Corner" Type="Self.Corner" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Map">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Corner">
+        <PropertyRef Name="MapId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -206,6 +231,7 @@
   </Association>
   <EntityContainer Name="CapstoneModelStoreContainer">
     <EntitySet Name="Building" EntityType="Self.Building" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Corner" EntityType="Self.Corner" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Device" EntityType="Self.Device" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="District" EntityType="Self.District" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Map" EntityType="Self.Map" Schema="dbo" store:Type="Tables" />
@@ -218,6 +244,10 @@
     <AssociationSet Name="FK_Building_District" Association="Self.FK_Building_District">
       <End Role="District" EntitySet="District" />
       <End Role="Building" EntitySet="Building" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Corner_Map" Association="Self.FK_Corner_Map">
+      <End Role="Map" EntitySet="Map" />
+      <End Role="Corner" EntitySet="Corner" />
     </AssociationSet>
     <AssociationSet Name="FK_Device_User" Association="Self.FK_Device_User">
       <End Role="User" EntitySet="User" />

@@ -28,7 +28,8 @@ namespace CapstoneAPI.Controllers
                                      Name = map.Name,
                                      MapUrl = map.MapUrl,
                                      Floor = map.Floor,
-                                     BuildingId = map.BuildingId
+                                     BuildingId = map.BuildingId,
+                                     Altitide = map.Altitide 
                                  };
                     return new HttpResponseMessage()
                     {

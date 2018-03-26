@@ -12,18 +12,19 @@ namespace CapstoneData.Models.ViewModels
     using System;
     using System.Collections.Generic;
     
-    public partial class MapViewModel : SkyWeb.DatVM.Mvc.BaseEntityViewModel<CapstoneData.Models.Entities.Map>
+    public partial class CornerViewModel : SkyWeb.DatVM.Mvc.BaseEntityViewModel<CapstoneData.Models.Entities.Corner>
     {
     	
     			public virtual int Id { get; set; }
-    			public virtual string Name { get; set; }
-    			public virtual int BuildingId { get; set; }
-    			public virtual string MapUrl { get; set; }
+    			public virtual double Latitude { get; set; }
+    			public virtual double Longitude { get; set; }
+    			public virtual int MapId { get; set; }
     			public virtual int Floor { get; set; }
-    			public virtual Nullable<double> Altitide { get; set; }
+    			public virtual int Position { get; set; }
+    			public virtual string Desciption { get; set; }
     	
-    	public MapViewModel() : base() { }
-    	public MapViewModel(CapstoneData.Models.Entities.Map entity) : base(entity) { }
+    	public CornerViewModel() : base() { }
+    	public CornerViewModel(CapstoneData.Models.Entities.Corner entity) : base(entity) { }
     
     }
 }

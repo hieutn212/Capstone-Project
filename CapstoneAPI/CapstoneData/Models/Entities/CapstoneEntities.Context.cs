@@ -27,6 +27,7 @@ namespace CapstoneData.Models.Entities
     
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Building> Buildings { get; set; }
+        public virtual DbSet<Corner> Corners { get; set; }
         public virtual DbSet<Device> Devices { get; set; }
         public virtual DbSet<District> Districts { get; set; }
         public virtual DbSet<Map> Maps { get; set; }
