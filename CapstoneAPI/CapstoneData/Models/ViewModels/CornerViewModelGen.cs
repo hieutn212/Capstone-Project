@@ -21,7 +21,7 @@ namespace CapstoneData.Models.ViewModels
     			public virtual int MapId { get; set; }
     			public virtual int Floor { get; set; }
     			public virtual int Position { get; set; }
-    			public virtual string Description { get; set; }
+    			public virtual string Desciption { get; set; }
     	
     	public CornerViewModel() : base() { }
     	public CornerViewModel(CapstoneData.Models.Entities.Corner entity) : base(entity) { }

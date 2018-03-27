@@ -23,7 +23,7 @@
     <EntitySetMapping Name="Corners">
       <EntityTypeMapping TypeName="CapstoneModel.Corner">
         <MappingFragment StoreEntitySet="Corner">
-          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Desciption" ColumnName="Desciption" />
           <ScalarProperty Name="Position" ColumnName="Position" />
           <ScalarProperty Name="Floor" ColumnName="Floor" />
           <ScalarProperty Name="MapId" ColumnName="MapId" />

@@ -79,7 +79,7 @@
     <Property Name="MapId" Type="Int32" Nullable="false" />
     <Property Name="Floor" Type="Int32" Nullable="false" />
     <Property Name="Position" Type="Int32" Nullable="false" />
-    <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Desciption" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Map" Relationship="CapstoneModel.FK_Corner_Map" FromRole="Corner" ToRole="Map" />
   </EntityType>
   <EntityType Name="Device">

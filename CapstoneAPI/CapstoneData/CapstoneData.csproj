@@ -219,7 +219,6 @@
     <Compile Include="Models\Entities\Services\BuildingServiceGen.cs">
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Entities\Services\CornerService.cs" />
     <Compile Include="Models\Entities\Services\CornerServiceGen.cs">
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>

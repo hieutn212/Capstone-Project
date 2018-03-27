@@ -20,7 +20,7 @@
     <Property Name="MapId" Type="int" Nullable="false" />
     <Property Name="Floor" Type="int" Nullable="false" />
     <Property Name="Position" Type="int" Nullable="false" />
-    <Property Name="Description" Type="nvarchar" MaxLength="250" />
+    <Property Name="Desciption" Type="nvarchar" MaxLength="250" />
   </EntityType>
   <EntityType Name="Device">
     <Key>
