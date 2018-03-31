@@ -1,0 +1,465 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AcceptSuccess" xml:space="preserve">
+    <value>This advertising is now running</value>
+  </data>
+  <data name="AccessPoints" xml:space="preserve">
+    <value>Device</value>
+  </data>
+  <data name="ActionError" xml:space="preserve">
+    <value>Have an error in process, please try again</value>
+  </data>
+  <data name="AdditionalInfo" xml:space="preserve">
+    <value>Additional Information</value>
+  </data>
+  <data name="Advertising" xml:space="preserve">
+    <value>Advertising</value>
+  </data>
+  <data name="AdvertisingInfomation" xml:space="preserve">
+    <value>Advertising Infomation</value>
+  </data>
+  <data name="Advertisingoverview" xml:space="preserve">
+    <value>Advertising overview</value>
+  </data>
+  <data name="AdvertisingReportChart" xml:space="preserve">
+    <value>Advertising report chart</value>
+  </data>
+  <data name="Advertisings" xml:space="preserve">
+    <value>Advertising</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="Analysis" xml:space="preserve">
+    <value>Analysis</value>
+  </data>
+  <data name="Browser" xml:space="preserve">
+    <value>Browser</value>
+  </data>
+  <data name="BrowserReportChart" xml:space="preserve">
+    <value>Browser Report Chart</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Change password</value>
+  </data>
+  <data name="Click" xml:space="preserve">
+    <value>Click</value>
+  </data>
+  <data name="ConfigInfo" xml:space="preserve">
+    <value>Configuration Information</value>
+  </data>
+  <data name="Configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Are you sure to delete?</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="CreateLandingPage" xml:space="preserve">
+    <value>Create Landing Page</value>
+  </data>
+  <data name="CTR" xml:space="preserve">
+    <value>CTR</value>
+  </data>
+  <data name="CustomeFilter" xml:space="preserve">
+    <value>Custome filter</value>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>Customer</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="DeleteSuccess" xml:space="preserve">
+    <value>Delete successful!</value>
+  </data>
+  <data name="DeviceInfo" xml:space="preserve">
+    <value>Device info</value>
+  </data>
+  <data name="DeviceReportChart" xml:space="preserve">
+    <value>Device Report Chart</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Event" xml:space="preserve">
+    <value>Event</value>
+  </data>
+  <data name="GeneralInformation" xml:space="preserve">
+    <value>General information</value>
+  </data>
+  <data name="GoToManageAccessPoint" xml:space="preserve">
+    <value>Go to device</value>
+  </data>
+  <data name="GoToManageAdvertising" xml:space="preserve">
+    <value>Go to advertising</value>
+  </data>
+  <data name="GoToManageLocation" xml:space="preserve">
+    <value>Go to location</value>
+  </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Hello</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Insights" xml:space="preserve">
+    <value>Insights</value>
+  </data>
+  <data name="InteractionPage" xml:space="preserve">
+    <value>Advertising</value>
+  </data>
+  <data name="IsSkippingLandingPage" xml:space="preserve">
+    <value>This Landing Page is current in use for another Landing Page</value>
+  </data>
+  <data name="LandingPage" xml:space="preserve">
+    <value>Login Page</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="LayoutManagement" xml:space="preserve">
+    <value>Manage Layout</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginByClickThrough" xml:space="preserve">
+    <value>Login by Clickthrough</value>
+  </data>
+  <data name="LoginByFaceBook" xml:space="preserve">
+    <value>Login by Facebook</value>
+  </data>
+  <data name="LoginByGoogle" xml:space="preserve">
+    <value>Login by Google+</value>
+  </data>
+  <data name="LoginByLaptop" xml:space="preserve">
+    <value>Login by Laptop</value>
+  </data>
+  <data name="LoginInfomation" xml:space="preserve">
+    <value>Login Infomation</value>
+  </data>
+  <data name="LoginOverview" xml:space="preserve">
+    <value>Login Overview</value>
+  </data>
+  <data name="LoginReport" xml:space="preserve">
+    <value>Login report</value>
+  </data>
+  <data name="LoginReportChart" xml:space="preserve">
+    <value>Login report chart</value>
+  </data>
+  <data name="LoginSuccess" xml:space="preserve">
+    <value>Login success</value>
+  </data>
+  <data name="LoginTp" xml:space="preserve">
+    <value>Login Type</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="ManageAccessPoint" xml:space="preserve">
+    <value>Device</value>
+  </data>
+  <data name="ManageAccessPoints" xml:space="preserve">
+    <value>Manage access point</value>
+  </data>
+  <data name="ManageAPAtivity" xml:space="preserve">
+    <value>Access point activity</value>
+  </data>
+  <data name="ManageApp" xml:space="preserve">
+    <value>Manage app</value>
+  </data>
+  <data name="ManageCategoryImage" xml:space="preserve">
+    <value>Manage category image</value>
+  </data>
+  <data name="ManageLandingTemplate" xml:space="preserve">
+    <value>Manage landing template</value>
+  </data>
+  <data name="ManageLocations" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="ManagePublisher" xml:space="preserve">
+    <value>Manage publisher</value>
+  </data>
+  <data name="ManageUserAccounts" xml:space="preserve">
+    <value>Manage user accounts</value>
+  </data>
+  <data name="ManageUsers" xml:space="preserve">
+    <value>Manage Users</value>
+  </data>
+  <data name="Mode" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="NewUsers" xml:space="preserve">
+    <value>New Users</value>
+  </data>
+  <data name="NewVisit" xml:space="preserve">
+    <value>New Visit</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>No.</value>
+  </data>
+  <data name="OS" xml:space="preserve">
+    <value>OS</value>
+  </data>
+  <data name="OSReportChart" xml:space="preserve">
+    <value>OS Report Chart</value>
+  </data>
+  <data name="PersonOverview" xml:space="preserve">
+    <value>Person Overview</value>
+  </data>
+  <data name="Presence" xml:space="preserve">
+    <value>Presence</value>
+  </data>
+  <data name="PresenceAnalysis" xml:space="preserve">
+    <value>Presence</value>
+  </data>
+  <data name="PreviewWifi" xml:space="preserve">
+    <value>Preview wifi</value>
+  </data>
+  <data name="Rate" xml:space="preserve">
+    <value>Rate (%)</value>
+  </data>
+  <data name="Reach" xml:space="preserve">
+    <value>Reach</value>
+  </data>
+  <data name="RecentCustomers" xml:space="preserve">
+    <value>Recent Customers</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="ReturnVisit" xml:space="preserve">
+    <value>Return Visit</value>
+  </data>
+  <data name="Support" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="TOTAL" xml:space="preserve">
+    <value>TOTAL</value>
+  </data>
+  <data name="TotalClick" xml:space="preserve">
+    <value>Total click</value>
+  </data>
+  <data name="TotalLogin" xml:space="preserve">
+    <value>Total login</value>
+  </data>
+  <data name="TotalUsers" xml:space="preserve">
+    <value>Total Users</value>
+  </data>
+  <data name="TotalView" xml:space="preserve">
+    <value>Total View</value>
+  </data>
+  <data name="TotalVisit" xml:space="preserve">
+    <value>Total Visit</value>
+  </data>
+  <data name="UnknowGender" xml:space="preserve">
+    <value>Unknow Gender</value>
+  </data>
+  <data name="UnknowSocial" xml:space="preserve">
+    <value>Login by other Social Account</value>
+  </data>
+  <data name="UserBehaviour" xml:space="preserve">
+    <value>User behaviour</value>
+  </data>
+  <data name="UserCharactertistic" xml:space="preserve">
+    <value>User Charactertistic</value>
+  </data>
+  <data name="UserDetails" xml:space="preserve">
+    <value>User details</value>
+  </data>
+  <data name="UserFlow" xml:space="preserve">
+    <value>User Flow</value>
+  </data>
+  <data name="UserList" xml:space="preserve">
+    <value>User List</value>
+  </data>
+  <data name="UserLogin" xml:space="preserve">
+    <value>User login</value>
+  </data>
+  <data name="UserOverview" xml:space="preserve">
+    <value>User overview</value>
+  </data>
+  <data name="UserStatistic" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="UserVisit" xml:space="preserve">
+    <value>User visit</value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>Vietnamese</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="ViewDetail" xml:space="preserve">
+    <value>View Detail</value>
+  </data>
+  <data name="VisitByDay" xml:space="preserve">
+    <value>Visit By Day</value>
+  </data>
+  <data name="VisitByTimeSlot" xml:space="preserve">
+    <value>Visit By Time Slot</value>
+  </data>
+  <data name="VisitOverview" xml:space="preserve">
+    <value>Visit Overview</value>
+  </data>
+  <data name="WifiMakertingSolution" xml:space="preserve">
+    <value>Wifi Makerting Solution</value>
+  </data>
+  <data name="WifiMedia" xml:space="preserve">
+    <value>Wifi media</value>
+  </data>
+  <data name="CustomerList" xml:space="preserve">
+    <value>Customer List</value>
+  </data>
+  <data name="TotalLoginSuccess" xml:space="preserve">
+    <value>Total login success</value>
+  </data>
+  <data name="Device" xml:space="preserve">
+    <value>Device</value>
+  </data>
+  <data name="LoginSuccessRate" xml:space="preserve">
+    <value>Login Success Rate</value>
+  </data>
+  <data name="Guest" xml:space="preserve">
+    <value>Guest</value>
+  </data>
+  <data name="LoginSession" xml:space="preserve">
+    <value>Login Session</value>
+  </data>
+  <data name="NewGuest" xml:space="preserve">
+    <value>New Guest</value>
+  </data>
+  <data name="ReturnGuest" xml:space="preserve">
+    <value>Return Guest</value>
+  </data>
+  <data name="SessionPerGuestRate" xml:space="preserve">
+    <value>Session / Guest Rate</value>
+  </data>
+  <data name="TotalGuest" xml:space="preserve">
+    <value>Total Guest</value>
+  </data>
+</root>

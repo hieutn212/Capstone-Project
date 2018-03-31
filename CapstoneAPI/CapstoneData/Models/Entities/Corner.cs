@@ -20,7 +20,7 @@ namespace CapstoneData.Models.Entities
         public int MapId { get; set; }
         public int Floor { get; set; }
         public int Position { get; set; }
-        public string Desciption { get; set; }
+        public string Description { get; set; }
     
         public virtual Map Map { get; set; }
     }

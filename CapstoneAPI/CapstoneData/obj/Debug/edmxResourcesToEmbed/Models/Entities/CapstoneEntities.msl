@@ -23,7 +23,7 @@
     <EntitySetMapping Name="Corners">
       <EntityTypeMapping TypeName="CapstoneModel.Corner">
         <MappingFragment StoreEntitySet="Corner">
-          <ScalarProperty Name="Desciption" ColumnName="Desciption" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Position" ColumnName="Position" />
           <ScalarProperty Name="Floor" ColumnName="Floor" />
           <ScalarProperty Name="MapId" ColumnName="MapId" />
@@ -52,10 +52,21 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Histories">
+      <EntityTypeMapping TypeName="CapstoneModel.History">
+        <MappingFragment StoreEntitySet="History">
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="BuyDate" ColumnName="BuyDate" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Maps">
       <EntityTypeMapping TypeName="CapstoneModel.Map">
         <MappingFragment StoreEntitySet="Map">
-          <ScalarProperty Name="Altitide" ColumnName="Altitide" />
+          <ScalarProperty Name="Altitude" ColumnName="Altitude" />
           <ScalarProperty Name="Floor" ColumnName="Floor" />
           <ScalarProperty Name="MapUrl" ColumnName="MapUrl" />
           <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
@@ -123,6 +134,7 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="CapstoneModel.User">
         <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
           <ScalarProperty Name="Active" ColumnName="Active" />
           <ScalarProperty Name="Birthday" ColumnName="Birthday" />
           <ScalarProperty Name="Fullname" ColumnName="Fullname" />

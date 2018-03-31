@@ -1,0 +1,252 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title</title>
+
+    <!-- Vendor CSS -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&subset=vietnamese" rel="stylesheet">
+    <link href="~/Content/template-material/vendors/bower_components/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet">
+    <link href="~/Content/template-material/vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
+    <link href="~/Content/template-material/vendors/bower_components/sweetalert/dist/sweetalert-override.min.css" rel="stylesheet">
+    <link href="~/Content/template-material/vendors/bower_components/material-design-iconic-font/css/material-design-iconic-font.min.css" rel="stylesheet">
+    <link href="~/Content/template-material/vendors/bower_components/nouislider/distribute/jquery.nouislider.min.css" rel="stylesheet">
+    <link href="~/Content/template-material/vendors/socicon/socicon.min.css" rel="stylesheet">
+    <link href="~/Content/template-material/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.css" rel="stylesheet">
+    <link href="~/Content/pnotify/pnotify.css" rel="stylesheet" />
+    <!-- CSS -->
+    <link href="~/Content/template-material/css/app.min.1.css" rel="stylesheet">
+    <link href="~/Content/template-material/css/app.min.2.css" rel="stylesheet">
+    @*<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800&amp;subset=latin,latin-ext,cyrillic,cyrillic-ext" rel="stylesheet" type="text/css" />*@
+
+    <!-- PLUGINS -->
+    <link href="~/Content/assets/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" />
+    <link href="~/Content/assets/boostrap-toggle/bootstrap2-toggle.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/boostrap-slider/css/slider.css" rel="stylesheet" />
+    <link href="~/Content/assets/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/bootstrap-tour/bootstrap-tour.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/swal/sweetalert.css" rel="stylesheet" />
+    <link href="~/Content/assets/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+    @*<link href="~/Content/assets/noUiSlider.8.0.2/nouislider.min.css" rel="stylesheet" />*@
+
+    <link href="~/Content/font-awesome-4.6.3/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/css/custom-datatable.css" rel="stylesheet" />
+    <!--datatable plugin-->
+    <link href="~/Content/css/tipped.css" rel="stylesheet" />
+
+
+    <link href="~/Content/css/theme.css" rel="stylesheet" />
+    <link href="~/Content/css/wisky.css" rel="stylesheet" />
+    @{
+        string username = HttpContext.Current.User.Identity.Name;
+        bool isAuthenticated = HttpContext.Current.User.Identity.IsAuthenticated;
+    }
+    <script src="~/Content/template-material/vendors/bower_components/jquery/dist/jquery.min.js"></script>
+
+</head>
+<body>
+    @*<input type="hidden" id="locationCount" value="@(brand==null?0: brand.Locations.Count)" />*@
+    <header id="header" style="background-color:#2196F3">
+        <ul class="header-inner">
+            <li id="menu-trigger" data-trigger="#sidebar">
+                <div class="line-wrap">
+                    <div class="line top"></div>
+                    <div class="line center"></div>
+                    <div class="line bottom"></div>
+                </div>
+            </li>
+            <li class="hidden-md hidden-sm hidden-xs">
+                <a href="@Url.Action("Index","Home",new {area ="BrandManager"})">
+                    <span class="navbar-brand pull-right text-uppercase" style="color: white">Coc Shop Admin</span>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Top Search Content -->
+        @*<div id="top-search-wrap">
+                <input type="text">
+                <i id="top-search-close">&times;</i>
+            </div>*@
+    </header>
+
+    @RenderSection("Header", false)
+
+    <section id="main">
+        <aside id="sidebar">
+            <div class="sidebar-inner c-overflow">
+                <div class="profile-menu">
+                    <a href="#">
+                        <div class="profile-pic">
+                            <img src="~/Content/template-material/img/profile-pics/1.jpg" alt="">
+                        </div>
+                        <div class="profile-info">
+                            Xin chào, <strong style="font-size: 15px">@User.Identity.Name</strong>
+                            <i class="md md-arrow-drop-down"></i>
+                        </div>
+                    </a>
+                    <ul class="main-menu">
+                        @if (isAuthenticated)
+                        {
+                            <li>
+                                <a href="/Account/LogOut"><i class="glyphicon glyphicon-log-out" style="margin-top:4px"></i>Đăng xuất</a>
+                            </li>
+                            <li>
+                                <a href="/Account/ChangePassword"><i class="glyphicon glyphicon-edit" style="margin-top:4px"></i>Đổi mật khẩu</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="/Account/Login"><i class="md md-person"></i>Đăng nhập</a>
+                            </li>
+                        }
+                        @*<li>
+                                <a href="profile-about.html"><i class="md md-person"></i> View Profile</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="md md-settings-input-antenna"></i> Privacy Settings</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="md md-settings"></i> Settings</a>
+                            </li>*@
+                    </ul>
+                </div>
+                <ul class="main-menu">
+                    @*
+                        <li class="active"><a href="index.html"><i class="md md-home"></i> Home</a></li>
+                        <li><a href="typography.html"><i class="md md-format-underline"></i> Typography</a></li>
+                        <li class="sub-menu">
+                            <a href="#"><i class="md md-now-widgets"></i> Widgets</a>
+                            <ul>
+                                <li><a href="widget-templates.html">Templates</a></li>
+                                <li><a class="active" href="widgets.html">Widgets</a></li>
+                            </ul>
+                        </li>*@
+                    @*@if (HttpContext.Current.User.IsInRole("Admin"))
+                        {*@
+                    <li class="">
+                        <a href="@Url.Action("Index", "Accounts", new { area = "Admin"})">
+                            <i class="fa fa-home"></i>
+                            <span class="title">Trang chính</span>
+                        </a>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("Index", "Customer", new { area = "Admin"})">
+                            <i class="fa fa-users"></i>
+                            <span class="title">Quản lý tài khoản khách hàng</span>
+                        </a>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("Index","Product", new { area = "Admin" })">
+                            <i class="fa fa-product-hunt"></i>
+                            <span class="title">Quản lý sản phẩm</span>
+                        </a>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("Index", "Order", new { area = "Admin"})">
+                            <i class="fa fa-product-hunt"></i>
+                            <span class="title">Quản lý hóa đơn</span>
+                        </a>
+                    </li>
+
+                    <li class="">
+                        <a href="@Url.Action("Index", "Category", new { area = "Admin"})">
+                            <i class="fa fa-product-hunt"></i>
+                            <span class="title">Quản lý danh mục</span>
+                        </a>
+                    </li>
+                    @* } *@
+                </ul>
+            </div>
+        </aside>
+        <section id="content">
+            <div class="container">
+                @RenderSection("StatisticHeader", false)
+                @RenderBody()
+                <div class="modal-backdrop" id="loading-image" style="display:none; opacity: 0.4; z-index:99999999">
+                    <i class="fa fa-spinner fa-pulse" style="position: absolute; top: 50%; left: 50%; font-size:50px;"></i>
+                </div>
+            </div>
+        </section>
+    </section>
+    <footer id="footer">
+        <ul class="f-menu">
+            <li><a href="#">Team SWD</a></li>
+        </ul>
+    </footer>
+    <!-- Javascript Libraries -->
+    <script src="~/Content/template-material/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/Content/template-material/vendors/bower_components/flot/jquery.flot.js"></script>
+    <script src="~/Content/template-material/vendors/bower_components/flot/jquery.flot.resize.js"></script>
+    <script src="~/Content/template-material/vendors/bower_components/flot.curvedlines/curvedLines.js"></script>
+    <script src="~/Content/template-material/vendors/sparklines/jquery.sparkline.min.js"></script>
+    <script src="~/Content/template-material/vendors/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
+    <script src="~/Content/template-material/vendors/bower_components/moment/min/moment.min.js"></script>
+    <script src="~/Content/template-material/vendors/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+    <script src="~/Content/template-material/vendors/bower_components/simpleWeather/jquery.simpleWeather.min.js"></script>
+    <script src="~/Content/template-material/vendors/bower_components/jquery.nicescroll/jquery.nicescroll.min.js"></script>
+    <script src="~/Content/template-material/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
+    <script src="~/Content/template-material/vendors/bower_components/Waves/dist/waves.min.js"></script>
+    <script src="~/Content/template-material/vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
+    <script src="~/Content/template-material/vendors/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/Content/template-material/vendors/bower_components/nouislider/distribute/jquery.nouislider.all.min.js"></script>
+    <script src="~/Content/template-material/js/flot-charts/curved-line-chart.js"></script>
+    <script src="~/Content/template-material/js/flot-charts/line-chart.js"></script>
+    <script src="~/Content/template-material/vendors/bower_components/flot/jquery.flot.pie.js"></script>
+    <script src="~/Content/template-material/js/charts.js"></script>
+    <script src="~/Content/template-material/js/functions.js"></script>
+    <script src="~/Content/template-material/js/demo.js"></script>
+    <script src="~/Content/template-material/js/flot-charts/jquery.flot.time.js"></script>
+    <script src="~/Content/template-material/js/flot-charts/jquery.flot.tickrotor.js"></script>
+    <script src="~/Content/pnotify/pnotify.js"></script>
+    <script src="~/Scripts/knotify.js"></script>
+    <!-- PLUGINS -->
+    <script src="~/Content/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="~/Content/assets/boostrap-toggle/bootstrap2-toggle.min.js"></script>
+    <script src="~/Content/assets/boostrap-slider/js/bootstrap-slider.min.js"></script>
+    <script src="~/Content/assets/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/plugins/swal/sweetalert-dev.js"></script>
+    <script src="~/Content/assets/bootstrap-select/js/bootstrap-select.js"></script>
+    @*<script src="~/Content/assets/noUiSlider.8.0.2/nouislider.min.js"></script>*@
+    <script src="~/Content/assets/highcharts.js"></script>
+    <script src="~/Content/assets/exporting.js"></script>
+    <script src="~/Content/assets/bootstrap-tour/bootstrap-tour.js"></script>
+
+    <!--datatable plugin-->
+    @*<script src="~/Content/js/buttons.bootstrap.min.js"></script>
+        <script src="~/Content/js/buttons.colVis.min.js"></script>
+        <script src="~/Content/js/buttons.flash.min.js"></script>
+        <script src="~/Content/js/buttons.foundation.min.js"></script>
+        <script src="~/Content/js/buttons.html5.min.js"></script>
+        <script src="~/Content/js/buttons.jqueryui.min.js"></script>
+        <script src="~/Content/js/buttons.print.min.js"></script>
+        <script src="~/Content/js/dataTables.buttons.min.js"></script>
+        <script src="~/Content/js/tipped.js"></script>*@
+
+    <script src="~/Content/js/wisky.js"></script>
+    <script src="~/Content/js/wisky-landing.js"></script>
+    <script src="~/Content/js/wisky-advertising.js"></script>
+    <script src="~/Content/js/tutorial-tour.js"></script>
+    <script src="~/Scripts/delaySearch.js"></script>
+    <script src="~/Content/js/common.js"></script>
+    <!-- For View's scripts -->
+    @RenderSection("scripts", required: false)
+    <script>
+        $(document)
+         .ajaxStart(function () {
+             $('#loading-image').fadeIn(400);
+         })
+         .ajaxStop(function () {
+             $('#loading-image').fadeOut(400, function () {
+                 $(this).trigger('onFadeOutComplete');
+             });
+         });
+
+    </script>
+</body>
+</html>

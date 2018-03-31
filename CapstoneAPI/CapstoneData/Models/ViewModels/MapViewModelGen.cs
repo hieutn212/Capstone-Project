@@ -20,7 +20,7 @@ namespace CapstoneData.Models.ViewModels
     			public virtual int BuildingId { get; set; }
     			public virtual string MapUrl { get; set; }
     			public virtual int Floor { get; set; }
-    			public virtual Nullable<double> Altitide { get; set; }
+    			public virtual Nullable<double> Altitude { get; set; }
     	
     	public MapViewModel() : base() { }
     	public MapViewModel(CapstoneData.Models.Entities.Map entity) : base(entity) { }

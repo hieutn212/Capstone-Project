@@ -1,0 +1,242 @@
+﻿
+@{
+    ViewBag.Title = "DashBoard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .clearfix .chart h1 {
+        color: white !important;
+    }
+
+    .row .col-md-3 h4, .card .card-header h2 {
+        color: #6d777e;
+        font-weight: 200;
+    }
+
+    .hover-cursor {
+        cursor: pointer;
+    }
+
+    .tabs {
+        height: 45px;
+        padding: 0 0 0 0;
+        overflow: visible;
+    }
+
+    .tab {
+        width: 200px;
+        height: 45px;
+        overflow: hidden;
+        float: left;
+        margin: 0 -15px 0 0;
+    }
+
+
+    .tab-box {
+        height: 50px;
+        background: #fff;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        margin: 0 10px 0;
+        box-shadow: 0 0 2px #fff inset;
+        -webkit-transform: perspective(100px) rotateX(30deg);
+        -moz-transform: perspective(100px) rotateX(30deg);
+    }
+
+    .tab.active {
+        z-index: 40;
+        position: relative;
+        padding-bottom: 1px;
+    }
+
+    .content {
+        z-index: 1;
+        padding: 100px;
+        border: 1px solid #ccc;
+        background: #eee;
+        position: relative;
+    }
+
+    .tab.active .tab-box {
+        background-color: #eee;
+        box-shadow: 0 0 2px 0 #fff inset;
+    }
+
+    .clear {
+        clear: both;
+    }
+
+    .icon-color-blue {
+        color: #00bcd4;
+    }
+
+    .icon-color-green {
+        color: #4caf50;
+    }
+
+    .icon-color-yellow {
+        color: #ffc107;
+    }
+
+    .icon-width20 {
+        width: 20px;
+    }
+
+    li#LoginTab.active {
+        background-color: rgb(4, 121, 49);
+    }
+
+    li#OsInfoTab.active {
+        background-color: rgb(4, 121, 49);
+    }
+
+    li#PresenceInfoTab.active {
+        background-color: rgb(4, 121, 49);
+    }
+
+    div#LoginInfo.active {
+        background-color: rgb(4, 121, 49);
+    }
+
+    div#OsInfo.active {
+        background-color: rgb(4, 121, 49);
+    }
+
+    div#PresenceInfo.active {
+        background-color: rgb(4, 121, 49);
+    }
+
+    .tab-content {
+        padding: 0px;
+    }
+
+    .modified-tab-header {
+        background-color: #00aa41;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .icon-left-style1 {
+        float: right;
+        font-size: 80px;
+        padding-top: 10px;
+        line-height: 0.5;
+    }
+
+    .icon-left-style2 {
+        font-size: 60px;
+        float: right;
+        line-height: 0;
+    }
+
+    .totalUser {
+        font-size: 20px;
+        font-weight: bold;
+        padding-left: 5px;
+        color: #e08601;
+    }
+
+    .text-yellow {
+        color: #ffd558;
+    }
+
+    .text-blue {
+        color: #38b0bf;
+    }
+
+    .top-panel1 {
+        width: 30%;
+        background-color: #38b0bf;
+        margin: 17px;
+    }
+
+    .top-panel2 {
+        width: 30%;
+        background-color: #00aa41;
+        margin: 17px;
+    }
+
+    .top-panel3 {
+        width: 30%;
+        background-color: #ffd558;
+        margin: 17px;
+    }
+
+    .top-panel-icon {
+        float: right;
+        font-size: 60px;
+    }
+
+    .top-panel-detail {
+        font-weight: 100;
+        font-size: 20px;
+        color: white;
+    }
+</style>
+
+<div class="block-header">
+    <h2>@ViewBag.Title</h2>
+</div>
+
+
+<div class="card-body card-padding">
+    <div class="row">
+        <div class="col-md-4 col-xs-12 p-l-0 p-r-0 top-panel1">
+            <div>
+                <input type="hidden" id="browser-report-chart" value="Tổng sản phẩm" />
+                <div>
+                    <div>
+                        <h1><i class="md md-play-shopping-bag p-r-20 top-panel-icon" style="color:#16c1d6"></i></h1>
+                    </div>
+                    <div class="">
+                        <h2 class="m-b-10 p-l-30" style="color: white;font-weight:400">
+                            Tổng Sản Phẩm
+                        </h2>
+                        <h2 id="totalLocation" class="p-l-30 top-panel-detail">
+                            @ViewBag.TotalProduct
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" style="background-color:#247d88"><h4 style="font-weight:100; padding-left:65%"><a style="color:white" href="@Url.Action("Index","Product", new { area = "Admin" })" data-toggle="tooltip" title="">Chi tiết<i class="fa fa-arrow-circle-o-right"></i></a></h4></div>
+        </div>
+        <div class="col-md-4 col-xs-12 p-l-0 p-r-0 top-panel2">
+            <div class="">
+                <div class="">
+                    <div class="">
+                        <h1><i class="md md-my-library-books p-r-20 top-panel-icon" style="color:#09d858"></i></h1>
+                    </div>
+                    <div class="">
+                        <h2 class="m-b-10 p-l-30" style="color: white;font-weight:400">
+                            Số hóa đơn
+                        </h2>
+                        <h2 id="totalAccessPoint" class="p-l-30 top-panel-detail">
+                            @ViewBag.TotalOrder
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" style="background-color:#0a8439"><h4 style="font-weight:100;padding-left:65%"><a style="color:white" href="@Url.Action("Index", "Order")" data-toggle="tooltip" title="">Chi tiết<i class="fa fa-arrow-circle-o-right"></i></a></h4></div>
+        </div>
+
+        <div class="col-md-4 col-xs-12 p-l-0 p-r-0 top-panel3">
+            <div class="">
+                <div class="">
+                    <div class="">
+                        <h1><i class="md md-contacts p-r-20 top-panel-icon" style="color:rgb(250, 255, 35)"></i></h1>
+                    </div>
+                    <div class="">
+                        <h2 class="m-b-10 p-l-30" style="color: white;font-weight:400">
+                            Số lượng khách hàng
+                        </h2>
+                        <h2 id="totalAdv" class="p-l-30 top-panel-detail">
+                            @ViewBag.TotalCustomer
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" style="background-color:#ccaa45"><h4 style="font-weight:100;padding-left:65%"><a style="color:white" href="@Url.Action("Index", "Customer")" data-toggle="tooltip" title="customer">Chi tiết<i class="fa fa-arrow-circle-o-right"></i></a></h4></div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,3 @@
-F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\obj\Debug\CapstoneData.csprojResolveAssemblyReference.cache
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\obj\Debug\CapstoneData.csproj.CoreCompileInputs.cache
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\CapstoneData.dll.config
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\CapstoneData.dll
@@ -65,3 +64,4 @@ C:\Users\huynt\Desktop\Do_an\ProjectAPI\CapstoneAPI\CapstoneData\obj\Debug\Capst
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\Microsoft.AspNet.Identity.Core.dll
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\Microsoft.AspNet.Identity.Core.xml
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\Autofac.dll
+F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\obj\Debug\CapstoneData.csprojResolveAssemblyReference.cache

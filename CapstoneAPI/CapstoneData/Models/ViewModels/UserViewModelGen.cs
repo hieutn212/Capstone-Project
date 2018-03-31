@@ -22,6 +22,7 @@ namespace CapstoneData.Models.ViewModels
     			public virtual string Fullname { get; set; }
     			public virtual Nullable<System.DateTime> Birthday { get; set; }
     			public virtual bool Active { get; set; }
+    			public virtual Nullable<System.DateTime> ExpireDate { get; set; }
     	
     	public UserViewModel() : base() { }
     	public UserViewModel(CapstoneData.Models.Entities.User entity) : base(entity) { }

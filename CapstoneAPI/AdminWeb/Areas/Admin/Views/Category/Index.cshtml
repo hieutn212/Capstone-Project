@@ -1,0 +1,358 @@
+﻿@using CocShopData.Utility;
+@{
+    ViewBag.Title = "Quản lý Danh mục";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    table tbody tr:hover {
+        cursor: pointer;
+    }
+
+        table tbody tr:hover td {
+            color: #3c8dbc;
+        }
+
+    .general-info, .setting {
+        background-color: #ffffff;
+        padding-top: 20px;
+        border-radius: 5px;
+    }
+
+        .setting .form-group input {
+            margin-left: 3%;
+            width: 94%;
+        }
+
+    .toggle-handle {
+        border-radius: 0;
+        /*height: 30px;*/
+    }
+
+    .toggle-off.btn {
+        padding-left: 30px;
+    }
+
+    .input-group-addon:hover {
+        cursor: pointer;
+        background: #367fa9;
+        color: white;
+    }
+
+    .fixedHeader {
+        position: fixed;
+    }
+
+    .modal-dialog {
+        transform: none !important;
+    }
+
+    .modal-content {
+        margin-top: 70px;
+    }
+
+    th, td {
+        vertical-align: middle;
+    }
+
+    table.dataTable thead .sorting,
+    table.dataTable thead .sorting_asc,
+    table.dataTable thead .sorting_desc {
+        background: none;
+    }
+
+    #LandingPageDatatable > tbody > tr > td {
+        vertical-align: middle;
+    }
+</style>
+
+@section Header
+{
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","Accounts")"><i class="left-icon fa fa-linux"></i>DashBoard</a></li>
+        <li class="active">Quản lý Danh mục</li>
+    </ol>
+}
+
+<div class="block-header">
+    <h2>Danh sách sản phẩm</h2>
+    <ul class="actions">
+        <li>
+            <button id="btnCreateLandingPage" type="button" class="btn btn-primary pull-right" onclick="createModal()">
+                <i class="left-icon fa fa-plus"></i>Tạo mới
+            </button>
+        </li>
+    </ul>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body card-padding">
+                <table id="categoryDatatable" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                <label class="">STT</label>
+                            </th>
+                            <th>
+                                <label class="">Tên danh mục</label>
+                            </th>
+                            <th>
+                                <label class="">Thao tác</label>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="createModal" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3>Tạo Danh mục</h3>
+            </div>
+            <form id="createCategoryForm" method="post">
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="productName" class="col-sm-4 control-label">Tên Danh mục:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control col-md-6" id="categoryName">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="createCategory">Tạo</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="editModal" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3>Chỉnh sửa danh mục</h3>
+            </div>
+            <form id="editCategoryForm" method="post">
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="productName" class="col-sm-4 control-label">Tên Danh mục:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control col-md-6" id="editCategoryName">
+                                <input type="hidden" class="form-control col-md-6" id="editCategoryId">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="createCategory">Xác nhận</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Content/js/Campaign.js"></script>
+    <script>
+        $(document).ready(function () {
+            InitDatatable();
+
+            $(document).on('onFadeOutComplete', '#loading-image', function () {
+                StartOverallTour();
+            });
+        });
+
+        function RefreshTable() {
+            var oTable = $("#categoryDatatable").dataTable();
+            oTable._fnPageChange(0);
+            oTable._fnAjaxUpdate();
+        }
+
+        function InitDatatable() {
+            $("#categoryDatatable").dataTable({
+                "bFilter": true,
+                "bRetrieve": true,
+                "bServerSide": true,
+                "bScrollCollapse": true,
+                "sAjaxSource": "@Url.Action("CategoryDatatable", "Category")",
+                "bProcessing": true,
+                "fnServerParams": function (aoData) {
+                    aoData.push({ "name": "id", "value": 10 });
+                },
+                "oLanguage": {
+                    "sSearch": "Tìm kiếm: ",
+                    "sZeroRecords": "Không có danh mục nào",
+                    "sInfo": "Hiển thị từ _START_ đến _END_ trong tổng số _TOTAL_",
+                    "sEmptyTable": "Không có dữ liệu",
+                    "sInfoFiltered": " ",
+                    "sLengthMenu": "Hiển thị _MENU_ dòng",
+                    "sProcessing": "Đang xử lý...",
+                    "oPaginate": {
+                        "sNext": "<i class='fa fa-chevron-right'></i>",
+                        "sPrevious": "<i class='fa fa-chevron-left'></i>"
+                    }
+                },
+                "aoColumnDefs": [
+                    {
+                        "aTargets": [0, 1],
+                        "bSortable": true,
+                    },
+                    {
+                        "aTargets": [2],
+                        "mRender": function (data, type, row) {
+                            debugger
+                            var data = row[2];
+                            return "<a class='btn btn-sm btn-primary' data-toggle='tooltip' title='Chỉnh sửa' onclick='editModal(" + data + ")'><i class='glyphicon glyphicon-pencil'></i></a>"
+                                 + " <a class='btn btn-sm btn-danger' data-toggle='tooltip' title='Xóa' onclick='deleteCategory(" + data + ")'><i class='fa fa-trash'></i></a>";
+
+                            //    + " <a id='btnDemoLandingPage' class='btn btn-sm btn-primary' target='_blank' href='/BrandManager/LandingPages/ViewDemo?id=" + data + "'>View demo</i></a>";
+                        },
+                        "bSortable": false
+                    },
+                ],
+                "bAutoWidth": false,
+
+            }).fnSetFilteringDelay(1000);
+        }
+
+        function createModal() {
+            $('#createModal').modal('show');
+            $('#categoryName').val("");
+        }
+
+        $('#createCategoryForm').submit(function (e) {
+            e.preventDefault();
+            var name = $('#categoryName').val();
+            var check = true;
+            if (name.length == 0) {
+                check = false;
+                PnotifyFail("Thêm tên danh mục");
+            }
+            if (check) {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("CreateCategory", "Category")',
+                    data: {
+                        name: name,
+                    },
+                    dataType: "JSON",
+                    success: function (result) {
+                        if (result.success) {
+                            PnotifySuccess("Thêm danh mục thành công");
+                            RefreshTable();
+                            $('#createModal').modal('hide');
+                        } else {
+                            PnotifyFail("Thêm danh mục lỗi");
+                        }
+                    },
+                    error: function (error) {
+                        PnotifyFail("Thêm danh mục bị lỗi");
+                    }
+                });
+            }
+        });
+
+        //delete category
+        function deleteCategory(categoryId) {
+            swal({
+                title: 'Cảnh báo',
+                text: "Bạn có chắc chắn muốn xóa không?",
+                type: 'warning',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Không',
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                closeOnConfirm: true
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Delete", "Category")',
+                    data: { categoryId: categoryId },
+                    success: function (result) {
+                        if (result.success) {
+                            PnotifySuccess("Xóa thành công!!!")
+                            RefreshTable();
+                        } else {
+                            PnotifyFail("Xóa thất bại");
+                        }
+                    },
+                    error: function (error) {
+                        PnotifyFail("Có lỗi xảy ra!!!");
+                    }
+                });
+            });
+        }
+
+        $('#editCategoryForm').submit(function (e) {
+            e.preventDefault();
+            var name = $('#editCategoryName').val();
+            var id = $('#editCategoryId').val();
+
+            var check = true;
+            if (name.length == 0) {
+                check = false;
+                PnotifyFail("Thêm tên danh mục");
+            }
+            if (check) {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("EditCategory", "Category")',
+                    data: {
+                        name: name,
+                        id : id,
+                    },
+                    dataType: "JSON",
+                    success: function (result) {
+                        if (result.success) {
+                            PnotifySuccess("Sửa danh mục thành công");
+                            RefreshTable();
+                            $('#editModal').modal('hide');
+                        } else {
+                            PnotifyFail("Sửa danh mục lỗi");
+                        }
+                    },
+                    error: function (error) {
+                        PnotifyFail("Sửa danh mục bị lỗi");
+                    }
+                });
+            }
+        });
+
+        //edit
+        function editModal(categoryId) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetDetail", "Category")',
+                data: { categoryId: categoryId },
+                success: function (result) {
+                    $('#editModal').modal('show');
+                    $('#editCategoryName').val(result.name);
+                    $('#editCategoryId').val(result.id);
+                },
+                error: function (error) {
+                    PnotifyFail("Có lỗi xảy ra!!!");
+                }
+            });
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+}

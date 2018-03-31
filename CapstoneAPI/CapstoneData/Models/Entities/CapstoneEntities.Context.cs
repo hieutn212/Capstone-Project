@@ -30,6 +30,7 @@ namespace CapstoneData.Models.Entities
         public virtual DbSet<Corner> Corners { get; set; }
         public virtual DbSet<Device> Devices { get; set; }
         public virtual DbSet<District> Districts { get; set; }
+        public virtual DbSet<History> Histories { get; set; }
         public virtual DbSet<Map> Maps { get; set; }
         public virtual DbSet<Marker> Markers { get; set; }
         public virtual DbSet<Product_position> Product_position { get; set; }

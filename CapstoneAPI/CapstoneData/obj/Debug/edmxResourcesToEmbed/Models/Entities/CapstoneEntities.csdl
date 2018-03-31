@@ -14,6 +14,7 @@
     <EntitySet Name="Corners" EntityType="CapstoneModel.Corner" />
     <EntitySet Name="Devices" EntityType="CapstoneModel.Device" />
     <EntitySet Name="Districts" EntityType="CapstoneModel.District" />
+    <EntitySet Name="Histories" EntityType="CapstoneModel.History" />
     <EntitySet Name="Maps" EntityType="CapstoneModel.Map" />
     <EntitySet Name="Markers" EntityType="CapstoneModel.Marker" />
     <EntitySet Name="Product_position" EntityType="CapstoneModel.Product_position" />
@@ -43,6 +44,10 @@
     <AssociationSet Name="FK_District_Province" Association="CapstoneModel.FK_District_Province">
       <End Role="Province" EntitySet="Provinces" />
       <End Role="District" EntitySet="Districts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_History_User" Association="CapstoneModel.FK_History_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="History" EntitySet="Histories" />
     </AssociationSet>
     <AssociationSet Name="FK_Marker_Map" Association="CapstoneModel.FK_Marker_Map">
       <End Role="Map" EntitySet="Maps" />
@@ -79,7 +84,7 @@
     <Property Name="MapId" Type="Int32" Nullable="false" />
     <Property Name="Floor" Type="Int32" Nullable="false" />
     <Property Name="Position" Type="Int32" Nullable="false" />
-    <Property Name="Desciption" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Map" Relationship="CapstoneModel.FK_Corner_Map" FromRole="Corner" ToRole="Map" />
   </EntityType>
   <EntityType Name="Device">
@@ -103,6 +108,17 @@
     <NavigationProperty Name="Buildings" Relationship="CapstoneModel.FK_Building_District" FromRole="District" ToRole="Building" />
     <NavigationProperty Name="Province" Relationship="CapstoneModel.FK_District_Province" FromRole="District" ToRole="Province" />
   </EntityType>
+  <EntityType Name="History">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="BuyDate" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Double" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="CapstoneModel.FK_History_User" FromRole="History" ToRole="User" />
+  </EntityType>
   <EntityType Name="Map">
     <Key>
       <PropertyRef Name="Id" />
@@ -112,7 +128,7 @@
     <Property Name="BuildingId" Type="Int32" Nullable="false" />
     <Property Name="MapUrl" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Floor" Type="Int32" Nullable="false" />
-    <Property Name="Altitide" Type="Double" />
+    <Property Name="Altitude" Type="Double" />
     <NavigationProperty Name="Building" Relationship="CapstoneModel.FK_Map_Building" FromRole="Map" ToRole="Building" />
     <NavigationProperty Name="Corners" Relationship="CapstoneModel.FK_Corner_Map" FromRole="Map" ToRole="Corner" />
     <NavigationProperty Name="Markers" Relationship="CapstoneModel.FK_Marker_Map" FromRole="Map" ToRole="Marker" />
@@ -185,7 +201,9 @@
     <Property Name="Fullname" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Birthday" Type="DateTime" Precision="3" />
     <Property Name="Active" Type="Boolean" Nullable="false" />
+    <Property Name="ExpireDate" Type="DateTime" Precision="3" />
     <NavigationProperty Name="Devices" Relationship="CapstoneModel.FK_Device_User" FromRole="User" ToRole="Device" />
+    <NavigationProperty Name="Histories" Relationship="CapstoneModel.FK_History_User" FromRole="User" ToRole="History" />
     <NavigationProperty Name="Role" Relationship="CapstoneModel.FK_User_Role" FromRole="User" ToRole="Role" />
   </EntityType>
   <Association Name="FK_Building_District">
@@ -257,6 +275,18 @@
       </Principal>
       <Dependent Role="District">
         <PropertyRef Name="ProvinceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_History_User">
+    <End Type="CapstoneModel.User" Role="User" Multiplicity="1" />
+    <End Type="CapstoneModel.History" Role="History" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="History">
+        <PropertyRef Name="UserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
