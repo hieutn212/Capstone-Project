@@ -40,7 +40,9 @@
     <link href="~/Content/css/theme.css" rel="stylesheet" />
     <link href="~/Content/css/wisky.css" rel="stylesheet" />
     @{
-        string username = HttpContext.Current.User.Identity.Name;
+        //string username = HttpContext.Current.User.Identity.Name;
+        //string username = System.Web.HttpContext.Current.Request.LogonUserIdentity.Name;
+        string username = Session["Username"].ToString();
         bool isAuthenticated = HttpContext.Current.User.Identity.IsAuthenticated;
     }
     <script src="~/Content/template-material/vendors/bower_components/jquery/dist/jquery.min.js"></script>
@@ -82,7 +84,7 @@
                             <img src="~/Content/template-material/img/profile-pics/1.jpg" alt="">
                         </div>
                         <div class="profile-info">
-                            Xin chào, <strong style="font-size: 15px">@User.Identity.Name</strong>
+                            Xin chào, <strong style="font-size: 15px">@username</strong>
                             <i class="md md-arrow-drop-down"></i>
                         </div>
                     </a>
