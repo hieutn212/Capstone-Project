@@ -1,5 +1,4 @@
-﻿@using CocShopData.Utility;
-@{
+﻿@{
     ViewBag.Title = "Lịch sử giao dịch";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -128,19 +127,19 @@
                                 <label class="">STT</label>
                             </th>
                             <th>
-                                <label class="">Mã khách hàng</label>
+                                <label class="">IMEI</label>
                             </th>
                             <th>
-                                <label class="">Tên khách hàng</label>
+                                <label class="">Latitude</label>
                             </th>
                             <th>
-                                <label class="">Điểm nạp</label>
+                                <label class="">Longitude</label>
                             </th>
                             <th>
-                                <label class="">Mã khách hàng</label>
+                                <label class="">Altitude</label>
                             </th>
                             <th>
-                                <label class="">Mã khách hàng</label>
+                                <label class="">Ngày tạo</label>
                             </th>
                         </tr>
                     </thead>
@@ -230,13 +229,13 @@
                 "bRetrieve": true,
                 "bServerSide": true,
                 "bScrollCollapse": true,
-                "sAjaxSource": "@Url.Action("HistoryDatatable", "History")",
+                "sAjaxSource": "@Url.Action("PositionDatatable", "History")",
                 "bProcessing": true,
                 "bFilter": true,
                 "fnServerParams": function (aoData) {
                     debugger
                     aoData.push(
-                        { "name": "username", "value": "@ViewData["Username"]" },
+                        { "name": "IMEI", "value": "866657039597703" },
                         { "name": "startDate", "value": $('#reportrange').data('daterangepicker').startDate.toISOString()},
                         { "name": "endDate", "value": $('#reportrange').data('daterangepicker').endDate.toISOString()}
                     );

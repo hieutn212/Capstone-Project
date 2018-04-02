@@ -1,8 +1,4 @@
-﻿//using CocShopData.Models.Entities;
-//using CocShopData.Models.Entities.Service;
-//using CocShopData.Models.ViewModels;
-//using CocShopData.Utility;
-using SkyWeb.DatVM.Mvc.Autofac;
+﻿using SkyWeb.DatVM.Mvc.Autofac;
 using System;
 using System.Collections.Generic;
 using System.Linq;
