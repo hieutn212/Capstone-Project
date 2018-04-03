@@ -124,55 +124,6 @@ namespace CapstoneAPI.Controllers
                 };
             }
         }
-
-        public HttpResponseMessage CalculatePosition(int floor, int mapId, double latitude, double longitude)
-        {
-            IRoomService roomService = this.Service<IRoomService>();
-            List<Room> rooms = roomService.GetListRoom(mapId,floor);
-
-            if (rooms != null || rooms.Count > 0)
-            {
-                foreach (Room room in rooms)
-                {
-                    double cal = Utils.HaversineInM(latitude, longitude, room.Latitude??0, room.Longitude??0);
-                    if(cal <= 2)
-                    {
-                        Room response = new Room()
-                        {
-                            Id = room.Id,
-                            MapId = room.MapId,
-                            Floor = room.Floor,
-                            Latitude = room.Latitude,
-                            Length = room.Length,
-                            Longitude = room.Longitude,
-                            Name = room.Name,
-                            PosAX = room.PosAX,
-                            PosAY = room.PosAY,
-                            PosBX = room.PosBX,
-                            PosBY = room.PosBY,
-                            Width = room.Width,
-                        };
-                        return new HttpResponseMessage()
-                        {
-                            StatusCode = System.Net.HttpStatusCode.OK,
-                            Content = new JsonContent(response)
-                        };
-                    }
-                }
-                return new HttpResponseMessage()
-                {
-                    StatusCode = System.Net.HttpStatusCode.NotFound,
-                    Content = new JsonContent("Not Found")
-                };
-            }
-            else
-            {
-                return new HttpResponseMessage()
-                {
-                    StatusCode = System.Net.HttpStatusCode.NotFound,
-                    Content = new JsonContent("The map does not exist")
-                };
-            }
-        }
+        
     }
 }

@@ -12,12 +12,12 @@ namespace CapstoneAPI.Controllers
 {
     public class RoomController : BaseApiController
     {
-        public HttpResponseMessage GetListRoom(int mapId, int floor)
+        public HttpResponseMessage GetListRoom(int buildingId)
         {
             try
             {
                 IRoomService roomService = this.Service<IRoomService>();
-                List<Room> rooms = roomService.GetListRoom(mapId, floor);
+                List<Room> rooms = roomService.GetListRoom(buildingId);
                 rooms = rooms.Select(q => new Room()
                 {
                     Id = q.Id,

@@ -8,15 +8,15 @@ namespace CapstoneData.Models.Entities.Services
 {
     public partial interface IRoomService
     {
-        List<Room> GetListRoom(int mapId, int floor);
+        List<Room> GetListRoom(int buildingId);
         List<Room> searchRoom(string name);
     }
 
     public partial class RoomService
     {
-        public List<Room> GetListRoom(int mapId, int floor)
+        public List<Room> GetListRoom(int buildingId)
         {
-            return this.GetActive(q => q.MapId == mapId && q.Floor == floor).ToList();
+            return this.GetActive(q => q.Map.BuildingId == buildingId).ToList();
         }
         public List<Room> searchRoom(string name)
         {
