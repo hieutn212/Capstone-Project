@@ -13,6 +13,8 @@ namespace CapstoneData.Models.Entities.Services
         Product_position CheckProduct(float latitude, float longitude, float altitude, string deviceId);
 
         Task CreateProduct(Product_position model);
+
+        IQueryable<Product_position> getListById(string IMEI, DateTime startDate, DateTime endDate);
     }
 
     public partial class Product_positionService
@@ -30,5 +32,10 @@ namespace CapstoneData.Models.Entities.Services
         {
             await this.CreateAsync(model);
         }
+        public IQueryable<Product_position> getListById(string IMEI, DateTime startDate, DateTime endDate)
+        {
+            return this.GetActive(q => (q.DeviceId.ToUpper().Equals(IMEI.ToUpper())) && q.CreatedDate >= startDate && q.CreatedDate <= endDate).OrderByDescending(a => a.CreatedDate);
+        }
+
     }
 }
