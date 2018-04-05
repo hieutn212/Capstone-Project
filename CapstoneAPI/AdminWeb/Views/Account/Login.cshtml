@@ -1,4 +1,4 @@
-﻿@model Wisky.Models.LoginViewModel
+﻿//@model Wisky.Models.LoginViewModel
 @{
     Layout = null;
 }
@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CocShop</title>
+    <title>Login</title>
 
     <!-- Vendor CSS -->
     <link href="~/Content/template-material/vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
@@ -29,6 +29,7 @@
 
         @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @id = "frm_login", @class = "animated fadeIn", role = "form" }))
             {
+             
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true)
             <div class="input-group m-b-20">
@@ -81,6 +82,7 @@
                     <input type="submit" value="Log in" class="btn btn-success btn-cons" />
                 </div>
 
+            
         }
     </div>
 

@@ -145,7 +145,8 @@ namespace Wisky.Controllers
 
                 //    return this.Redirect(returnUrl);
                 //}
-                Session["Username"] = user.Fullname;
+                Session["Userfullname"] = user.Fullname;
+                Session["Username"] = user.Username;
                 return this.Redirect(returnUrl);
             }
             return this.View(model);

@@ -40,9 +40,17 @@
     <link href="~/Content/css/theme.css" rel="stylesheet" />
     <link href="~/Content/css/wisky.css" rel="stylesheet" />
     @{
-        //string username = HttpContext.Current.User.Identity.Name;
-        //string username = System.Web.HttpContext.Current.Request.LogonUserIdentity.Name;
-        string username = Session["Username"].ToString();
+        string username = HttpContext.Current.User.Identity.Name;
+        //string username = System.Web.HttpContext.Current.Request.LogonUserIdentity.Name;'
+
+        try
+        {          
+            username = Session["Userfullname"].ToString();
+        }
+        catch (Exception)
+        {
+
+        }
         bool isAuthenticated = HttpContext.Current.User.Identity.IsAuthenticated;
     }
     <script src="~/Content/template-material/vendors/bower_components/jquery/dist/jquery.min.js"></script>
@@ -61,7 +69,7 @@
             </li>
             <li class="hidden-md hidden-sm hidden-xs">
                 <a href="@Url.Action("Index","Home",new {area ="BrandManager"})">
-                    <span class="navbar-brand pull-right text-uppercase" style="color: white">Coc Shop Admin</span>
+                    <span class="navbar-brand pull-right text-uppercase" style="color: white">LOAB Admin</span>
                 </a>
             </li>
         </ul>
@@ -138,30 +146,30 @@
                     <li class="">
                         <a href="@Url.Action("Index", "Customer", new { area = "Admin"})">
                             <i class="fa fa-users"></i>
-                            <span class="title">Quản lý tài khoản khách hàng</span>
+                            <span class="title">Quản lý thiết bị</span>
                         </a>
                     </li>
 
                     <li class="">
-                        <a href="@Url.Action("Index","Product", new { area = "Admin" })">
+                        <a href="@Url.Action("Index","ManageAccount", new { area = "Admin" })">
                             <i class="fa fa-product-hunt"></i>
-                            <span class="title">Quản lý sản phẩm</span>
+                            <span class="title">Thông tin tài khoản</span>
                         </a>
                     </li>
 
                     <li class="">
                         <a href="@Url.Action("Index", "Order", new { area = "Admin"})">
                             <i class="fa fa-product-hunt"></i>
-                            <span class="title">Quản lý hóa đơn</span>
+                            <span class="title">Lịch sử giao dịch </span>
                         </a>
                     </li>
 
-                    <li class="">
+                    @*<li class="">
                         <a href="@Url.Action("Index", "Category", new { area = "Admin"})">
                             <i class="fa fa-product-hunt"></i>
-                            <span class="title">Quản lý danh mục</span>
+                            <span class="title"> </span>
                         </a>
-                    </li>
+                    </li>*@
                     @* } *@
                 </ul>
             </div>
