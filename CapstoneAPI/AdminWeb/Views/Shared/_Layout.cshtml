@@ -40,18 +40,19 @@
     <link href="~/Content/css/theme.css" rel="stylesheet" />
     <link href="~/Content/css/wisky.css" rel="stylesheet" />
     @{
-        string username = HttpContext.Current.User.Identity.Name;
+        string userfullname = HttpContext.Current.User.Identity.Name;
         //string username = System.Web.HttpContext.Current.Request.LogonUserIdentity.Name;'
 
         try
         {          
-            username = Session["Userfullname"].ToString();
+            userfullname = Session["Userfullname"].ToString();
         }
         catch (Exception)
         {
-
+            
         }
         bool isAuthenticated = HttpContext.Current.User.Identity.IsAuthenticated;
+
     }
     <script src="~/Content/template-material/vendors/bower_components/jquery/dist/jquery.min.js"></script>
 
@@ -92,7 +93,7 @@
                             <img src="~/Content/template-material/img/profile-pics/1.jpg" alt="">
                         </div>
                         <div class="profile-info">
-                            Xin chào, <strong style="font-size: 15px">@username</strong>
+                            Xin chào, <strong style="font-size: 15px">@userfullname</strong>
                             <i class="md md-arrow-drop-down"></i>
                         </div>
                     </a>
@@ -145,21 +146,21 @@
 
                     <li class="">
                         <a href="@Url.Action("Index", "Customer", new { area = "Admin"})">
-                            <i class="fa fa-users"></i>
+                            <i class="fa fa-mobile-phone"></i>
                             <span class="title">Quản lý thiết bị</span>
                         </a>
                     </li>
 
                     <li class="">
                         <a href="@Url.Action("Index","ManageAccount", new { area = "Admin" })">
-                            <i class="fa fa-product-hunt"></i>
-                            <span class="title">Thông tin tài khoản</span>
+                            <i class="fa fa-money"></i>
+                            <span class="title">Gia hạn tài khoản</span>
                         </a>
                     </li>
 
                     <li class="">
                         <a href="@Url.Action("Index", "Order", new { area = "Admin"})">
-                            <i class="fa fa-product-hunt"></i>
+                            <i class="fa fa-calculator"></i>
                             <span class="title">Lịch sử giao dịch </span>
                         </a>
                     </li>
@@ -186,7 +187,7 @@
     </section>
     <footer id="footer">
         <ul class="f-menu">
-            <li><a href="#">Team SWD</a></li>
+            @*<li><a href="#">Team SWD</a></li>*@
         </ul>
     </footer>
     <!-- Javascript Libraries -->
