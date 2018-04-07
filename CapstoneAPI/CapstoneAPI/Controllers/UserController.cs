@@ -20,21 +20,33 @@ namespace CapstoneAPI.Controllers
 
                 if (user != null)
                 {
-                    User model = new User()
+                    int checkDate = DateTime.Now.CompareTo(user.ExpireDate);
+                    if (checkDate >= 0)
                     {
-                        Id = user.Id,
-                        Username = user.Username,
-                        Password = user.Password,
-                        Birthday = user.Birthday,
-                        Fullname = user.Fullname,
-                        RoleId = user.RoleId,
-                        Active = user.Active,
-                    };
-                    return new HttpResponseMessage()
+                        User model = new User()
+                        {
+                            Id = user.Id,
+                            Username = user.Username,
+                            Password = user.Password,
+                            Birthday = user.Birthday,
+                            Fullname = user.Fullname,
+                            RoleId = user.RoleId,
+                            Active = user.Active,
+                        };
+                        return new HttpResponseMessage()
+                        {
+                            StatusCode = System.Net.HttpStatusCode.OK,
+                            Content = new JsonContent(model)
+                        };
+                    } else
                     {
-                        StatusCode = System.Net.HttpStatusCode.OK,
-                        Content = new JsonContent(model)
-                    };
+                        return new HttpResponseMessage()
+                        {
+                            StatusCode = System.Net.HttpStatusCode.ExpectationFailed,
+                            Content = new JsonContent("Expired ")
+                        };
+                    }
+                    
                 }
 
                 return new HttpResponseMessage()
