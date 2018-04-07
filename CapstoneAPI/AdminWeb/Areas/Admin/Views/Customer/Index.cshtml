@@ -199,6 +199,20 @@
                         "bSortable": true,
                     },
                     {
+                        "aTargets": [3],
+                        "mRender": function (data, type, row) {
+                            var data = row[3];
+                            var button = "";
+                            if (data) {
+                                button = "<p class='btn btn-sm btn-primary')\/" + "\'>Đang hoạt động</p>";
+                            } else {
+                                button = "<p class='btn btn-sm btn-primary')\/" + "\'>Tạm dừng</p>";
+                            }
+                            return button;
+                        },
+                        "bSortable": false
+                    },
+                    {
                         "aTargets": [4],
                         "mRender": function (data, type, row) {
                             var data = row[1];

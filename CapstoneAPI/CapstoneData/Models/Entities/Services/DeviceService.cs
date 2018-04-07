@@ -40,7 +40,7 @@ namespace CapstoneData.Models.Entities.Services
                 ).ToList();
             return result;
         }
-
+       
     }
     public class DeviceViewModel {
         public string Id { get; set; }
