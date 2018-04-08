@@ -1,4 +1,6 @@
 ﻿
+using CapstoneData.Models.Entities;
+using CapstoneData.Models.Entities.Services;
 using SkyWeb.DatVM.Mvc.Autofac;
 using System;
 using System.Collections.Generic;
@@ -18,57 +20,56 @@ namespace Wisky.Areas.Admin.Controllers
             return View();
         }
 
-        //public JsonResult WaitingOrderDatatable(JQueryDataTableParamModel param, DateTime startDate, DateTime endDate)
-        //{
-        //    try
-        //    {
-        //        var orderService = this.Service<IOrderService>();
-        //        var listOrders = orderService.GetAllWaitingOrderWithDateRange(startDate, endDate);
-        //        if (listOrders == null)
-        //        {
-        //            return Json(new
-        //            {
-        //                sEcho = param.sEcho,
-        //                iTotalRecords = 0,
-        //                iTotalDisplayRecords = 0,
-        //                aaData = new List<Order>()
-        //            }, JsonRequestBehavior.AllowGet);
-        //        }
-        //        var OrderList = listOrders.AsEnumerable()
-        //            .Where(a => (string.IsNullOrEmpty(param.sSearch) || StringConvert.EscapeName(a.OrderId + "").ToLower()
-        //                             .Contains(StringConvert.EscapeName(param.sSearch).ToLower())));
-        //        int count = 1;
-        //        var rp = OrderList
-        //            .Skip(param.iDisplayStart).Take(param.iDisplayLength)
-        //            .Select(p => new IConvertible[]
-        //            {
-        //            count++,
-        //            p.OrderId,
-        //            p.AspNetUser.UserName,
-        //            p.Note,
-        //            p.TotalPrice,
-        //            p.CreateDate.ToShortDateString() + " " + p.CreateDate.ToShortTimeString(),
-        //            });
-        //        var total = listOrders.Count();
-        //        return Json(new
-        //        {
-        //            sEcho = param.sEcho,
-        //            iTotalRecords = total,
-        //            iTotalDisplayRecords = total,
-        //            aaData = rp
-        //        }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return Json(new
-        //        {
-        //            sEcho = param.sEcho,
-        //            iTotalRecords = 0,
-        //            iTotalDisplayRecords = 0,
-        //            aaData = new List<Product>()
-        //        }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+        public JsonResult HistoryDatatable(JQueryDataTableParamModel param, int userId, DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                var historyService = this.Service<IHistoryService>();
+                var listHistorys = historyService.getListByUserId(userId, startDate, endDate);
+                if (listHistorys == null)
+                {
+                    return Json(new
+                    {
+                        sEcho = param.sEcho,
+                        iTotalRecords = 0,
+                        iTotalDisplayRecords = 0,
+                        aaData = new List<History>()
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                var historyList = listHistorys.AsEnumerable()
+                    .Where(a => (string.IsNullOrEmpty(param.sSearch) || StringConvert.EscapeName(a.Price + "").ToLower()
+                                     .Contains(StringConvert.EscapeName(param.sSearch).ToLower())));
+                int count = 1;
+                var rp = historyList
+                    .Skip(param.iDisplayStart).Take(param.iDisplayLength)
+                    .Select(p => new IConvertible[]
+                    {
+                    count++,
+                    p.User.Username,
+                    p.CreatedDate.ToShortDateString() + " " + p.CreatedDate.ToShortTimeString(),
+                    p.BuyDate,
+                    p.Price,
+                    });
+                var total = listHistorys.Count();
+                return Json(new
+                {
+                    sEcho = param.sEcho,
+                    iTotalRecords = total,
+                    iTotalDisplayRecords = total,
+                    aaData = rp
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    sEcho = param.sEcho,
+                    iTotalRecords = 0,
+                    iTotalDisplayRecords = 0,
+                    aaData = new List<History>()
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         //public JsonResult AcceptOrderDatatable(JQueryDataTableParamModel param, DateTime startDate, DateTime endDate)
         //{

@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Quản lý Hóa đơn";
+    ViewBag.Title = "Lịch sử giao dịch";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -8,7 +8,7 @@
 {
     <ol class="breadcrumb">
         <li><a href="~/"><i class="left-icon fa fa-linux"></i>DashBoard</a></li>
-        <li class="active">Quản lý hóa đơn</li>
+        <li class="active">Lịch sử giao dịch</li>
     </ol>
 }
 
@@ -18,7 +18,7 @@
 
         <!-- Header -->
         <div class="block-header title-format">
-            <h2>Quản lý hóa đơn</h2>
+            <h2>Lịch sử giao dịch</h2>
         </div>
 
 
@@ -35,39 +35,33 @@
 </div>
 
 @* Tab Header *@
-<ul id="tabs" class="tab-nav tn-justified">
+@*<ul id="tabs" class="tab-nav tn-justified">
     <li id="waitingTab" class="active waves-effect"><a data-toggle="tab" href="#waitingOrder">Hóa đơn chưa duyệt</a></li>
     <li id="acceptTab" class="waves-effect"><a data-toggle="tab" href="#acceptOrder">Hóa đơn đã duyệt</a></li>
     <li id="cancelTab" class="waves-effect"><a data-toggle="tab" href="#cancelOrder">Hóa đơn đã hủy</a></li>
-</ul>
+</ul>*@
 
 @* Tab Content *@
 <div class="tab-content">
     <div id="waitingOrder" class="tab-pane fade in active">
         <div class="card" style="padding:10px">
-            <table id="waitingDatatable" class="table-striped table-bordered table-hover">
+            <table id="historyDatatable" class="table-striped table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>
                             <label class="">STT</label>
                         </th>
                         <th>
-                            <label class="">Mã hóa đơn</label>
+                            <label class="">Tên người dùng</label>
                         </th>
                         <th>
-                            <label class="">Tên khách hàng</label>
+                            <label class="">Ngày mua</label>
                         </th>
                         <th>
-                            <label class="">Ghi chú</label>
+                            <label class="">Số lượng</label>
                         </th>
                         <th>
-                            <label class="">Tổng tiền</label>
-                        </th>
-                        <th>
-                            <label class="">Ngày tạo</label>
-                        </th>
-                        <th>
-                            <label class="">Thao tác</label>
+                            <label class="">Giá tiền</label>
                         </th>
                     </tr>
                 </thead>
@@ -77,85 +71,7 @@
 
         <div class="row pull-right">
             <div class="col-md-12">
-                <button class="btn btn-primary" onclick="RefreshWaitingTable()">Refresh Table</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="acceptOrder" class="tab-pane fade">
-        <div class="card" style="padding:10px">
-            <table id="acceptDatatable" class="table-striped table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            <label class="">STT</label>
-                        </th>
-                        <th>
-                            <label class="">Mã hóa đơn</label>
-                        </th>
-                        <th>
-                            <label class="">Tên khách hàng</label>
-                        </th>
-                        <th>
-                            <label class="">Ghi chú</label>
-                        </th>
-                        <th>
-                            <label class="">Tổng tiền</label>
-                        </th>
-                        <th>
-                            <label class="">Ngày xác nhận</label>
-                        </th>
-                        <th>
-                            <label class="">Thao tác</label>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-
-        <div class="row pull-right">
-            <div class="col-md-12">
-                <button class="btn btn-primary" onclick="RefreshAcceptTable()">Refresh Table</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="cancelOrder" class="tab-pane fade">
-        <div class="tab-pane fade in active" style="padding:10px">
-            <table id="cancelDatatable" class="table-striped table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            <label class="">STT</label>
-                        </th>
-                        <th>
-                            <label class="">Mã hóa đơn</label>
-                        </th>
-                        <th>
-                            <label class="">Tên khách hàng</label>
-                        </th>
-                        <th>
-                            <label class="">Ghi chú</label>
-                        </th>
-                        <th>
-                            <label class="">Tổng tiền</label>
-                        </th>
-                        <th>
-                            <label class="">Ngày tạo</label>
-                        </th>
-                        <th>
-                            <label class="">Thao tác</label>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-
-        <div class="row pull-right">
-            <div class="col-md-12">
-                <button class="btn btn-primary" onclick="RefreshCancelledTable()">Refresh Table</button>
+                <button class="btn btn-primary" onclick="RefreshHistoryTable()">Refresh Table</button>
             </div>
         </div>
     </div>
@@ -167,26 +83,26 @@
         $(document).ready(function () {
             setupDaterangepicker();
 
-            InitWaitingDatatable();
-            $("#waitingDatatable").dataTable();
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                var target = $(e.target).attr("href") // activated tab
+            InitHistoryDatatable();
+            $("#historyDatatable").dataTable();
+            //$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            //    var target = $(e.target).attr("href") // activated tab
 
-                switch (target) {
-                    case "#waitingOrder":
-                        InitWaitingDatatable();
-                        break;
-                    case "#acceptOrder":
-                        InitAcceptDatatable();
-                        break;
-                    case "#cancelOrder":
-                        InitCancelledDatatable();
-                        break;
-                    default:
-                        InitWaitingDatatable();
-                        RefreshWaitingTable();
-                }
-            });
+            //    switch (target) {
+            //        case "#waitingOrder":
+            //            InitWaitingDatatable();
+            //            break;
+            //        case "#acceptOrder":
+            //            InitAcceptDatatable();
+            //            break;
+            //        case "#cancelOrder":
+            //            InitCancelledDatatable();
+            //            break;
+            //        default:
+            //            InitWaitingDatatable();
+            //            RefreshWaitingTable();
+            //    }
+            //});
 
             $(document).on('onFadeOutComplete', '#loading-image', function () {
                 StartOverallTour();
@@ -240,40 +156,28 @@
 
 
             $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
-                var id = $('#tabs li.active').attr("id");
-                switch (id) {
-                    case "waitingTab":
-                        RefreshWaitingTable();
-                        break;
-                    case "acceptTab":
-                        RefreshAcceptTable();
-                        break;
-                    case "cancelTab":
-                        RefreshCancelledTable();
-                        break;
-                    default:
-                        InitWaitingDatatable();
-                        RefreshWaitingTable();
-                }
+                InitHistoryDatatable();
+                RefreshHistoryTable();
             });
         }
 
-        function RefreshWaitingTable() {
-            var oTable = $("#waitingDatatable").dataTable();
+        function RefreshHistoryTable() {
+            var oTable = $("#historyDatatable").dataTable();
             oTable._fnPageChange(0);
             oTable._fnAjaxUpdate();
         }
 
-        function InitWaitingDatatable() {
-            $("#waitingDatatable").dataTable({
+        function InitHistoryDatatable() {
+            $("#historyDatatable").dataTable({
                 "bFilter": true,
                 "bRetrieve": true,
                 "bServerSide": true,
                 "bScrollCollapse": true,
-                "sAjaxSource": "@Url.Action("WaitingOrderDatatable", "Order")",
+                "sAjaxSource": "@Url.Action("HistoryDatatable", "Order")",
                 "bProcessing": true,
                 "fnServerParams": function (aoData) {
                     aoData.push(
+                        {"name": "userId", "value": 7},
                         { "name": "startDate", "value": $('#reportrange').data('daterangepicker').startDate.toISOString() },
                         { "name": "endDate", "value": $('#reportrange').data('daterangepicker').endDate.toISOString() }
                         );
@@ -294,193 +198,13 @@
                 },
                 "aoColumnDefs": [
                     {
-                        "aTargets": [0, 1, 2, 3, 4, 5],
+                        "aTargets": [0, 1, 2, 3, 4],
                         "bSortable": true,
-                    },
-                    {
-                        "aTargets": [6],
-                        "mRender": function (data, type, row) {
-                            var data = row[1];
-                            return "<a class='btn btn-sm btn-success' data-toggle='tooltip' title='Duyệt' onclick='acceptOrder(\"" + data + "\")'><i class='fa fa-check'></i></a>"
-                            + " <a class='btn btn-sm btn-danger' data-toggle='tooltip' title='Hủy' onclick='cancelOrder(\"" + data + "\")'><i class='fa fa-close'></i></a>"
-                            + " <a class='btn btn-sm btn-primary' href='@Url.Action("Detail", "Order")\/" + data + "\'><i class='fa fa-eye'></i></a>";
-                        },
-                        "bSortable": false
                     },
                 ],
                 "bAutoWidth": false,
 
             }).fnSetFilteringDelay(1000);
-        }
-
-        function RefreshAcceptTable() {
-            var oTable = $("#acceptDatatable").dataTable();
-            oTable._fnPageChange(0);
-            oTable._fnAjaxUpdate();
-        }
-
-        function InitAcceptDatatable() {
-            $("#acceptDatatable").dataTable({
-                "bFilter": true,
-                "bRetrieve": true,
-                "bServerSide": true,
-                "bScrollCollapse": true,
-                "sAjaxSource": "@Url.Action("AcceptOrderDatatable", "Order")",
-                "bProcessing": true,
-                "fnServerParams": function (aoData) {
-                    aoData.push(
-                        { "name": "startDate", "value": $('#reportrange').data('daterangepicker').startDate.toISOString() },
-                        { "name": "endDate", "value": $('#reportrange').data('daterangepicker').endDate.toISOString() }
-                        );
-                },
-                "oLanguage": {
-                    "sSearch": "Tìm kiếm: ",
-                    "sZeroRecords": "Không có danh mục nào",
-                    "sInfo": "Hiển thị từ _START_ đến _END_ trong tổng số _TOTAL_",
-                    "sEmptyTable": "Không có dữ liệu",
-                    "sInfoFiltered": " ",
-                    "sLengthMenu": "Hiển thị _MENU_ dòng",
-                    "bFilter": true,
-                    "sProcessing": "Đang xử lý...",
-                    "oPaginate": {
-                        "sNext": "<i class='fa fa-chevron-right'></i>",
-                        "sPrevious": "<i class='fa fa-chevron-left'></i>"
-                    }
-                },
-                "aoColumnDefs": [
-                    {
-                        "aTargets": [0, 1, 2, 3, 4, 5],
-                        "bSortable": true,
-                    },
-                    {
-                        "aTargets": [6],
-                        "mRender": function (data, type, row) {
-                            var data = row[1];
-                            return "<a class='btn btn-sm btn-primary' href='@Url.Action("Detail", "Order")\/" + data + "\'><i class='fa fa-eye'></i></a>";
-                        },
-                        "bSortable": false
-                    },
-                ],
-                "bAutoWidth": false,
-
-            }).fnSetFilteringDelay(1000);
-        }
-
-        function RefreshCancelledTable() {
-            var oTable = $("#cancelDatatable").dataTable();
-            oTable._fnPageChange(0);
-            oTable._fnAjaxUpdate();
-        }
-
-        function InitCancelledDatatable() {
-            $("#cancelDatatable").dataTable({
-                "bFilter": true,
-                "bRetrieve": true,
-                "bServerSide": true,
-                "bScrollCollapse": true,
-                "sAjaxSource": "@Url.Action("CancelledOrderDatatable", "Order")",
-                "bProcessing": true,
-                "fnServerParams": function (aoData) {
-                    aoData.push(
-                        { "name": "startDate", "value": $('#reportrange').data('daterangepicker').startDate.toISOString() },
-                        { "name": "endDate", "value": $('#reportrange').data('daterangepicker').endDate.toISOString() }
-                        );
-                },
-                "oLanguage": {
-                    "sSearch": "Tìm kiếm: ",
-                    "sZeroRecords": "Không có danh mục nào",
-                    "sInfo": "Hiển thị từ _START_ đến _END_ trong tổng số _TOTAL_",
-                    "sEmptyTable": "Không có dữ liệu",
-                    "sInfoFiltered": " ",
-                    "sLengthMenu": "Hiển thị _MENU_ dòng",
-                    "bFilter": true,
-                    "sProcessing": "Đang xử lý...",
-                    "oPaginate": {
-                        "sNext": "<i class='fa fa-chevron-right'></i>",
-                        "sPrevious": "<i class='fa fa-chevron-left'></i>"
-                    }
-                },
-                "aoColumnDefs": [
-                    {
-                        "aTargets": [0, 1, 2, 3, 4, 5],
-                        "bSortable": true,
-                    },
-                    {
-                        "aTargets": [6],
-                        "mRender": function (data, type, row) {
-                            var data = row[1];
-                            return "<a class='btn btn-sm btn-primary' href='@Url.Action("Detail", "Order")\/" + data + "\'><i class='fa fa-eye'></i></a>";
-                        },
-                        "bSortable": false
-                    },
-                ],
-                "bAutoWidth": false,
-
-            }).fnSetFilteringDelay(1000);
-        }
-
-        function acceptOrder(orderId) {
-            swal({
-                title: 'Cảnh báo',
-                text: "Bạn có muốn xác nhận hóa đơn này không?",
-                type: 'warning',
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Xác nhận',
-                cancelButtonText: 'Không',
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                closeOnConfirm: true
-            }, function () {
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("AcceptOrder", "Order")',
-                    data: { orderId: orderId },
-                    success: function (result) {
-                        if (result.success) {
-                            PnotifySuccess("Xác nhận thành công!!!")
-                            RefreshWaitingTable();
-                        } else {
-                            PnotifyFail("Xác nhận thất bại");
-                        }
-                    },
-                    error: function (error) {
-                        PnotifyFail("Có lỗi xảy ra!!!");
-                    }
-                });
-            });
-        }
-
-        function cancelOrder(orderId) {
-            swal({
-                title: 'Cảnh báo',
-                text: "Bạn có muốn hủy hóa đơn này không?",
-                type: 'warning',
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Xác nhận',
-                cancelButtonText: 'Không',
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                closeOnConfirm: true
-            }, function () {
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("CancelOrder", "Order")',
-                    data: { orderId: orderId },
-                    success: function (result) {
-                        if (result.success) {
-                            PnotifySuccess("Hủy hóa đơn thành công!!!")
-                            RefreshWaitingTable();
-                        } else {
-                            PnotifyFail("Hủy hóa đơn thất bại");
-                        }
-                    },
-                    error: function (error) {
-                        PnotifyFail("Có lỗi xảy ra!!!");
-                    }
-                });
-            });
         }
     </script>
     <script>
