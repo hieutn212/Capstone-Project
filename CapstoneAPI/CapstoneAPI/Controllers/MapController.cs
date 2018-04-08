@@ -31,6 +31,7 @@ namespace CapstoneAPI.Controllers
                                      BuildingId = map.BuildingId,
                                      Altitude = map.Altitude 
                                  };
+                    result = result.OrderBy(q => q.Altitude);
                     return new HttpResponseMessage()
                     {
                         StatusCode = System.Net.HttpStatusCode.OK,
