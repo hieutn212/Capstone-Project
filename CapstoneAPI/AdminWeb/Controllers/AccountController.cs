@@ -200,7 +200,7 @@ namespace Wisky.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            User model = new User();
+            RegisterUserViewModel model = new RegisterUserViewModel();
             return View(model);
         }
 
@@ -209,7 +209,7 @@ namespace Wisky.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(User model)
+        public async Task<ActionResult> Register(RegisterUserViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -228,6 +228,7 @@ namespace Wisky.Controllers
                         user.Fullname = model.Fullname;
                         user.Birthday = model.Birthday;
                         user.Active = true;
+                        user.ExpireDate = DateTime.Now.AddDays(-1);
                         userService.Create(user);
                     }
                     catch (Exception e)
@@ -242,8 +243,8 @@ namespace Wisky.Controllers
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    //await UserManager.SendEmailAsync(User.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                     return RedirectToAction("Index", "Home");
             }
