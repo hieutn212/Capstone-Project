@@ -6,7 +6,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Wisky.Redis;
+//using Wisky.Redis;
 
 namespace Wisky.Utility
 {
@@ -172,16 +172,16 @@ namespace Wisky.Utility
         }
 
         #region connect to Redis
-        public static IDatabase GetDatabase(IDatabase db)
-        {
-            if (db == null)
-            {
-                //Store to Redis
-                var RedisConnection = RedisConnectionFactory.GetConnection();
-                db = RedisConnection.GetDatabase();
-            }
-            return db;
-        }
+        //public static IDatabase GetDatabase(IDatabase db)
+        //{
+        //    if (db == null)
+        //    {
+        //        //Store to Redis
+        //        var RedisConnection = RedisConnectionFactory.GetConnection();
+        //        db = RedisConnection.GetDatabase();
+        //    }
+        //    return db;
+        //}
         #endregion connect to Redis
 
       
