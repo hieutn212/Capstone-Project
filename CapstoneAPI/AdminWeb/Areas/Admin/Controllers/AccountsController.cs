@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Wisky.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class AccountsController : BaseController
     {
         // GET: Admin/Accounts

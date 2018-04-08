@@ -21,47 +21,47 @@ namespace Wisky.Controllers
     [Authorize]
     public class AccountController : BaseController
     {
-        //private ApplicationSignInManager _signInManager;
-        //private ApplicationUserManager _userManager;
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
 
-        //public AccountController()
-        //{
-        //}
+        public AccountController()
+        {
+        }
 
-        //public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        //{
-        //    UserManager = userManager;
-        //    SignInManager = signInManager;
-        //}
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
 
-        //public ApplicationSignInManager SignInManager
-        //{
-        //    get
-        //    {
-        //        return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-        //    }
-        //    private set
-        //    {
-        //        _signInManager = value;
-        //    }
-        //}
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
 
-        //public ApplicationUserManager UserManager
-        //{
-        //    get
-        //    {
-        //        if (_userManager == null)
-        //        {
-        //            _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-        //            _userManager.PasswordHasher = new MD5Hasher(FormsAuthPasswordFormat.MD5);
-        //        }
-        //        return _userManager;
-        //    }
-        //    private set
-        //    {
-        //        _userManager = value;
-        //    }
-        //}
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                if (_userManager == null)
+                {
+                    _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                    _userManager.PasswordHasher = new MD5Hasher(FormsAuthPasswordFormat.MD5);
+                }
+                return _userManager;
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         //
         // GET: /Account/Login
@@ -145,6 +145,7 @@ namespace Wisky.Controllers
 
                 //    return this.Redirect(returnUrl);
                 //}
+                Session["Username"] = user.Fullname;
                 return this.Redirect(returnUrl);
             }
             return this.View(model);
