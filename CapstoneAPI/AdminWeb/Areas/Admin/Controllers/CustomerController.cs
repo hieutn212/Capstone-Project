@@ -1,4 +1,5 @@
 ﻿
+using CapstoneData.Models.Entities.Services;
 using SkyWeb.DatVM.Mvc.Autofac;
 using System;
 using System.Collections.Generic;
@@ -19,91 +20,88 @@ namespace Wisky.Areas.Admin.Controllers
             return View();
         }
 
-        //public JsonResult CustomerDatatable(JQueryDataTableParamModel param)
-        //{
-        //    try
-        //    {
-        //        var customerService = this.Service<IAspNetUserService>();
-        //        var listCustomers = customerService.GetAllCustomer();
-        //        if (listCustomers == null)
-        //        {
-        //            return Json(new
-        //            {
-        //                sEcho = param.sEcho,
-        //                iTotalRecords = 0,
-        //                iTotalDisplayRecords = 0,
-        //                aaData = new List<AspNetUser>()
-        //            }, JsonRequestBehavior.AllowGet);
-        //        }
-        //        var customerList = listCustomers.AsEnumerable()
-        //            .Where(a => (string.IsNullOrEmpty(param.sSearch) || StringConvert.EscapeName(a.UserName).ToLower()
-        //                             .Contains(StringConvert.EscapeName(param.sSearch).ToLower()) ||
-        //                             StringConvert.EscapeName(a.Id).ToLower()
-        //                             .Contains(StringConvert.EscapeName(param.sSearch).ToLower())));
-        //        int count = 1;
-        //        var rp = customerList
-        //            .Skip(param.iDisplayStart).Take(param.iDisplayLength)
-        //            .Select(p => new IConvertible[]
-        //            {
-        //            count++,
-        //            p.UserName,
-        //            p.Point,
-        //            p.PhoneNumber,
-        //            p.Email,
-        //            p.FullName,
-        //            });
-        //        var total = listCustomers.Count();
-        //        return Json(new
-        //        {
-        //            sEcho = param.sEcho,
-        //            iTotalRecords = total,
-        //            iTotalDisplayRecords = total,
-        //            aaData = rp
-        //        }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return Json(new
-        //        {
-        //            sEcho = param.sEcho,
-        //            iTotalRecords = 0,
-        //            iTotalDisplayRecords = 0,
-        //            aaData = new List<Product>()
-        //        }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+        public JsonResult DeviceDatatable(JQueryDataTableParamModel param)
+        {
+            try
+            {
+                var deviceService = this.Service<IDeviceService>();
+                var listDevices = deviceService.getByUserId(7);
+                if (listDevices == null)
+                {
+                    return Json(new
+                    {
+                        sEcho = param.sEcho,
+                        iTotalRecords = 0,
+                        iTotalDisplayRecords = 0,
+                        aaData = listDevices
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                var deviceList = listDevices.AsEnumerable()
+                    .Where(a => (string.IsNullOrEmpty(param.sSearch) || StringConvert.EscapeName(a.Name).ToLower()
+                                     .Contains(StringConvert.EscapeName(param.sSearch).ToLower()) ||
+                                     StringConvert.EscapeName(a.Id).ToLower()
+                                     .Contains(StringConvert.EscapeName(param.sSearch).ToLower())));
+                int count = 1;
+                var rp = deviceList
+                    .Skip(param.iDisplayStart).Take(param.iDisplayLength)
+                    .Select(p => new IConvertible[]
+                    {
+                    count++,
+                    p.Id,
+                    p.Name,
+                    p.Active,
+                    });
+                var total = listDevices.Count();
+                return Json(new
+                {
+                    sEcho = param.sEcho,
+                    iTotalRecords = total,
+                    iTotalDisplayRecords = total,
+                    aaData = rp
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    sEcho = param.sEcho,
+                    iTotalRecords = 0,
+                    iTotalDisplayRecords = 0,
+                    aaData = new List<DeviceViewModel>()
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
-        //[HttpPost]
-        //public ActionResult GetCustomerDetail(string username)
-        //{
-        //    try
-        //    {
-        //        var customerService = this.Service<IAspNetUserService>();
-        //        var customer = customerService.GetByUsername(username);
-        //        if (customer != null)
-        //        {
-        //            return Json(new
-        //            {
-        //                success = true,
-        //                username = customer.UserName,
-        //                fullname = customer.FullName,
-        //                phone = customer.PhoneNumber,
-        //                email = customer.Email,
-        //            });
-        //        }
-        //        return Json(new
-        //        {
-        //            success = false,
-        //        });
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return Json(new
-        //        {
-        //            success = false,
-        //        });
-        //    }
-        //}
+        [HttpPost]
+        public ActionResult GetDeviceDetail(string IMEI)
+        {
+            try
+            {
+                var deviceService = this.Service<IDeviceService>();
+                var device = deviceService.GetById(IMEI);
+                if (device != null)
+                {
+                    return Json(new
+                    {
+                        success = true,
+                        IMEI = device.Id,
+                        name = device.Name,
+                        active = device.Active,
+                    });
+                }
+                return Json(new
+                {
+                    success = false,
+                });
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    success = false,
+                });
+            }
+        }
 
         //[HttpPost]
         //public async Task<ActionResult> BuyPoint(string username, int point)
