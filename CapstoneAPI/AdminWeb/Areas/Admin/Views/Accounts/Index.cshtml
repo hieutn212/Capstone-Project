@@ -174,10 +174,18 @@
     }
 </style>
 
-<div class="block-header">
-    <h2>@ViewBag.Title</h2>
-</div>
 
+@section Header
+{
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","Accounts")"><i class="left-icon fa fa-linux"></i>DashBoard</a></li>
+    </ol>
+}
+
+<div class="block-header">
+    <h2>Thông Tin Tài Khoản</h2>
+    
+</div>
 
 <div class="card-body card-padding">
     <div class="row">
@@ -186,56 +194,65 @@
                 <input type="hidden" id="browser-report-chart" value="Tổng sản phẩm" />
                 <div>
                     <div>
-                        <h1><i class="md md-play-shopping-bag p-r-20 top-panel-icon" style="color:#16c1d6"></i></h1>
+                        <h1><i class="md md-contacts p-r-20 top-panel-icon" style="color:#16c1d6"></i></h1>
                     </div>
                     <div class="">
                         <h2 class="m-b-10 p-l-30" style="color: white;font-weight:400">
-                            Tổng Sản Phẩm
+                            Thông tin cơ bản
                         </h2>
                         <h2 id="totalLocation" class="p-l-30 top-panel-detail">
-                            1233444
+                            Học và tên: @ViewBag.UserFullName
+                        </h2>
+                        <h2 id="totalLocation" class="p-l-30 top-panel-detail">
+                            Ngày sinh: @ViewBag.BirthDay
                         </h2>
                     </div>
                 </div>
             </div>
-            <div class="col-md-12" style="background-color:#247d88"><h4 style="font-weight:100; padding-left:65%"><a style="color:white" href="@Url.Action("Index","Product", new { area = "Admin" })" data-toggle="tooltip" title="">Chi tiết<i class="fa fa-arrow-circle-o-right"></i></a></h4></div>
+            
         </div>
         <div class="col-md-4 col-xs-12 p-l-0 p-r-0 top-panel2">
             <div class="">
                 <div class="">
                     <div class="">
-                        <h1><i class="md md-my-library-books p-r-20 top-panel-icon" style="color:#09d858"></i></h1>
+                        <h1><i class="fa fa-calendar p-r-20 top-panel-icon" style="color:#09d858"></i></h1>
                     </div>
                     <div class="">
                         <h2 class="m-b-10 p-l-30" style="color: white;font-weight:400">
-                            Số hóa đơn
+                            Hạn sử dụng
                         </h2>
                         <h2 id="totalAccessPoint" class="p-l-30 top-panel-detail">
-                           312312312312
+                            @ViewBag.ExpireDay
+                        </h2>
+                        <h2 id="totalAccessPoint" class="p-t-25 top-panel-detail">
+                            
                         </h2>
                     </div>
                 </div>
             </div>
-            <div class="col-md-12" style="background-color:#0a8439"><h4 style="font-weight:100;padding-left:65%"><a style="color:white" href="@Url.Action("Index", "Order")" data-toggle="tooltip" title="">Chi tiết<i class="fa fa-arrow-circle-o-right"></i></a></h4></div>
+            
         </div>
 
         <div class="col-md-4 col-xs-12 p-l-0 p-r-0 top-panel3">
             <div class="">
                 <div class="">
                     <div class="">
-                        <h1><i class="md md-contacts p-r-20 top-panel-icon" style="color:rgb(250, 255, 35)"></i></h1>
+                        <h1><i class="fa fa-check-circle-o p-r-20 top-panel-icon" style="color:rgb(250, 255, 35)"></i></h1>
                     </div>
                     <div class="">
                         <h2 class="m-b-10 p-l-30" style="color: white;font-weight:400">
-                            Số lượng khách hàng
+                            Trạng thái
                         </h2>
-                        <h2 id="totalAdv" class="p-l-30 top-panel-detail">
-                            2312312324
+                        <h2 id="totalAdv" class="p-l-30  top-panel-detail">
+                            @ViewBag.Status
+                        </h2>
+                        <h2 id="totalAccessPoint" class="p-t-25 top-panel-detail">
+                                        
                         </h2>
                     </div>
                 </div>
             </div>
-            <div class="col-md-12" style="background-color:#ccaa45"><h4 style="font-weight:100;padding-left:65%"><a style="color:white" href="@Url.Action("Index", "Customer")" data-toggle="tooltip" title="customer">Chi tiết<i class="fa fa-arrow-circle-o-right"></i></a></h4></div>
+            
         </div>
     </div>
 </div>

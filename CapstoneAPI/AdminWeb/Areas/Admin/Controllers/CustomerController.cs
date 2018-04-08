@@ -1,4 +1,5 @@
 ﻿
+using CapstoneData.Models.Entities;
 using CapstoneData.Models.Entities.Services;
 using SkyWeb.DatVM.Mvc.Autofac;
 using System;
@@ -24,8 +25,10 @@ namespace Wisky.Areas.Admin.Controllers
         {
             try
             {
+                var userService = this.Service<IUserService>();
+                User user = userService.GetByUsername(Session["Username"].ToString());
                 var deviceService = this.Service<IDeviceService>();
-                var listDevices = deviceService.getByUserId(7);
+                var listDevices = deviceService.getByUserId(user.Id);
                 if (listDevices == null)
                 {
                     return Json(new

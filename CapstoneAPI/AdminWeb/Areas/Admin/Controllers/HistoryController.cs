@@ -30,7 +30,7 @@ namespace Wisky.Areas.Admin.Controllers
                 if (device != null)
                 {
                     IProduct_positionService positionService = this.Service<IProduct_positionService>();
-                    IQueryable<Product_position> listPosition = positionService.getListById(device.Id, startDate, endDate);
+                    IQueryable<Product_position> listPosition = positionService.getListById(IMEI, startDate, endDate);
                     if (listPosition == null)
                     {
                         return Json(new
