@@ -21,7 +21,7 @@ namespace CapstoneAPI.Controllers
                 if (user != null)
                 {
                     int checkDate = DateTime.Now.CompareTo(user.ExpireDate);
-                    if (checkDate >= 0)
+                    if (checkDate <= 0)
                     {
                         User model = new User()
                         {
