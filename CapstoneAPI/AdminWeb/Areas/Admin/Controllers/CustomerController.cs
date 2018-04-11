@@ -146,7 +146,9 @@ namespace Wisky.Areas.Admin.Controllers
 
         public async Task<ActionResult> History(string id)
         {
-            ViewData["Username"] = id;
+            var deviceService = this.Service<IDeviceService>();
+            ViewData["Username"] = deviceService.GetById(id).Name;
+            ViewData["IMEI"] = id;
             return View();
         }
     }
