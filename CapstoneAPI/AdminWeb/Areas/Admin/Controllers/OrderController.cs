@@ -47,8 +47,8 @@ namespace Wisky.Areas.Admin.Controllers
                     count++,
                     p.User.Username,
                     p.CreatedDate.ToShortDateString() + " " + p.CreatedDate.ToShortTimeString(),
-                    p.BuyDate,
-                    p.Price,
+                    p.BuyDate.ToString() + " ngày",
+                    p.Price.ToString() + " $",
                     });
                 var total = listHistorys.Count();
                 return Json(new

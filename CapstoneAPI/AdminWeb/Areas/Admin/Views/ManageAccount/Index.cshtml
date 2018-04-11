@@ -210,10 +210,11 @@
         </ul>*@
 </div>
     <div class="card-body card-padding">
+        <h3>Loại 1</h3>
         <div class="row">
             <div class="col-md-4 col-xs-12 p-l-0 p-r-0 top-panel1">
                 <div>
-                    <input type="hidden" id="browser-report-chart" value="Tổng sản phẩm" />
+                    
                     <div>
                         <div>
                             <h1><i class="fa fa-dollar p-r-20 top-panel-icon" style="color:#16c1d6"></i></h1>
@@ -228,7 +229,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12" style="background-color:#247d88"><h4 style="font-weight:100; padding-left:65%"><input type="checkbox" id="Check1" name="p40" class="check-box" value="20" onclick="selectOnlyThis(this.id)" /></h4></div>
+                <div class="col-md-12" style="background-color:#247d88"><h4 style="font-weight:100; padding-left:65%"><input type="checkbox" id="Check1" name="p20" class="check-box" value="1-20" onclick="selectOnlyThis(this.id)" /></h4></div>
             </div>
             <div class="col-md-4 col-xs-12 p-l-0 p-r-0 top-panel2">
                 <div class="">
@@ -246,7 +247,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12" style="background-color:#0a8439"><h4 style="font-weight:100;padding-left:65%"><input type="checkbox" id="Check2" name="p40" class="check-box" value="30" onclick="selectOnlyThis(this.id)" /></h4></div>
+                <div class="col-md-12" style="background-color:#0a8439"><h4 style="font-weight:100;padding-left:65%"><input type="checkbox" id="Check2" name="p30" class="check-box" value="1-30" onclick="selectOnlyThis(this.id)" /></h4></div>
             </div>
 
             <div class="col-md-4 col-xs-12 p-l-0 p-r-0 top-panel3">
@@ -265,16 +266,79 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12" style="background-color:#ccaa45"><h4 style="font-weight:100;padding-left:65%"><input type="checkbox" id="Check3" name="p40" class="check-box" value="40" onclick="selectOnlyThis(this.id)" /></h4></div>
+                <div class="col-md-12" style="background-color:#ccaa45"><h4 style="font-weight:100;padding-left:65%"><input type="checkbox" id="Check3" name="p40" class="check-box" value="1-40" onclick="selectOnlyThis(this.id)" /></h4></div>
             </div>
         </div>
+
+        =================================================================================
+
+        <div class="row">
+            <h3>Loại 2</h3>
+            <div class="col-md-4 col-xs-12 p-l-0 p-r-0 top-panel1">
+                <div>
+
+                    <div>
+                        <div>
+                            <h1><i class="fa fa-dollar p-r-20 top-panel-icon" style="color:#16c1d6"></i></h1>
+                        </div>
+                        <div class="">
+                            <h2 class="m-b-10 p-l-30" style="color: white;font-weight:400">
+                                30 ngày
+                            </h2>
+                            <h2 id="totalLocation" class="p-l-30 top-panel-detail">
+                                $25
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12" style="background-color:#247d88"><h4 style="font-weight:100; padding-left:65%"><input type="checkbox" id="Check4" name="p25" class="check-box" value="2-25" onclick="selectOnlyThis(this.id)" /></h4></div>
+            </div>
+            <div class="col-md-4 col-xs-12 p-l-0 p-r-0 top-panel2">
+                <div class="">
+                    <div class="">
+                        <div class="">
+                            <h1><i class="fa fa-dollar p-r-20 top-panel-icon" style="color:#09d858"></i><i class="fa fa-dollar p-r-20 top-panel-icon" style="color:#09d858"></i></h1>
+                        </div>
+                        <div class="">
+                            <h2 class="m-b-10 p-l-30" style="color: white;font-weight:400">
+                                60 ngày
+                            </h2>
+                            <h2 id="totalAccessPoint" class="p-l-30 top-panel-detail">
+                                $35
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12" style="background-color:#0a8439"><h4 style="font-weight:100;padding-left:65%"><input type="checkbox" id="Check5" name="p35" class="check-box" value="2-35" onclick="selectOnlyThis(this.id)" /></h4></div>
+            </div>
+
+            <div class="col-md-4 col-xs-12 p-l-0 p-r-0 top-panel3">
+                <div class="">
+                    <div class="">
+                        <div class="">
+                            <h1><i class="fa fa-dollar p-r-20 top-panel-icon" style="color:rgb(250, 255, 35)"></i><i class="fa fa-dollar p-r-20 top-panel-icon" style="color:rgb(250, 255, 35)"></i><i class="fa fa-dollar p-r-20 top-panel-icon" style="color:rgb(250, 255, 35)"></i></h1>
+                        </div>
+                        <div class="">
+                            <h2 class="m-b-10 p-l-30" style="color: white;font-weight:400">
+                                90 ngày
+                            </h2>
+                            <h2 id="totalAdv" class="p-l-30 top-panel-detail">
+                                $45
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12" style="background-color:#ccaa45"><h4 style="font-weight:100;padding-left:65%"><input type="checkbox" id="Check6" name="p45" class="check-box" value="2-45" onclick="selectOnlyThis(this.id)" /></h4></div>
+            </div>
+        </div>
+
     </div>
     <input type="hidden" id="Username" value="@Session["Username"].ToString()" />
 
     <div id="paypal-button-container" onclick="AddnNewLicense()"></div>
     <script>
         function selectOnlyThis(id) {
-            for (var i = 1; i <= 3; i++) {
+            for (var i = 1; i <= 6; i++) {
                 document.getElementById("Check" + i).checked = false;
             }
             document.getElementById(id).checked = true;
@@ -304,13 +368,14 @@
             // payment() is called when the button is clicked
             payment: function (data, actions) {
                 var checkedValue = $('.check-box:checked').val();
+                var CheckedValue = "" + checkedValue;
                 //var name = $('.Username').val();
                 // Make a call to the REST api to create the payment
                 return actions.payment.create({
                     payment: {
                         transactions: [
                             {
-                                amount: { total: checkedValue, currency: 'USD' }
+                                amount: { total: CheckedValue.substring(2), currency: 'USD' }
                             }
                         ]
                     }
@@ -323,12 +388,13 @@
                 // Make a call to the REST api to execute the payment
                 return actions.payment.execute().then(function () {
                     var checked = $('.check-box:checked').val();
+                    var Checked = "" + checked;
                     var name = $("#Username").val();
 
 
                     window.alert('Payment Complete!');
 
-                    window.location.href = "http://localhost:36110/Admin/ManageAccount/AddNewLicense?username=" + name + "&price=" + checked ;
+                    window.location.href = "http://localhost:36110/Admin/ManageAccount/AddNewLicense?username=" + name + "&price=" + Checked.substring(2) + "&type=" +  Checked.substr(0,1) ;
                 })
                
             }
