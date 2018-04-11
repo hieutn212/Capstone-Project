@@ -37,7 +37,7 @@ namespace Wisky.Areas.Admin.Controllers
                     ViewBag.availableDay = (liciense.ExpireDate - DateTime.Now).Days;
                 }
                 ViewBag.UserFullName = user.Fullname;
-                DateTime dt = (DateTime)user.ExpireDate;
+                DateTime dt = (DateTime)liciense.ExpireDate;
                 ViewBag.ExpireDay = String.Format("{0:dd/ MM/ yyyy}", dt);
                 if (DateTime.Now.CompareTo(dt) <= 0)
                 {

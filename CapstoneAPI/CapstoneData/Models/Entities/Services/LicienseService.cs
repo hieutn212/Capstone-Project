@@ -41,7 +41,7 @@ namespace CapstoneData.Models.Entities.Services
             int id = 1;
             try
             {
-                var lastOrFirstLiciense = this.GetActive().LastOrDefault();
+                var lastOrFirstLiciense = this.GetActive(q => q.Id >= 0).LastOrDefault();
                 if (lastOrFirstLiciense != null)
                 {
                     id = lastOrFirstLiciense.Id + 1;
@@ -60,20 +60,38 @@ namespace CapstoneData.Models.Entities.Services
             {
                 try
                 {
-                    var licienseCheck = getLicienseByUserIdAndType(userId, TYPE_2);
-                    if (licienseCheck != null)
+                    if(getLicienseByUserIdAndType(userId, TYPE_1) != null)
                     {
-                        var availableDay = (liciense.ExpireDate - DateTime.Now).Days;
-                        liciense.IsUse = false;
-                        liciense.ExpireDate = licienseCheck.ExpireDate.AddDays(availableDay);
+                        var licienseCheck = getLicienseByUserIdAndType(userId, TYPE_2);
+                        if (licienseCheck != null)
+                        {
+                            var availableDay = (liciense.ExpireDate - DateTime.Now).Days;
+                            liciense.IsUse = false;
+                            liciense.ExpireDate = licienseCheck.ExpireDate.AddDays(availableDay);
+                            this.Update(liciense);
+                            this.Update(licienseCheck);
+                            return true;
+                        }
+                        //this.Activate(liciense);
                         this.Update(liciense);
-                        this.Update(licienseCheck);
                         return true;
-                    }
-                    liciense.Id = id;
-                    this.Activate(liciense);
-                    this.Create(liciense);
-                    return true;
+                    } else
+                    {
+                        var licienseCheck = getLicienseByUserIdAndType(userId, TYPE_2);
+                        if (licienseCheck != null)
+                        {
+                            var availableDay = (liciense.ExpireDate - DateTime.Now).Days;
+                            liciense.IsUse = false;
+                            liciense.ExpireDate = licienseCheck.ExpireDate.AddDays(availableDay);
+                            this.Create(liciense);
+                            this.Update(licienseCheck);
+                            return true;
+                        }
+                        liciense.Id = id;
+                        //this.Activate(liciense);
+                        this.Create(liciense);
+                        return true;
+                    }                   
                 }
                 catch (Exception)
                 {
@@ -84,20 +102,38 @@ namespace CapstoneData.Models.Entities.Services
             {
                 try
                 {
-                    var licienseCheck = getLicienseByUserIdAndType(userId, TYPE_1);
-                    if (licienseCheck != null)
+                    if(getLicienseByUserIdAndType(userId, TYPE_2) != null)
                     {
-                        licienseCheck.IsUse = false;
-                        var availableDay = (licienseCheck.ExpireDate - DateTime.Now).Days;
-                        licienseCheck.ExpireDate = liciense.ExpireDate.AddDays(availableDay);
+                        var licienseCheck = getLicienseByUserIdAndType(userId, TYPE_1);
+                        if (licienseCheck != null)
+                        {
+                            licienseCheck.IsUse = false;
+                            var availableDay = (licienseCheck.ExpireDate - DateTime.Now).Days;
+                            licienseCheck.ExpireDate = liciense.ExpireDate.AddDays(availableDay);
+                            this.Update(liciense);
+                            this.Update(licienseCheck);
+                            return true;
+                        }
+                        liciense.IsUse = true;
                         this.Update(liciense);
-                        this.Update(licienseCheck);
                         return true;
-                    }
-                    liciense.Id = id;
-                    liciense.IsUse = true;
-                    this.Create(liciense);
-                    return true;
+                    }else
+                    {
+                        var licienseCheck = getLicienseByUserIdAndType(userId, TYPE_1);
+                        if (licienseCheck != null)
+                        {
+                            licienseCheck.IsUse = false;
+                            var availableDay = (licienseCheck.ExpireDate - DateTime.Now).Days;
+                            licienseCheck.ExpireDate = liciense.ExpireDate.AddDays(availableDay);
+                            this.Create(liciense);
+                            this.Update(licienseCheck);
+                            return true;
+                        }
+                        liciense.Id = id;
+                        liciense.IsUse = true;
+                        this.Create(liciense);
+                        return true;
+                    }                  
                 }
                 catch (Exception e)
                 {
