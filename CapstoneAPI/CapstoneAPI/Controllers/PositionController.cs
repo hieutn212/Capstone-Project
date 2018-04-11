@@ -11,64 +11,115 @@ namespace CapstoneAPI.Controllers
 {
     public class PositionController : BaseApiController
     {
-        public HttpResponseMessage CreateProductPosition(float latitude, float longitude, float altitude, string deviceId)
+        public HttpResponseMessage CreateProductPosition(float latitude, float longitude, float altitude,
+            string deviceId, int buildingId, float width, float height)
         {
             IProduct_positionService productPositionService = this.Service<IProduct_positionService>();
             IDeviceService deviceService = this.Service<IDeviceService>();
+            ICornerService cornerService = this.Service<ICornerService>();
+            IMapService mapService = this.Service<IMapService>();
 
             Device device = deviceService.GetById(deviceId);
 
             if (device != null)
             {
-                Product_position model = productPositionService.CheckProduct(latitude, longitude, altitude, deviceId);
-                if (model == null)
+                int mapId = 0;
+                List<Map> maps = mapService.searchMap(buildingId);
+                int mapsSize = maps.Count;
+                for (int i = 0; i < mapsSize; i++)
                 {
-                    model = new Product_position();
-                    model.Latitude = latitude;
-                    model.Longitude = longitude;
-                    model.Altitude = altitude;
-                    model.DeviceId = deviceId;
-                    model.Active = true;
-                    model.CreatedDate = DateTime.Now;
-                    try
+                    double altitudeMap1 = maps[i].Altitude ?? 0;
+                    double altitudeMap2 = 0.0;
+                    string nameMap = maps[i].Name;
+                    if (i < mapsSize - 1)
                     {
-                        productPositionService.Create(model);
-                        return new HttpResponseMessage()
+                        altitudeMap2 = maps[i + 1].Altitude ?? 0;
+                        if (altitude == 0.0)
                         {
-                            StatusCode = System.Net.HttpStatusCode.OK,
-                            Content = new JsonContent("Add device is success")
-                        };
+                            mapId = 1;
+                            break;
+                        }
+                        else if (altitudeMap1 <= altitude && altitude < altitudeMap2)
+                        {
+                            mapId = maps[i].Id;
+                            break;
+                        }
                     }
-                    catch (Exception e)
+                    else
                     {
-                        return new HttpResponseMessage()
+                        if (altitudeMap1 <= altitude)
                         {
-                            StatusCode = System.Net.HttpStatusCode.BadRequest,
-                            Content = new JsonContent("An error occurred. Please try again later")
-                        };
+                            mapId = maps[i].Id;
+                            break;
+                        }
+                    }
+                }
+
+                List<Corner> corners = cornerService.GetListCornerWithMapId(mapId);
+                float posX = 0;
+                float posY = 0;
+                Utils.GetPointMap(latitude, longitude, corners, width, height, out posX, out posY);
+                if (posX >= 0 && posX <= width && posY >= 0 && posY <= height)
+                {
+                    Product_position model = productPositionService.CheckProduct(latitude, longitude, altitude, deviceId);
+                    if (model == null)
+                    {
+
+                        model = new Product_position();
+                        model.Latitude = latitude;
+                        model.Longitude = longitude;
+                        model.Altitude = altitude;
+                        model.DeviceId = deviceId;
+                        model.Active = true;
+                        model.CreatedDate = DateTime.Now;
+                        try
+                        {
+                            productPositionService.Create(model);
+                            return new HttpResponseMessage()
+                            {
+                                StatusCode = System.Net.HttpStatusCode.OK,
+                                Content = new JsonContent("Add device is success")
+                            };
+                        }
+                        catch (Exception e)
+                        {
+                            return new HttpResponseMessage()
+                            {
+                                StatusCode = System.Net.HttpStatusCode.BadRequest,
+                                Content = new JsonContent("Can not add your device position!!!")
+                            };
+                        }
+                    }
+                    else
+                    {
+                        model.Active = true;
+                        model.CreatedDate = DateTime.Now;
+                        try
+                        {
+                            productPositionService.Update(model);
+                            return new HttpResponseMessage()
+                            {
+                                StatusCode = System.Net.HttpStatusCode.OK,
+                                Content = new JsonContent("Update device is success")
+                            };
+                        }
+                        catch (Exception e)
+                        {
+                            return new HttpResponseMessage()
+                            {
+                                StatusCode = System.Net.HttpStatusCode.BadRequest,
+                                Content = new JsonContent("An error occurred. Please try again later")
+                            };
+                        }
                     }
                 }
                 else
                 {
-                    model.Active = true;
-                    model.CreatedDate = DateTime.Now;
-                    try
+                    return new HttpResponseMessage()
                     {
-                        productPositionService.Update(model);
-                        return new HttpResponseMessage()
-                        {
-                            StatusCode = System.Net.HttpStatusCode.OK,
-                            Content = new JsonContent("Update device is success")
-                        };
-                    }
-                    catch (Exception e)
-                    {
-                        return new HttpResponseMessage()
-                        {
-                            StatusCode = System.Net.HttpStatusCode.BadRequest,
-                            Content = new JsonContent("An error occurred. Please try again later")
-                        };
-                    }
+                        StatusCode = System.Net.HttpStatusCode.BadRequest,
+                        Content = new JsonContent("Device is not exist")
+                    };
                 }
             }
             else
@@ -124,6 +175,6 @@ namespace CapstoneAPI.Controllers
                 };
             }
         }
-        
+
     }
 }
