@@ -23,12 +23,16 @@ namespace Wisky.Areas.Admin.Controllers
                 User user = userService.GetByUsername(Session["Username"].ToString());
                 ILicienseService licienseService = this.Service<ILicienseService>();
                 Liciense liciense = licienseService.getIsUseLiciense(user.Id);
+                ViewBag.licienseType = "Tài khoản khách";
                 if (liciense.Type == 1)
                 {
                     ViewBag.licienseType = "Tài khoản thường";
                 }
-                ViewBag.licienseType = "Tài khoản VIP";
-                if (liciense.ExpireDate.CompareTo(DateTime.Now) == -1)
+                if(liciense.Type == 2)
+                {
+                    ViewBag.licienseType = "Tài khoản VIP";
+                }
+                if (liciense.ExpireDate.CompareTo(DateTime.Now) == -1 || liciense == null)
                 {
                     ViewBag.availableDay = 0;
                 }

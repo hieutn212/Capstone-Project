@@ -15,7 +15,7 @@
     <script src="~/Content/template-material/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <script src="~/Content/template-material/vendors/bower_components/Waves/dist/waves.min.js"></script>
-   
+
 
 </head>
 
@@ -32,6 +32,8 @@
     .hover-cursor {
         cursor: pointer;
     }
+
+    
 
     .tabs {
         height: 45px;
@@ -191,30 +193,31 @@
 </style>
 
 <body>
-   @section Header
+    @section Header
 {
-    <ol class="breadcrumb">
-        <li><a href="@Url.Action("Index","Accounts")"><i class="left-icon fa fa-linux"></i>DashBoard</a></li>
-        <li class="active">Gia Hạn</li>
-    </ol>
-}
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","Accounts")"><i class="left-icon fa fa-linux"></i>DashBoard</a></li>
+            <li class="active">Gia Hạn</li>
+        </ol>
+    }
 
-<div class="block-header">
-    <h2>Gia Hạn Tài Khoản</h2>
-    @*<ul class="actions">
-            <li>
-                <button id="btnCreateLandingPage" type="button" class="btn btn-primary pull-right" onclick="createModal()">
-                    <i class="left-icon fa fa-plus"></i>Tạo mới
-                </button>
-            </li>
-        </ul>*@
-</div>
+    <div class="block-header">
+        <h2>Gia Hạn Tài Khoản</h2>
+        @*<ul class="actions">
+                <li>
+                    <button id="btnCreateLandingPage" type="button" class="btn btn-primary pull-right" onclick="createModal()">
+                        <i class="left-icon fa fa-plus"></i>Tạo mới
+                    </button>
+                </li>
+            </ul>*@
+    </div>
     <div class="card-body card-padding">
-        <h3>Loại 1</h3>
+        <h3>Các gói tài khoản thường</h3>
+
         <div class="row">
             <div class="col-md-4 col-xs-12 p-l-0 p-r-0 top-panel1">
                 <div>
-                    
+
                     <div>
                         <div>
                             <h1><i class="fa fa-dollar p-r-20 top-panel-icon" style="color:#16c1d6"></i></h1>
@@ -270,10 +273,16 @@
             </div>
         </div>
 
-        =================================================================================
+        <div class="row">
+            <!-- You can also position the row if need be. -->
+            <div class="col-md-12 col-lg-12">
+                <!-- set width of column I wanted mine to stretch most of the screen-->
+                <hr style="min-width:85%; background-color:#a1a1a1 !important; height:1px;" />
+            </div>
+        </div>
 
         <div class="row">
-            <h3>Loại 2</h3>
+            <h3>    Các gói tài khoản VIP (Cho phép sử dụng tính năng tìm kiếm thiết bị)</h3>
             <div class="col-md-4 col-xs-12 p-l-0 p-r-0 top-panel1">
                 <div>
 
@@ -335,6 +344,8 @@
     </div>
     <input type="hidden" id="Username" value="@Session["Username"].ToString()" />
 
+    <hr style="width: 100%; background-color: black; height: 1px; border-color : transparent;" />
+
     <div id="paypal-button-container" onclick="AddnNewLicense()"></div>
     <script>
         function selectOnlyThis(id) {
@@ -394,11 +405,11 @@
 
                     window.alert('Payment Complete!');
 
-                    window.location.href = "http://localhost:36110/Admin/ManageAccount/AddNewLicense?username=" + name + "&price=" + Checked.substring(2) + "&type=" +  Checked.substr(0,1) ;
+                    window.location.href = "http://localhost:36110/Admin/ManageAccount/AddNewLicense?username=" + name + "&price=" + Checked.substring(2) + "&type=" + Checked.substr(0, 1);
                 })
-               
+
             }
-           
+
         }, '#paypal-button-container');
 
     </script>
