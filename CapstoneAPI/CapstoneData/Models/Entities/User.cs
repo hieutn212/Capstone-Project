@@ -19,6 +19,7 @@ namespace CapstoneData.Models.Entities
         {
             this.Devices = new HashSet<Device>();
             this.Histories = new HashSet<History>();
+            this.Licienses = new HashSet<Liciense>();
         }
     
         public int Id { get; set; }
@@ -35,5 +36,7 @@ namespace CapstoneData.Models.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<History> Histories { get; set; }
         public virtual Role Role { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Liciense> Licienses { get; set; }
     }
 }

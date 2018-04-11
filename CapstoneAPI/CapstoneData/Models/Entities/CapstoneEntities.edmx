@@ -54,6 +54,27 @@
           <Property Name="BuyDate" Type="int" Nullable="false" />
           <Property Name="Price" Type="float" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Capstone.dbo.Liciense' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Liciense">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="DayOfPurchase" />
+            <PropertyRef Name="ExpireDate" />
+            <PropertyRef Name="Type" />
+            <PropertyRef Name="IsUse" />
+            <PropertyRef Name="Active" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="DayOfPurchase" Type="int" Nullable="false" />
+          <Property Name="ExpireDate" Type="datetime" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="IsUse" Type="bit" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="Map">
           <Key>
             <PropertyRef Name="Id" />
@@ -197,6 +218,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Liciense_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Liciense" Type="Self.Liciense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Liciense">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Map_Building">
           <End Role="Building" Type="Self.Building" Multiplicity="1" />
           <End Role="Map" Type="Self.Map" Multiplicity="*" />
@@ -270,6 +303,18 @@
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Room" EntityType="Self.Room" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Liciense" EntityType="Self.Liciense" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Liciense].[Id] AS [Id], 
+    [Liciense].[UserId] AS [UserId], 
+    [Liciense].[DayOfPurchase] AS [DayOfPurchase], 
+    [Liciense].[ExpireDate] AS [ExpireDate], 
+    [Liciense].[Type] AS [Type], 
+    [Liciense].[IsUse] AS [IsUse], 
+    [Liciense].[Active] AS [Active], 
+    [Liciense].[CreatedDate] AS [CreatedDate]
+    FROM [dbo].[Liciense] AS [Liciense]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Building_District" Association="Self.FK_Building_District">
             <End Role="District" EntitySet="District" />
             <End Role="Building" EntitySet="Building" />
@@ -289,6 +334,10 @@
           <AssociationSet Name="FK_History_User" Association="Self.FK_History_User">
             <End Role="User" EntitySet="User" />
             <End Role="History" EntitySet="History" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Liciense_User" Association="Self.FK_Liciense_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Liciense" EntitySet="Liciense" />
           </AssociationSet>
           <AssociationSet Name="FK_Map_Building" Association="Self.FK_Map_Building">
             <End Role="Building" EntitySet="Building" />
@@ -336,6 +385,7 @@
           <EntitySet Name="Provinces" EntityType="CapstoneModel.Province" />
           <EntitySet Name="Rooms" EntityType="CapstoneModel.Room" />
           <EntitySet Name="Users" EntityType="CapstoneModel.User" />
+          <EntitySet Name="Licienses" EntityType="CapstoneModel.Liciense" />
           <AssociationSet Name="FK_Building_District" Association="CapstoneModel.FK_Building_District">
             <End Role="District" EntitySet="Districts" />
             <End Role="Building" EntitySet="Buildings" />
@@ -375,6 +425,10 @@
           <AssociationSet Name="FK_User_Role" Association="CapstoneModel.FK_User_Role">
             <End Role="Role" EntitySet="Roles" />
             <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Liciense_User" Association="CapstoneModel.FK_Liciense_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Liciense" EntitySet="Licienses" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Building">
@@ -520,6 +574,27 @@
           <NavigationProperty Name="Devices" Relationship="CapstoneModel.FK_Device_User" FromRole="User" ToRole="Device" />
           <NavigationProperty Name="Histories" Relationship="CapstoneModel.FK_History_User" FromRole="User" ToRole="History" />
           <NavigationProperty Name="Role" Relationship="CapstoneModel.FK_User_Role" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="Licienses" Relationship="CapstoneModel.FK_Liciense_User" FromRole="User" ToRole="Liciense" />
+        </EntityType>
+        <EntityType Name="Liciense">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="DayOfPurchase" />
+            <PropertyRef Name="ExpireDate" />
+            <PropertyRef Name="Type" />
+            <PropertyRef Name="IsUse" />
+            <PropertyRef Name="Active" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="DayOfPurchase" Type="Int32" Nullable="false" />
+          <Property Name="ExpireDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="IsUse" Type="Boolean" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="CapstoneModel.FK_Liciense_User" FromRole="Liciense" ToRole="User" />
         </EntityType>
         <Association Name="FK_Building_District">
           <End Type="CapstoneModel.District" Role="District" Multiplicity="1" />
@@ -638,6 +713,18 @@
             </Principal>
             <Dependent Role="User">
               <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Liciense_User">
+          <End Type="CapstoneModel.User" Role="User" Multiplicity="1" />
+          <End Type="CapstoneModel.Liciense" Role="Liciense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Liciense">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -787,6 +874,20 @@
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Licienses">
+            <EntityTypeMapping TypeName="CapstoneModel.Liciense">
+              <MappingFragment StoreEntitySet="Liciense">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="IsUse" ColumnName="IsUse" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+                <ScalarProperty Name="DayOfPurchase" ColumnName="DayOfPurchase" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
