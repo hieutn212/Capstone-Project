@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Lịch sử giao dịch";
+    ViewBag.Title = "Lịch sử hoạt động ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
@@ -79,7 +79,8 @@
 
         <!-- Header -->
         <div class="block-header title-format">
-            <h2>Lịch sử giao dịch của '@ViewData["Username"]'</h2>
+            <h2>Lịch sử hoạt động của '@ViewData["Username"]'</h2>
+            <input hidden type="text" value="@ViewData["IMEI"]" id="txtIMEI" />
         </div>
 
 
@@ -126,20 +127,20 @@
                             <th>
                                 <label class="">STT</label>
                             </th>
-                            <th>
-                                <label class="">IMEI</label>
-                            </th>
-                            <th>
-                                <label class="">Latitude</label>
-                            </th>
-                            <th>
-                                <label class="">Longitude</label>
-                            </th>
-                            <th>
-                                <label class="">Altitude</label>
-                            </th>
+                            @*<th>
+                                    <label class="">Latitude</label>
+                                </th>
+                                <th>
+                                    <label class="">Longitude</label>
+                                </th>
+                                <th>
+                                    <label class="">Altitude</label>
+                                </th>*@
                             <th>
                                 <label class="">Ngày tạo</label>
+                            </th>
+                            <th>
+                                <label class="">Chi tiet</label>
                             </th>
                         </tr>
                     </thead>
@@ -148,13 +149,39 @@
             </div>
         </div>
     </div>
+    <div id="DeviceModal" class="modal fade" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3>Vị trí thiết bị</h3>
+                </div>
+                <img src="~/Content/images/Maps/Floor1.png" id="mapFloor1" width="500" hidden height="800" />"
+                <img src="~/Content/images/Maps/Floor2.png" id="mapFloor2" width="500" hidden height="800" />"
+                <img src="~/Content/images/Maps/Floor3.png" id="mapFloor3" width="500" hidden height="800" />"
+                <img src="~/Content/images/Maps/Floor4.png" id="mapFloor4" width="500" hidden height="800" />"
+                <img src="~/Content/images/Maps/Floor5.png" id="mapFloor5" width="500" hidden height="800" />"
+                <canvas id="myCanvas" width="500" height="800"
+                        style="border:1px solid #c3c3c3" ;>
+                    Your browser does not support the canvas element.
+                </canvas>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 
 @section Scripts {
     <script src="~/Content/js/Campaign.js"></script>
     <script>
+        var corners = null;
+        var posX = 0;
+        var posY = 0;
+        var width = 600;
+        var height = 960;
         $(document).ready(function () {
+            getConners(1);
             setupDaterangepicker();
             InitDatatable();
 
@@ -165,10 +192,10 @@
 
         //init dateRange picker
         function setupDaterangepicker() {
-             $('#reportrange span').html(moment().add(-10, 'days').format('MMM D, YYYY') + ' - ' + moment().add(0, 'days').format('MMM D, YYYY'));
+            $('#reportrange span').html(moment().add(0, 'days').format('MMM D, YYYY') + ' - ' + moment().add(0, 'days').format('MMM D, YYYY'));
             $('#reportrange').daterangepicker({
                 format: 'DD/MM/YYYY',
-                startDate: moment().add(-10, 'days'),
+                startDate: moment().add(0, 'days'),
                 endDate: moment().add(0, 'days'),
                 minDate: '01/01/2012',
                 maxDate: '31/12/2100',
@@ -233,11 +260,10 @@
                 "bProcessing": true,
                 "bFilter": true,
                 "fnServerParams": function (aoData) {
-                    debugger
                     aoData.push(
-                        { "name": "IMEI", "value": "866657039597703" },
-                        { "name": "startDate", "value": $('#reportrange').data('daterangepicker').startDate.toISOString()},
-                        { "name": "endDate", "value": $('#reportrange').data('daterangepicker').endDate.toISOString()}
+                        { "name": "IMEI", "value": $("#txtIMEI").val() },
+                        { "name": "startDate", "value": $('#reportrange').data('daterangepicker').startDate.toISOString() },
+                        { "name": "endDate", "value": $('#reportrange').data('daterangepicker').endDate.toISOString() }
                     );
                 },
                 "oLanguage": {
@@ -255,9 +281,18 @@
                 },
                 "aoColumnDefs": [
                     {
-                        "aTargets": [0, 1, 2, 3, 4, 5],
+                        "aTargets": [0, 1, 2],
                         "bSortable": true,
                     },
+                    {
+                        "aTargets": [2],
+                        "mRender": function (data, type, row) {
+                            var data = row[2];
+                            return "<a class='btn btn-sm btn-primary' data-toggle='tooltip' title='Chi tiết' onclick='viewPointMap(" + data + ")'><i class='fa fa-eye'></i></a>"
+                        },
+                        "bSortable": false
+
+                    }
                 ],
                 "bAutoWidth": false,
             }).fnSetFilteringDelay(1000);
@@ -267,5 +302,191 @@
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
+        function viewPointMap(id) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetPointMap", "History")',
+                data: { id: id },
+                success: function (result) {
+                    if (result.success) {
+                        $('#DeviceModal').modal('show');
+                        var canvas = document.getElementById("myCanvas");
+                        var ctx = canvas.getContext("2d");
+                        var img = document.getElementById("mapFloor1");;
+                        for (var i = 0; i < result.length; i++) {
+                            if (result.Altitude == 0) {
+                                img = document.getElementById("mapFloor1");
+                                break;
+                            } else if (result.Altitude > 0 && result.Altitude <= 6.8) {
+                                img = document.getElementById("mapFloor1");
+                                break;
+                            }
+                            else if (result.Altitude > 6.8 && result.Altitude <= 9.9) {
+                                img = document.getElementById("mapFloor1");
+                                break;
+                            }
+                            else if (result.Altitude > 9.9 && result.Altitude <= 13.3) {
+                                img = document.getElementById("mapFloor1");
+                                break;
+                            }
+                            else if (result.Altitude > 13.3 && result.Altitude <= 17.3) {
+                                img = document.getElementById("mapFloor2");
+                                break;
+                            } else if (result.Altitude > 17.3 && result.Altitude <= 20.4) {
+                                img = document.getElementById("mapFloor3");
+                                break;
+                            } else if (result.Altitude > 20.4 && result.Altitude <= 24.3) {
+                                img = document.getElementById("mapFloor4");
+                                break;
+                            } else if (result.Altitude > 24.3) {
+                                img = document.getElementById("mapFloor5");
+                                break;
+                            }
+                        }
+                        ctx.drawImage(img, 0, 0, 500, 800);
+                        getPointMap(result.Latitude, result.Longitude);
+                        ctx.fillStyle = "#FF0000";
+                        ctx.fillRect(posX, posY, 8, 8);
+                    } else {
+                        PnotifyFail("Có lỗi xảy ra!!!");
+                    }
+                },
+                error: function (error) {
+                    PnotifyFail("Có lỗi xảy ra!!!");
+                }
+            });
+
+        }
+        function getConners(id) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetAllCornerWithMap", "History")',
+                data: { mapId: id },
+                success: function (result) {
+                    if (result.success) {
+                        corners = result;
+                    } else {
+                        PnotifyFail("Có lỗi xảy ra!!!");
+                    }
+                },
+                error: function (error) {
+                    PnotifyFail("Có lỗi xảy ra!!!");
+                }
+            });
+
+        }
+
+        function getPointMap(latitude, longitude) {
+            var corner = 1;
+            var min = PerpendicularDistance(corners.result[0], corners.result[1], longitude, latitude);
+            var perpendicular = PerpendicularDistance(corners.result[1], corners.result[2], longitude, latitude);
+            if (perpendicular <= min) {
+                min = perpendicular;
+                corner = 2;
+            }
+            perpendicular = PerpendicularDistance(corners.result[2], corners.result[3], longitude, latitude);
+            if (perpendicular <= min) {
+                min = perpendicular;
+                corner = 3;
+            }
+            perpendicular = PerpendicularDistance(corners.result[3], corners.result[0], longitude, latitude);
+            if (perpendicular <= min) {
+                min = perpendicular;
+                corner = 4;
+            }
+            var checkX = 0;
+            var checkY = 0;
+            if (corner == 1) {
+                //29  18
+                var currentCorner1 = corners.result[1];
+                var currentCorner2 = corners.result[0];
+                var distance2 = HaversineInM(latitude, longitude, currentCorner1.Latitude, currentCorner1.Longitude);
+                var distanceCorner = HaversineInM(currentCorner2.Latitude, currentCorner2.Longitude,
+                        currentCorner1.Latitude, currentCorner1.Longitude);
+                var temp = getPixelWithPer(min, distance2);
+                checkY = height / distanceCorner * temp;
+                currentCorner2 = corners.result[2];
+                distanceCorner = HaversineInM(currentCorner1.Latitude, currentCorner1.Longitude,
+                        currentCorner2.Latitude, currentCorner2.Longitude);
+                checkX = (width / distanceCorner * min);
+            } else if (corner == 3) {
+                var currentCorner1 = corners.result[2];
+                var currentCorner2 = corners.result[3];
+                var distance2 = HaversineInM(latitude, longitude, currentCorner1.Latitude, currentCorner1.Longitude);
+                var distanceCorner = HaversineInM(currentCorner2.Latitude, currentCorner2.Longitude,
+                        currentCorner1.Latitude, currentCorner1.Longitude);
+                var temp = getPixelWithPer(min, distance2);
+                checkY =(height / distanceCorner * temp);
+                currentCorner2 = corners.result[1];
+                distanceCorner = HaversineInM(currentCorner1.Latitude, currentCorner1.Longitude,
+                        currentCorner2.Latitude, currentCorner2.Longitude);
+                var x = distanceCorner - (min);
+                checkX = (width / distanceCorner * x);
+            } else if (corner == 2) {
+                var currentCorner1 = corners.result[2];
+                var currentCorner2 = corners.result[1];
+                var distance2 = HaversineInM(latitude, longitude, currentCorner2.Latitude, currentCorner2.Longitude);
+                var distanceCorner = HaversineInM(currentCorner2.Latitude, currentCorner2.Longitude,
+                        currentCorner1.Latitude, currentCorner1.Longitude);
+                var temp = getPixelWithPer(min, distance2);
+                checkX = (width / distanceCorner * temp);
+                currentCorner1 = corners.result[0];
+                distanceCorner = HaversineInM(currentCorner1.Latitude, currentCorner1.Longitude,
+                        currentCorner2.Latitude, currentCorner2.Longitude);
+                checkY =  (height / distanceCorner * min);
+            } else if (corner == 4) {
+                var currentCorner1 = corners.result[3];
+                var currentCorner2 = corners.result[0];
+                var distance2 = HaversineInM(latitude, longitude, currentCorner2.Latitude, currentCorner2.Longitude);
+                var distanceCorner = HaversineInM(currentCorner2.Latitude, currentCorner2.Longitude,
+                        currentCorner1.Latitude, currentCorner1.Longitude);
+                var temp = getPixelWithPer(min, distance2);
+                checkX =(width / distanceCorner * temp);
+                currentCorner2 = corners.result[2];
+                distanceCorner = HaversineInM(currentCorner1.Latitude, currentCorner1.Longitude,
+                        currentCorner2.Latitude, currentCorner2.Longitude);
+                var x = distanceCorner - min;
+                checkY = (height / distanceCorner * x);
+            }
+
+            if ((checkX <= width && checkX >= 0) && (checkY <= height && checkY >= 0)) {
+                posX = checkX;
+                posY = checkY;
+            }
+        }
+
+
+        function HaversineInM(lat1, long1, lat2, long2) {
+            return (1000.0 * HaversineInKMFast(lat1, long1, lat2, long2));
+        }
+
+        function HaversineInKMFast(lat1, long1, lat2, long2) {
+            var dLat = (lat2 - lat1) * Math.PI / 180; // deg2rad below
+            var dLon = (long2 - long1) * Math.PI / 180;
+            var a =0.5 - Math.cos(dLat) / 2 +
+                            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                                    (1 - Math.cos(dLon)) / 2;
+
+            return 6371.0 * 2 * Math.asin(Math.sqrt(a));
+        }
+
+        function PerpendicularDistance(/*Corner*/ pointA, /*Corner*/ pointB, longitude, latitude) {
+
+                var bottom = HaversineInKMFast(pointA.Latitude, pointA.Longitude, pointB.Latitude, pointB.Longitude);
+                var a = HaversineInKMFast(pointA.Latitude, pointA.Longitude, latitude, longitude);
+                var b = HaversineInKMFast(latitude, longitude, pointB.Latitude, pointB.Longitude);
+                var p = .5 * (bottom + a + b);
+                var area = Math.sqrt(p * (p - bottom) * (p - a) * (p - b));
+                var height = area / bottom * 2;
+                return height * 1000.0;
+        }
+       function getPixelWithPer(perpendicular, currentDistance) {
+        var temp = Math.pow(currentDistance, 2);
+        temp = temp - Math.pow(perpendicular, 2);
+        temp = Math.abs(temp);
+        var result = Math.sqrt(temp);
+
+        return result;
+        }
     </script>
 }

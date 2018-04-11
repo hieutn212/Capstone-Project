@@ -50,12 +50,11 @@ namespace Wisky.Areas.Admin.Controllers
                         .Select(p => new IConvertible[]
                         {
                     count++,
-                    p.DeviceId,
+                    p.CreatedDate.ToShortDateString() + " "+ p.CreatedDate.ToShortTimeString(),
+                    p.Id,
                     p.Latitude,
                     p.Longitude,
                     p.Altitude,
-                    p.CreatedDate.ToShortDateString() + " "+ p.CreatedDate.ToShortTimeString(),
-                    p.Id,
                         });
                     var total = positionList.Count();
                     return Json(new
@@ -83,6 +82,78 @@ namespace Wisky.Areas.Admin.Controllers
                     iTotalDisplayRecords = 0,
                     aaData = new List<Product_position>()
                 }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+        public ActionResult GetPointMap(int id)
+        {
+            try
+            {
+                var positionService = this.Service<IProduct_positionService>();
+                Product_position position = positionService.GetActive(q => q.Id == id).FirstOrDefault();
+                if (position != null)
+                {
+                    return Json(new
+                    {
+                        success = true,
+                        ID = position.Id,
+                        Longitude = position.Longitude,
+                        Latitude = position.Latitude,
+                        Altitude = position.Latitude,
+                    });
+                }
+                return Json(new
+                {
+                    success = false,
+                });
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    success = false,
+                });
+            }
+        }
+
+        public ActionResult GetAllCornerWithMap(int mapId)
+        {
+            try
+            {
+                ICornerService cornerService = this.Service<ICornerService>();
+                List<Corner> corners = cornerService.GetListCornerWithMapId(mapId);
+
+                if (corners != null)
+                {
+                    corners = corners.Select(q => new Corner()
+                    {
+                        Description = q.Description,
+                        Floor = q.Floor,
+                        Id = q.Id,
+                        Latitude = q.Latitude,
+                        Longitude = q.Longitude,
+                        MapId = q.MapId,
+                        Position = q.Position
+                    }).ToList();
+
+                        return Json(new
+                        {
+                            success = true,
+                            result = corners,
+                        });
+                }
+
+                return Json( new 
+                {
+                    success = false,
+                });
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    success = false,
+                });
             }
         }
     }
