@@ -117,13 +117,13 @@ namespace Wisky.Controllers
             User user = userService.GetByUsernameAndPassword(model.Username, model.Password);
             if (user != null)
             {
-                if(user.RoleId == 1)
+                if (user.RoleId == 1)
                 {
                     returnUrl = ("/Admin/Accounts");
 
                 }
 
-                if(user.RoleId == 2)
+                if (user.RoleId == 2)
                 {
                     returnUrl = Url.Action("Accounts", "Admin");
                 }
@@ -138,15 +138,26 @@ namespace Wisky.Controllers
                 //        returnUrl = Url.Action("accounts", "admin");
                 //    }
 
-                    if (string.IsNullOrEmpty(returnUrl))
-                    {
-                        returnUrl = this.Url.Action("Login", "Account");
-                    }
+                if (string.IsNullOrEmpty(returnUrl))
+                {
+                    returnUrl = this.Url.Action("Login", "Account");
+                }
 
                 //    return this.Redirect(returnUrl);
                 //}
                 Session["Userfullname"] = user.Fullname;
                 Session["Username"] = user.Username;
+                Session["LicienseType"] = null;
+                ILicienseService licienseService = this.Service<ILicienseService>();
+                try
+                {
+                    Liciense liciense = licienseService.GetActive(q => q.User.Username == user.Username && q.IsUse).FirstOrDefault();
+                    Session["LicienseType"] = liciense.Type.ToString();
+                }
+                catch (Exception)
+                {
+
+                }
                 return this.Redirect(returnUrl);
             }
             return this.View(model);
@@ -235,18 +246,18 @@ namespace Wisky.Controllers
                     {
                         throw;
                     }
-                        
 
-                    }
-                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    //await UserManager.SendEmailAsync(User.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                }
+                //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    return RedirectToAction("Index", "Home");
+                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                // Send an email with this link
+                // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                //await UserManager.SendEmailAsync(User.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                return RedirectToAction("Index", "Home");
             }
 
             // If we got this far, something failed, redisplay form

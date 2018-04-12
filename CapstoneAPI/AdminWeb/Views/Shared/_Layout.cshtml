@@ -42,14 +42,19 @@
     @{
         string userfullname = HttpContext.Current.User.Identity.Name;
         //string username = System.Web.HttpContext.Current.Request.LogonUserIdentity.Name;'
-
+        string licienseType = Session["LicienseType"].ToString();
+        string showORhide = "hidden";
         try
-        {          
+        {
             userfullname = Session["Userfullname"].ToString();
+            if(licienseType == "2")
+            {
+                showORhide = "show";
+            }
         }
         catch (Exception)
         {
-            
+
         }
         bool isAuthenticated = HttpContext.Current.User.Identity.IsAuthenticated;
 
@@ -144,7 +149,7 @@
                         </a>
                     </li>
 
-                    <li class="">
+                    <li class="@showORhide" id="tracking" >
                         <a href="@Url.Action("Index", "Customer", new { area = "Admin"})">
                             <i class="fa fa-mobile-phone"></i>
                             <span class="title">Quản lý thiết bị</span>
@@ -258,6 +263,10 @@
              });
          });
 
+        function checkUserLliciense(id) {
+            if (licienseType == "1"){   
+            }
+        }
     </script>
 </body>
 </html>
