@@ -18,8 +18,8 @@ namespace CapstoneData.Models.Entities.Services
     public partial class LicienseService
     {
 
-        public int TYPE_1 = 1;
-        public int TYPE_2 = 2;
+        public int TYPE_Normal = 1;
+        public int TYPE_VIP = 2;
 
         public IQueryable<Liciense> getListByUserId(int UserId)
         {
@@ -36,33 +36,16 @@ namespace CapstoneData.Models.Entities.Services
             return this.GetActive(q => q.UserId == userId && q.IsUse).FirstOrDefault();
         }
 
-        public int getId()
-        {
-            int id = 1;
-            try
-            {
-                var lastOrFirstLiciense = this.GetActive(q => q.Id >= 0).LastOrDefault();
-                if (lastOrFirstLiciense != null)
-                {
-                    id = lastOrFirstLiciense.Id + 1;
-                }
-                return id;
-            }
-            catch (Exception)
-            {
-                return id; ;
-            }
-        }
+       
         public Boolean AddNewLiciense(int userId, Liciense liciense)
         {
-            int id = getId();
-            if (liciense.Type == TYPE_1)
+            if (liciense.Type == TYPE_Normal)
             {
                 try
                 {
-                    if(getLicienseByUserIdAndType(userId, TYPE_1) != null)
+                    if(getLicienseByUserIdAndType(userId, TYPE_Normal) != null)
                     {
-                        var licienseCheck = getLicienseByUserIdAndType(userId, TYPE_2);
+                        var licienseCheck = getLicienseByUserIdAndType(userId, TYPE_VIP);
                         if (licienseCheck != null)
                         {
                             var availableDay = (liciense.ExpireDate - DateTime.Now).Days;
@@ -72,12 +55,11 @@ namespace CapstoneData.Models.Entities.Services
                             this.Update(licienseCheck);
                             return true;
                         }
-                        //this.Activate(liciense);
                         this.Update(liciense);
                         return true;
                     } else
                     {
-                        var licienseCheck = getLicienseByUserIdAndType(userId, TYPE_2);
+                        var licienseCheck = getLicienseByUserIdAndType(userId, TYPE_VIP);
                         if (licienseCheck != null)
                         {
                             var availableDay = (liciense.ExpireDate - DateTime.Now).Days;
@@ -87,8 +69,6 @@ namespace CapstoneData.Models.Entities.Services
                             this.Update(licienseCheck);
                             return true;
                         }
-                        liciense.Id = id;
-                        //this.Activate(liciense);
                         this.Create(liciense);
                         return true;
                     }                   
@@ -98,13 +78,13 @@ namespace CapstoneData.Models.Entities.Services
                     return false;
                 }
             }
-            if (liciense.Type == TYPE_2)
+            if (liciense.Type == TYPE_VIP)
             {
                 try
                 {
-                    if(getLicienseByUserIdAndType(userId, TYPE_2) != null)
+                    if(getLicienseByUserIdAndType(userId, TYPE_VIP) != null)
                     {
-                        var licienseCheck = getLicienseByUserIdAndType(userId, TYPE_1);
+                        var licienseCheck = getLicienseByUserIdAndType(userId, TYPE_Normal);
                         if (licienseCheck != null)
                         {
                             licienseCheck.IsUse = false;
@@ -119,7 +99,7 @@ namespace CapstoneData.Models.Entities.Services
                         return true;
                     }else
                     {
-                        var licienseCheck = getLicienseByUserIdAndType(userId, TYPE_1);
+                        var licienseCheck = getLicienseByUserIdAndType(userId, TYPE_Normal);
                         if (licienseCheck != null)
                         {
                             licienseCheck.IsUse = false;
@@ -128,8 +108,7 @@ namespace CapstoneData.Models.Entities.Services
                             this.Create(liciense);
                             this.Update(licienseCheck);
                             return true;
-                        }
-                        liciense.Id = id;
+                        }                        
                         liciense.IsUse = true;
                         this.Create(liciense);
                         return true;

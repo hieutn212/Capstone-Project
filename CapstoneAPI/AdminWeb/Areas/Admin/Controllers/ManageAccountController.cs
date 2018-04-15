@@ -72,6 +72,7 @@ namespace Wisky.Areas.Admin.Controllers
                 }
                 if (flag)
                 {
+                    Session["LicienseType"] = type;
                     //create history
                     History history = new History();
                     history.Price = (float)price;
@@ -79,6 +80,8 @@ namespace Wisky.Areas.Admin.Controllers
                     history.CreatedDate = DateTime.Now;
                     history.BuyDate = day;
                     historyService.Create(history);
+                    user.ExpireDate = licienseService.getIsUseLiciense(user.Id).ExpireDate;
+                    userService.Update(user);
                 }             
                 return this.RedirectToAction("Index", "ManageAccount", new { area = "Admin" });
             }

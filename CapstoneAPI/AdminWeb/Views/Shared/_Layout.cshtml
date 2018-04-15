@@ -42,12 +42,13 @@
     @{
         string userfullname = HttpContext.Current.User.Identity.Name;
         //string username = System.Web.HttpContext.Current.Request.LogonUserIdentity.Name;'
-        string licienseType = Session["LicienseType"].ToString();
+        string licienseType = "1";
         string showORhide = "hidden";
         try
         {
             userfullname = Session["Userfullname"].ToString();
-            if(licienseType == "2")
+            licienseType = Session["LicienseType"].ToString();
+            if (licienseType == "2")
             {
                 showORhide = "show";
             }

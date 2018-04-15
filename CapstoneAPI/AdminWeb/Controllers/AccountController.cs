@@ -230,6 +230,7 @@ namespace Wisky.Controllers
                 {
                     try
                     {
+                        //ILicienseService licienseService = this.Service<ILicienseService>();
                         var md5 = new MD5Hasher(System.Web.Configuration.FormsAuthPasswordFormat.MD5);
                         model.Password = md5.HashPassword(model.Password);
                         User user = new User();
@@ -244,7 +245,6 @@ namespace Wisky.Controllers
                     }
                     catch (Exception e)
                     {
-                        throw;
                     }
 
 
