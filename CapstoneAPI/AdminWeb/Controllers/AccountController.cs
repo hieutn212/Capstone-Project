@@ -154,9 +154,9 @@ namespace Wisky.Controllers
                     Liciense liciense = licienseService.GetActive(q => q.User.Username == user.Username && q.IsUse).FirstOrDefault();
                     Session["LicienseType"] = liciense.Type.ToString();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-
+                    throw new Exception(e.Message);
                 }
                 return this.Redirect(returnUrl);
             }
@@ -245,9 +245,8 @@ namespace Wisky.Controllers
                     }
                     catch (Exception e)
                     {
+                        throw new Exception(e.Message);
                     }
-
-
                 }
                 //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 

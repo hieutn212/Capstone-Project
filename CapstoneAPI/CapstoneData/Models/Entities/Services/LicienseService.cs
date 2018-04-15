@@ -73,9 +73,10 @@ namespace CapstoneData.Models.Entities.Services
                         return true;
                     }                   
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    return false;
+                    //return false;
+                    throw new Exception(e.Message);
                 }
             }
             if (liciense.Type == TYPE_VIP)
@@ -116,8 +117,7 @@ namespace CapstoneData.Models.Entities.Services
                 }
                 catch (Exception e)
                 {
-                    System.ArgumentException argEx = new System.ArgumentException("Index is out of range", "index", e);
-                    throw argEx;                    
+                    throw new Exception(e.Message);                    
                 }
             }
             return false;

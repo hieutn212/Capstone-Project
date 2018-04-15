@@ -65,9 +65,9 @@ namespace Wisky.Areas.Admin.Controllers
                 DateTime bt = (DateTime)user.Birthday;
                 ViewBag.BirthDay = String.Format("{0:dd/MM/yyyy}", bt);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                throw new Exception(e.Message);
             }
 
             return View(model);

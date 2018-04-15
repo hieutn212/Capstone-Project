@@ -85,11 +85,10 @@ namespace Wisky.Areas.Admin.Controllers
                 }             
                 return this.RedirectToAction("Index", "ManageAccount", new { area = "Admin" });
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                throw new Exception(e.Message);
             }
-            return this.RedirectToAction("Index", "ManageAccount", new { area = "Admin" });
         }
 
         private int getDay(int price)
@@ -118,10 +117,9 @@ namespace Wisky.Areas.Admin.Controllers
                 var liciense = licienseService.getLicienseByUserIdAndType(userId, type);
                 if (liciense != null) return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                return false;
+                throw new Exception(e.Message);
             }
             return false;
         }
