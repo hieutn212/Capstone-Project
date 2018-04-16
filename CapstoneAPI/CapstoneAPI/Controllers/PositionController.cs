@@ -4,6 +4,7 @@ using CapstoneData.Models.Entities.Services;
 using CapstoneData.Utility;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
 
@@ -176,5 +177,51 @@ namespace CapstoneAPI.Controllers
             }
         }
 
+        public HttpResponseMessage trackingProductWithTime(string deviceId, int timeSearch)
+        {
+            IDeviceService deviceService = this.Service<IDeviceService>();
+            Device device = deviceService.GetById(deviceId);
+            DateTime startDate = DateTime.Now;
+            DateTime endDate = startDate.AddMinutes(timeSearch);
+            if (device != null)
+            {
+                IProduct_positionService productPositionService = this.Service<IProduct_positionService>();
+                List<Product_position> positions = productPositionService.getListByTime(deviceId, startDate, endDate);
+                if (positions != null)
+                {
+                    positions = positions.Select(q=> new Product_position()
+                    {
+                        Id = q.Id,
+                        DeviceId = q.DeviceId,
+                        Altitude = q.Altitude,
+                        Latitude = q.Latitude,
+                        Longitude = q.Longitude,
+                        CreatedDate = q.CreatedDate,
+                        Active = q.Active,
+                    }).ToList();
+                    return new HttpResponseMessage()
+                    {
+                        StatusCode = System.Net.HttpStatusCode.OK,
+                        Content = new JsonContent(positions)
+                    };
+                }
+                else
+                {
+                    return new HttpResponseMessage()
+                    {
+                        StatusCode = System.Net.HttpStatusCode.NotFound,
+                        Content = new JsonContent("Can not find device")
+                    };
+                }
+            }
+            else
+            {
+                return new HttpResponseMessage()
+                {
+                    StatusCode = System.Net.HttpStatusCode.NotFound,
+                    Content = new JsonContent("Device is not exist")
+                };
+            }
+        }
     }
 }
