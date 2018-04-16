@@ -65,7 +65,7 @@
 </head>
 <body>
     @*<input type="hidden" id="locationCount" value="@(brand==null?0: brand.Locations.Count)" />*@
-    <header id="header" style="background-color:#2196F3">
+    <header id="header" style="background-color:#E8E8E8">
         <ul class="header-inner">
             <li id="menu-trigger" data-trigger="#sidebar">
                 <div class="line-wrap">
@@ -76,7 +76,7 @@
             </li>
             <li class="hidden-md hidden-sm hidden-xs">
                 <a href="@Url.Action("Index","Home",new {area ="BrandManager"})">
-                    <span class="navbar-brand pull-right text-uppercase" style="color: white">LOAB Admin</span>
+                   <img src="~/Content/images/logo clear.png" width="15%" height="100%">
                 </a>
             </li>
         </ul>
@@ -96,7 +96,7 @@
                 <div class="profile-menu">
                     <a href="#">
                         <div class="profile-pic">
-                            <img src="~/Content/template-material/img/profile-pics/1.jpg" alt="">
+                            <img src="~/Content/images/logo mini.png" alt="">
                         </div>
                         <div class="profile-info">
                             Xin chào, <strong style="font-size: 15px">@userfullname</strong>
@@ -193,7 +193,7 @@
     </section>
     <footer id="footer">
         <ul class="f-menu">
-            @*<li><a href="#">Team SWD</a></li>*@
+            <li>Team LOAB</li>
         </ul>
     </footer>
     <!-- Javascript Libraries -->

@@ -20,6 +20,10 @@ namespace Wisky.Areas.Admin.Controllers
         public ActionResult Index()
         {
             //ViewBag.Username = Session["Username"];
+            if (Session["Username"] == null)
+            {
+                return this.Redirect("/");
+            }
             return View();
         }
 

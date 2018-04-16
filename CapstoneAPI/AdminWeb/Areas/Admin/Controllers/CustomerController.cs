@@ -18,6 +18,10 @@ namespace Wisky.Areas.Admin.Controllers
         // GET: Admin/Customer
         public ActionResult Index()
         {
+            if (Session["Username"] == null)
+            {
+                return this.Redirect("/");
+            }
             return View();
         }
 

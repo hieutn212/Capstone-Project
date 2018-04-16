@@ -20,6 +20,10 @@ namespace Wisky.Areas.Admin.Controllers
             {
                 ViewBag.Username = Session["Username"];
                 IUserService userService = this.Service<IUserService>();
+                if(Session["Username"] == null)
+                {
+                    return this.Redirect("/");
+                }
                 User user = userService.GetByUsername(Session["Username"].ToString());
                 ILicienseService licienseService = this.Service<ILicienseService>();
                 Liciense liciense = licienseService.getIsUseLiciense(user.Id);
