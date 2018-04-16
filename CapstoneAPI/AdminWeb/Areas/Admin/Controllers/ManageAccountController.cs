@@ -73,12 +73,14 @@ namespace Wisky.Areas.Admin.Controllers
                 if (flag)
                 {
                     Session["LicienseType"] = type;
+
                     //create history
                     History history = new History();
                     history.Price = (float)price;
                     history.UserId = user.Id;
                     history.CreatedDate = DateTime.Now;
                     history.BuyDate = day;
+                    history.Type = type;
                     historyService.Create(history);
                     user.ExpireDate = licienseService.getIsUseLiciense(user.Id).ExpireDate;
                     userService.Update(user);
