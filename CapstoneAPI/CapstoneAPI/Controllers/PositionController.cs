@@ -182,7 +182,7 @@ namespace CapstoneAPI.Controllers
             IDeviceService deviceService = this.Service<IDeviceService>();
             Device device = deviceService.GetById(deviceId);
             DateTime startDate = DateTime.Now;
-            DateTime endDate = startDate.AddMinutes(timeSearch);
+            DateTime endDate = startDate.AddMinutes(timeSearch*(-1));
             if (device != null)
             {
                 IProduct_positionService productPositionService = this.Service<IProduct_positionService>();
