@@ -20,30 +20,60 @@ namespace Wisky.Areas.Admin.Controllers
             {
                 ViewBag.Username = Session["Username"];
                 IUserService userService = this.Service<IUserService>();
+                if(Session["Username"] == null)
+                {
+                    return this.Redirect("/");
+                }
                 User user = userService.GetByUsername(Session["Username"].ToString());
+                ILicienseService licienseService = this.Service<ILicienseService>();
+                Liciense liciense = licienseService.getIsUseLiciense(user.Id);
+                ViewBag.licienseType = "Tài khoản khách";
                 ViewBag.UserFullName = user.Fullname;
-                DateTime dt = (DateTime)user.ExpireDate;
-                ViewBag.ExpireDay = String.Format("{0:dd/ MM/ yyyy}", dt);
+                ViewBag.availableDay = 0;
+                DateTime dt = DateTime.Now.AddDays(-1);
+                if (liciense != null)
+                {
+                    if (liciense.Type == 1)
+                    {
+                        ViewBag.licienseType = "Tài khoản thường";
+                    }
+                    if (liciense.Type == 2)
+                    {
+                        ViewBag.licienseType = "Tài khoản VIP";
+                    }
+                    if (liciense.ExpireDate.CompareTo(DateTime.Now) == -1)
+                    {
+                        ViewBag.availableDay = 0;
+                    }
+                    else
+                    {
+                        ViewBag.availableDay = (liciense.ExpireDate - DateTime.Now).Days;
+                    }
+                    dt = (DateTime)liciense.ExpireDate;
+                }
+                
+                //ViewBag.ExpireDay = String.Format("{0:dd/ MM/ yyyy}", dt);
                 if (DateTime.Now.CompareTo(dt) <= 0)
                 {
                     ViewBag.ExpireDay = String.Format("{0:dd/ MM/ yyyy}", dt);
-                } else
+                }
+                else
                 {
                     ViewBag.ExpireDay = "Hết hạn";
                 }
                 ViewBag.Status = "Đang hoạt động";
                 if (!user.Active)
                 {
-                    ViewBag.Status = "Đang bị khóa";
+                    ViewBag.Status = "Đã khóa";
                 }
                 DateTime bt = (DateTime)user.Birthday;
                 ViewBag.BirthDay = String.Format("{0:dd/MM/yyyy}", bt);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                
+                throw new Exception(e.Message);
             }
-           
+
             return View(model);
         }
     }

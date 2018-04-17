@@ -59,7 +59,7 @@ namespace CapstoneData.Models.Entities.Services
                     currentDay = (DateTime)user.ExpireDate;
                 }
                 //currentDay.AddDays((double)totalDay);
-                currentDay=  currentDay.AddDays(30);
+                currentDay=  currentDay.AddDays(totalDay);
                 user.ExpireDate = currentDay;
                 this.Update(user);
                 return true;

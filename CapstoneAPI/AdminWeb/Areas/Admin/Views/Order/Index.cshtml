@@ -58,7 +58,7 @@
                             <label class="">Ngày mua</label>
                         </th>
                         <th>
-                            <label class="">Số lượng</label>
+                            <label class="">Số Ngày Mua</label>
                         </th>
                         <th>
                             <label class="">Giá tiền</label>
@@ -177,7 +177,7 @@
                 "bProcessing": true,
                 "fnServerParams": function (aoData) {
                     aoData.push(
-                        {"name": "userId", "value": 7},
+                        //{"name": "userId", "value": 7},
                         { "name": "startDate", "value": $('#reportrange').data('daterangepicker').startDate.toISOString() },
                         { "name": "endDate", "value": $('#reportrange').data('daterangepicker').endDate.toISOString() }
                         );

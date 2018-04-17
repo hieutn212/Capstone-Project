@@ -17,13 +17,25 @@ namespace Wisky.Areas.Admin.Controllers
         // GET: Admin/Order
         public ActionResult Index()
         {
+            if (Session["Username"] == null)
+            {
+                return this.Redirect("/");
+            }
             return View();
         }
 
-        public JsonResult HistoryDatatable(JQueryDataTableParamModel param, int userId, DateTime startDate, DateTime endDate)
+        public JsonResult HistoryDatatable(JQueryDataTableParamModel param, DateTime startDate, DateTime endDate)
         {
             try
             {
+                String username = Session["Username"].ToString();
+                int userId = 0;
+                if(username != null)
+                {
+                    var userService = this.Service<IUserService>();
+                    var user = userService.GetByUsername(username);
+                    userId = user.Id;
+                }
                 var historyService = this.Service<IHistoryService>();
                 var listHistorys = historyService.getListByUserId(userId, startDate, endDate);
                 if (listHistorys == null)
@@ -47,8 +59,8 @@ namespace Wisky.Areas.Admin.Controllers
                     count++,
                     p.User.Username,
                     p.CreatedDate.ToShortDateString() + " " + p.CreatedDate.ToShortTimeString(),
-                    p.BuyDate,
-                    p.Price,
+                    p.BuyDate.ToString() + " ngày",
+                    p.Price.ToString() + " $",
                     });
                 var total = listHistorys.Count();
                 return Json(new
