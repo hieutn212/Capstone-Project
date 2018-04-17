@@ -250,7 +250,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12" style="background-color:#0a8439"><h4 style="font-weight:100;padding-left:65%"><input type="checkbox" id="Check2" name="p30" class="check-box" value="1-30" onclick="selectOnlyThis(this.id)" /></h4></div>
+                <div class="col-md-12" style="background-color:#0a8439"><h4 style="font-weight:100;padding-left:65%"><input type="checkbox" id="Check2" name="p30" class="check-box" value="2-30" onclick="selectOnlyThis(this.id)" /></h4></div>
             </div>
 
             <div class="col-md-4 col-xs-12 p-l-0 p-r-0 top-panel3">
@@ -269,7 +269,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12" style="background-color:#ccaa45"><h4 style="font-weight:100;padding-left:65%"><input type="checkbox" id="Check3" name="p40" class="check-box" value="1-40" onclick="selectOnlyThis(this.id)" /></h4></div>
+                <div class="col-md-12" style="background-color:#ccaa45"><h4 style="font-weight:100;padding-left:65%"><input type="checkbox" id="Check3" name="p40" class="check-box" value="3-40" onclick="selectOnlyThis(this.id)" /></h4></div>
             </div>
         </div>
 
@@ -300,7 +300,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12" style="background-color:#247d88"><h4 style="font-weight:100; padding-left:65%"><input type="checkbox" id="Check4" name="p25" class="check-box" value="2-25" onclick="selectOnlyThis(this.id)" /></h4></div>
+                <div class="col-md-12" style="background-color:#247d88"><h4 style="font-weight:100; padding-left:65%"><input type="checkbox" id="Check4" name="p25" class="check-box" value="4-25" onclick="selectOnlyThis(this.id)" /></h4></div>
             </div>
             <div class="col-md-4 col-xs-12 p-l-0 p-r-0 top-panel2">
                 <div class="">
@@ -318,7 +318,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12" style="background-color:#0a8439"><h4 style="font-weight:100;padding-left:65%"><input type="checkbox" id="Check5" name="p35" class="check-box" value="2-35" onclick="selectOnlyThis(this.id)" /></h4></div>
+                <div class="col-md-12" style="background-color:#0a8439"><h4 style="font-weight:100;padding-left:65%"><input type="checkbox" id="Check5" name="p35" class="check-box" value="5-35" onclick="selectOnlyThis(this.id)" /></h4></div>
             </div>
 
             <div class="col-md-4 col-xs-12 p-l-0 p-r-0 top-panel3">
@@ -337,7 +337,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12" style="background-color:#ccaa45"><h4 style="font-weight:100;padding-left:65%"><input type="checkbox" id="Check6" name="p45" class="check-box" value="2-45" onclick="selectOnlyThis(this.id)" /></h4></div>
+                <div class="col-md-12" style="background-color:#ccaa45"><h4 style="font-weight:100;padding-left:65%"><input type="checkbox" id="Check6" name="p45" class="check-box" value="6-45" onclick="selectOnlyThis(this.id)" /></h4></div>
             </div>
         </div>
 
@@ -405,7 +405,7 @@
 
                     window.alert('Payment Complete!');
 
-                    window.location.href = "http://localhost:36110/Admin/ManageAccount/AddNewLicense?username=" + name + "&price=" + Checked.substring(2) + "&type=" + Checked.substr(0, 1);
+                    window.location.href = "http://localhost:36110/Admin/ManageAccount/AddNewLicense?username=" + name + "&LicenseTypeId=" + Checked.substr(0, 1);
                 })
 
             }

@@ -28,16 +28,17 @@ namespace Wisky.Areas.Admin.Controllers
         }
 
         [WebMethod]
-        public ActionResult AddNewLicense(String username, int price, int type)
+        public ActionResult AddNewLicense(String username, int LicenseTypeId)
         {
             try
             {
 
-                int day = getDay(price);
+                ILicenseTypeService licenseTypeService = this.Service<ILicenseTypeService>();
+                var licenseType = licenseTypeService.getLicenseById(LicenseTypeId);
 
                 IUserService userService = this.Service<IUserService>();
                 IHistoryService historyService = this.Service<IHistoryService>();
-                userService.AddExpireDay(username, day);
+                userService.AddExpireDay(username, (Int64) licenseType.BuyDate);
                 User user = userService.GetByUsername(username);
 
                 var licienseService = this.Service<ILicienseService>();
@@ -45,9 +46,9 @@ namespace Wisky.Areas.Admin.Controllers
 
                 //var dayToAdd = listUserLiense.FirstOrDefault(q => q.Type == type).ExpireDate;
                 var flag = false;
-                if (isCreated(user.Id, type))
+                if (isCreated(user.Id, (int)licenseType.PackageId))
                 {
-                    var liciense = licienseService.getLicienseByUserIdAndType(user.Id, type);
+                    var liciense = licienseService.getLicienseByUserIdAndType(user.Id, (int)licenseType.PackageId);
                     DateTime currentDay = DateTime.Now;
                     if (currentDay.CompareTo(liciense.ExpireDate) == -1)
                     {
@@ -57,8 +58,8 @@ namespace Wisky.Areas.Admin.Controllers
                     {
                         liciense.CreatedDate = currentDay;
                     }
-                    liciense.DayOfPurchase = liciense.DayOfPurchase + day;
-                    liciense.ExpireDate = currentDay.AddDays(day);
+                    liciense.DayOfPurchase = liciense.DayOfPurchase + (int)licenseType.BuyDate;
+                    liciense.ExpireDate = currentDay.AddDays((int)licenseType.BuyDate);
                     liciense.Active = true;
                     flag = licienseService.AddNewLiciense(user.Id, liciense);
                 }
@@ -66,25 +67,23 @@ namespace Wisky.Areas.Admin.Controllers
                 {
                     var liciense = new Liciense();
                     liciense.UserId = user.Id;
-                    liciense.ExpireDate = DateTime.Now.AddDays(day);
+                    liciense.ExpireDate = DateTime.Now.AddDays((Int64)licenseType.BuyDate);
                     liciense.CreatedDate = DateTime.Now;
                     liciense.Active = true;
-                    liciense.DayOfPurchase = day;
+                    liciense.DayOfPurchase = (int)licenseType.BuyDate;
                     liciense.IsUse = true;
-                    liciense.Type = type;
+                    liciense.PackageId = (int)licenseType.PackageId;
                     flag = licienseService.AddNewLiciense(user.Id, liciense);
                 }
                 if (flag)
                 {
-                    Session["LicienseType"] = type;
+                    Session["LicienseType"] = licenseType.PackageId;
 
                     //create history
                     History history = new History();
-                    history.Price = (float)price;
+                    history.TypeId = licenseType.Id;
                     history.UserId = user.Id;
                     history.CreatedDate = DateTime.Now;
-                    history.BuyDate = day;
-                    history.Type = type;
                     historyService.Create(history);
                     user.ExpireDate = licienseService.getIsUseLiciense(user.Id).ExpireDate;
                     userService.Update(user);
@@ -96,24 +95,7 @@ namespace Wisky.Areas.Admin.Controllers
                 throw new Exception(e.Message);
             }
         }
-
-        private int getDay(int price)
-        {
-            int day = 0;
-            if (price == 20 || price == 25)
-            {
-                day = 30;
-            }
-            if (price == 30 || price == 35)
-            {
-                day = 60;
-            }
-            if (price == 40 || price == 45)
-            {
-                day = 90;
-            }
-            return day;
-        }
+        
 
         public Boolean isCreated(int userId, int type)
         {

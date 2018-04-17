@@ -49,7 +49,7 @@ namespace Wisky.Areas.Admin.Controllers
                     }, JsonRequestBehavior.AllowGet);
                 }
                 var historyList = listHistorys.AsEnumerable()
-                    .Where(a => (string.IsNullOrEmpty(param.sSearch) || StringConvert.EscapeName(a.Price + "").ToLower()
+                    .Where(a => (string.IsNullOrEmpty(param.sSearch) || StringConvert.EscapeName(a.LicenseType.Price + "").ToLower()
                                      .Contains(StringConvert.EscapeName(param.sSearch).ToLower())));
                 int count = 1;
                 var rp = historyList
@@ -59,8 +59,8 @@ namespace Wisky.Areas.Admin.Controllers
                     count++,
                     p.User.Username,
                     p.CreatedDate.ToShortDateString() + " " + p.CreatedDate.ToShortTimeString(),
-                    p.BuyDate.ToString() + " ngày",
-                    p.Price.ToString() + " $",
+                    p.LicenseType.BuyDate.ToString() + " ngày",
+                    p.LicenseType.Price.ToString() + " $",
                     });
                 var total = listHistorys.Count();
                 return Json(new

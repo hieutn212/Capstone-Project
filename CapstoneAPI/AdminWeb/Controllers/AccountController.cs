@@ -154,7 +154,7 @@ namespace Wisky.Controllers
                     Liciense liciense = licienseService.GetActive(q => q.User.Username == user.Username && q.IsUse).FirstOrDefault();
                     if(liciense != null)
                     {
-                        Session["LicienseType"] = liciense.Type.ToString();
+                        Session["LicienseType"] = liciense.PackageId.ToString();
                     }
                 }
                 catch (Exception e)

@@ -24,11 +24,11 @@ namespace CapstoneData.Models.Entities.Services
         public IQueryable<Liciense> getListByUserId(int UserId)
         {
             DateTime today = DateTime.Now;
-            return this.GetActive(q => (q.UserId == UserId && q.ExpireDate > today)).OrderByDescending(a => a.Type);
+            return this.GetActive(q => (q.UserId == UserId && q.ExpireDate > today)).OrderByDescending(a => a.PackageId);
         }
         public Liciense getLicienseByUserIdAndType(int userId, int type)
         {
-            return this.GetActive(q => (q.UserId == userId && q.Type == type)).FirstOrDefault();
+            return this.GetActive(q => (q.UserId == userId && q.PackageId == type)).FirstOrDefault();
         }
 
         public Liciense getIsUseLiciense(int userId)
@@ -39,7 +39,7 @@ namespace CapstoneData.Models.Entities.Services
        
         public Boolean AddNewLiciense(int userId, Liciense liciense)
         {
-            if (liciense.Type == TYPE_Normal)
+            if (liciense.PackageId == TYPE_Normal)
             {
                 try
                 {
@@ -79,7 +79,7 @@ namespace CapstoneData.Models.Entities.Services
                     throw new Exception(e.Message);
                 }
             }
-            if (liciense.Type == TYPE_VIP)
+            if (liciense.PackageId == TYPE_VIP)
             {
                 try
                 {

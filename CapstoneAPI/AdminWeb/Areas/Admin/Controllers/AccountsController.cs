@@ -33,11 +33,11 @@ namespace Wisky.Areas.Admin.Controllers
                 DateTime dt = DateTime.Now.AddDays(-1);
                 if (liciense != null)
                 {
-                    if (liciense.Type == 1)
+                    if (liciense.PackageId == 1)
                     {
                         ViewBag.licienseType = "Tài khoản thường";
                     }
-                    if (liciense.Type == 2)
+                    if (liciense.PackageId == 2)
                     {
                         ViewBag.licienseType = "Tài khoản VIP";
                     }
