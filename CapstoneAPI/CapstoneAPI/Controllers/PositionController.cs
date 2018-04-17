@@ -186,7 +186,7 @@ namespace CapstoneAPI.Controllers
             if (device != null)
             {
                 IProduct_positionService productPositionService = this.Service<IProduct_positionService>();
-                List<Product_position> positions = productPositionService.getListByTime(deviceId, startDate, endDate);
+                List<Product_position> positions = productPositionService.getListByTime(deviceId, endDate, startDate);
                 if (positions != null)
                 {
                     positions = positions.Select(q=> new Product_position()
