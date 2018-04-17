@@ -24,7 +24,7 @@ namespace Wisky.Areas.Admin.Controllers
             {
                 return this.Redirect("/");
             }
-            return View();
+                return View();
         }
 
         [WebMethod]
@@ -95,7 +95,43 @@ namespace Wisky.Areas.Admin.Controllers
                 throw new Exception(e.Message);
             }
         }
-        
+
+        [HttpPost]
+        public ActionResult GetListLicenseType()
+        {
+            try
+            {
+                var licenseTypeService = this.Service<ILicenseTypeService>();
+                List<LicenseType> licenseType = licenseTypeService.getAllList();
+                if (licenseType != null)
+                {
+                    licenseType = licenseType.Select(q => new LicenseType()
+                    {
+                        Id = q.Id,
+                        TypeName = q.TypeName,
+                        BuyDate = q.BuyDate,
+                        Price = q.Price,
+                        PackageId = q.PackageId,
+                    }).ToList();
+                    return Json(new
+                    {
+                        success = true,
+                        result = licenseType
+                    });
+                }
+                return Json(new
+                {
+                    success = false,
+                });
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    success = false,
+                });
+            }
+        }
 
         public Boolean isCreated(int userId, int type)
         {

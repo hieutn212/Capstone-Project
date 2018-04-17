@@ -103,7 +103,7 @@ namespace Wisky.Areas.Admin.Controllers
                         ID = position.Id,
                         Longitude = position.Longitude,
                         Latitude = position.Latitude,
-                        Altitude = position.Latitude,
+                        Altitude = position.Altitude,
                     });
                 }
                 return Json(new

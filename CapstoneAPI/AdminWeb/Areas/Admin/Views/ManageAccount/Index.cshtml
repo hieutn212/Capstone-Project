@@ -1,7 +1,5 @@
-﻿
-
-@{
-    ViewBag.Title = "Tai Khoang";
+﻿@{
+    ViewBag.Title = "Tài khoản";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -16,7 +14,7 @@
 
     <script src="~/Content/template-material/vendors/bower_components/Waves/dist/waves.min.js"></script>
 
-
+    
 </head>
 
 <style>
@@ -232,7 +230,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12" style="background-color:#247d88"><h4 style="font-weight:100; padding-left:65%"><input type="checkbox" id="Check1" name="p20" class="check-box" value="1-20" onclick="selectOnlyThis(this.id)" /></h4></div>
+                <div class="col-md-12" style="background-color:#247d88"><h4 style="font-weight:100; padding-left:65%"><input type="checkbox" id="Check1" name="p20" class="check-box" onclick="selectOnlyThis(this.id)" /></h4></div>
             </div>
             <div class="col-md-4 col-xs-12 p-l-0 p-r-0 top-panel2">
                 <div class="">
@@ -250,7 +248,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12" style="background-color:#0a8439"><h4 style="font-weight:100;padding-left:65%"><input type="checkbox" id="Check2" name="p30" class="check-box" value="2-30" onclick="selectOnlyThis(this.id)" /></h4></div>
+                <div class="col-md-12" style="background-color:#0a8439"><h4 style="font-weight:100;padding-left:65%"><input type="checkbox" id="Check2" name="p30" class="check-box" onclick="selectOnlyThis(this.id)" /></h4></div>
             </div>
 
             <div class="col-md-4 col-xs-12 p-l-0 p-r-0 top-panel3">
@@ -269,7 +267,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12" style="background-color:#ccaa45"><h4 style="font-weight:100;padding-left:65%"><input type="checkbox" id="Check3" name="p40" class="check-box" value="3-40" onclick="selectOnlyThis(this.id)" /></h4></div>
+                <div class="col-md-12" style="background-color:#ccaa45"><h4 style="font-weight:100;padding-left:65%"><input type="checkbox" id="Check3" name="p40" class="check-box" onclick="selectOnlyThis(this.id)" /></h4></div>
             </div>
         </div>
 
@@ -300,7 +298,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12" style="background-color:#247d88"><h4 style="font-weight:100; padding-left:65%"><input type="checkbox" id="Check4" name="p25" class="check-box" value="4-25" onclick="selectOnlyThis(this.id)" /></h4></div>
+                <div class="col-md-12" style="background-color:#247d88"><h4 style="font-weight:100; padding-left:65%"><input type="checkbox" id="Check4" name="p25" class="check-box" onclick="selectOnlyThis(this.id)" /></h4></div>
             </div>
             <div class="col-md-4 col-xs-12 p-l-0 p-r-0 top-panel2">
                 <div class="">
@@ -337,7 +335,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12" style="background-color:#ccaa45"><h4 style="font-weight:100;padding-left:65%"><input type="checkbox" id="Check6" name="p45" class="check-box" value="6-45" onclick="selectOnlyThis(this.id)" /></h4></div>
+                <div class="col-md-12" style="background-color:#ccaa45"><h4 style="font-weight:100;padding-left:65%"><input type="checkbox" id="Check6" name="p45" class="check-box" onclick="selectOnlyThis(this.id)" /></h4></div>
             </div>
         </div>
 
@@ -348,6 +346,26 @@
 
     <div id="paypal-button-container" onclick="AddnNewLicense()"></div>
     <script>
+        var test;
+        $(document).ready(function () {
+            GetListLicenseType();
+        });
+        function GetListLicenseType() {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetListLicenseType", "ManageAccount")',
+                data: {},
+                success: function (result) {
+                    test = result;
+                    for (var i = 0; i < test.result.length; i++) {
+                        $("#Check" + (i+1)).val(test.result[i].Id + "-" + test.result[i].Price);
+                    }
+                },
+                error: function (error) {
+                    PnotifyFail("Có lỗi xảy ra!!!");
+                }
+            });
+        }
         function selectOnlyThis(id) {
             for (var i = 1; i <= 6; i++) {
                 document.getElementById("Check" + i).checked = false;
