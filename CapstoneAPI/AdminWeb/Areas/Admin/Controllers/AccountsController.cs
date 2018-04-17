@@ -24,10 +24,17 @@ namespace Wisky.Areas.Admin.Controllers
                 ViewBag.UserFullName = user.Fullname;
                 DateTime dt = (DateTime)user.ExpireDate;
                 ViewBag.ExpireDay = String.Format("{0:dd/ MM/ yyyy}", dt);
+                if (DateTime.Now.CompareTo(dt) <= 0)
+                {
+                    ViewBag.ExpireDay = String.Format("{0:dd/ MM/ yyyy}", dt);
+                } else
+                {
+                    ViewBag.ExpireDay = "Hết hạn";
+                }
                 ViewBag.Status = "Đang hoạt động";
                 if (!user.Active)
                 {
-                    ViewBag.Status = "Tạm Ngưng";
+                    ViewBag.Status = "Đang bị khóa";
                 }
                 DateTime bt = (DateTime)user.Birthday;
                 ViewBag.BirthDay = String.Format("{0:dd/MM/yyyy}", bt);
