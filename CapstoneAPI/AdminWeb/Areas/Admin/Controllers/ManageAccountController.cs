@@ -77,7 +77,7 @@ namespace Wisky.Areas.Admin.Controllers
                 }
                 if (flag)
                 {
-                    Session["LicienseType"] = licenseType.PackageId;
+                    Session["LicienseType"] = licienseService.getIsUseLiciense(user.Id).PackageId.ToString();
 
                     //create history
                     History history = new History();
