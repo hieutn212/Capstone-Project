@@ -16,14 +16,16 @@ namespace CapstoneAPI.Controllers
             try
             {
                 IUserService userService = this.Service<IUserService>();
+                ILicienseService licenseService = this.Service<ILicienseService>();
                 User user = userService.GetByUsernameAndPassword(username, password);
 
                 if (user != null)
                 {
                     int checkDate = DateTime.Now.CompareTo(user.ExpireDate);
-                    if (checkDate <= 0)
+                    Liciense licenseModel = licenseService.getIsUseLiciense(user.Id);
+                    if (checkDate <= 0 && licenseModel != null)
                     {
-                        User model = new User()
+                        UserViewModel model = new UserViewModel()
                         {
                             Id = user.Id,
                             Username = user.Username,
@@ -32,13 +34,16 @@ namespace CapstoneAPI.Controllers
                             Fullname = user.Fullname,
                             RoleId = user.RoleId,
                             Active = user.Active,
+                            ExpireDate = user.ExpireDate,
+                            PackageId = licenseModel.PackageId,
                         };
                         return new HttpResponseMessage()
                         {
                             StatusCode = System.Net.HttpStatusCode.OK,
                             Content = new JsonContent(model)
                         };
-                    } else
+                    }
+                    else
                     {
                         return new HttpResponseMessage()
                         {
@@ -46,7 +51,7 @@ namespace CapstoneAPI.Controllers
                             Content = new JsonContent("Expired ")
                         };
                     }
-                    
+
                 }
 
                 return new HttpResponseMessage()

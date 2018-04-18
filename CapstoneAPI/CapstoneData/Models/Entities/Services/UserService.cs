@@ -71,4 +71,16 @@ namespace CapstoneData.Models.Entities.Services
             return false;
         }
     }
+     public class UserViewModel {
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public int RoleId { get; set; }
+        public string Fullname { get; set; }
+        public bool Active { get; set; }
+        public Nullable<System.DateTime> Birthday { get; set; }
+        public Nullable<System.DateTime> ExpireDate { get; set; }
+        public int TypeId { get; set; }
+        public int PackageId { get; set; }
+    }
 }
