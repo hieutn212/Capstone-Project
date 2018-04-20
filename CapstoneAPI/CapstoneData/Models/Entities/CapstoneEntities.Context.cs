@@ -31,12 +31,14 @@ namespace CapstoneData.Models.Entities
         public virtual DbSet<Device> Devices { get; set; }
         public virtual DbSet<District> Districts { get; set; }
         public virtual DbSet<History> Histories { get; set; }
+        public virtual DbSet<LicenseType> LicenseTypes { get; set; }
+        public virtual DbSet<Liciense> Licienses { get; set; }
         public virtual DbSet<Map> Maps { get; set; }
         public virtual DbSet<Marker> Markers { get; set; }
+        public virtual DbSet<PackageLicense> PackageLicenses { get; set; }
         public virtual DbSet<Product_position> Product_position { get; set; }
         public virtual DbSet<Province> Provinces { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Liciense> Licienses { get; set; }
     }
 }

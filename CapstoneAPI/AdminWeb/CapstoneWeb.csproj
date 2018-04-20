@@ -261,12 +261,16 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Admin\Controllers\AccountsController.cs" />
-    <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
-    <Compile Include="Areas\Admin\Controllers\CustomerController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminDetailController.cs" />
     <Compile Include="Areas\Admin\Controllers\HistoryController.cs" />
-    <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
-    <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ManageUserController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportController.cs" />
+    <Compile Include="Areas\User\Controllers\AccountsController.cs" />
+    <Compile Include="Areas\User\Controllers\DeviceController.cs" />
+    <Compile Include="Areas\User\Controllers\ManageAccountController.cs" />
+    <Compile Include="Areas\User\Controllers\OrderController.cs" />
+    <Compile Include="Areas\User\Controllers\PositionController.cs" />
+    <Compile Include="Areas\User\UserAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -1095,7 +1099,6 @@
     <Content Include="Content\assets\bootstrap-3.3.5\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\assets\datatables\images\Sorting icons.psd" />
     <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\Admin\Views\Accounts\Index.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -1204,13 +1207,18 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>WorkingHistory.vi.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Content Include="Areas\Admin\Views\Product\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Category\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Customer\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\History\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Customer\History.cshtml" />
-    <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Order\Detail.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminDetail\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageUser\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Index.cshtml" />
+    <Content Include="Areas\User\Views\Accounts\Index.cshtml" />
+    <Content Include="Areas\User\Views\Device\History.cshtml" />
+    <Content Include="Areas\User\Views\Device\Index.cshtml" />
+    <Content Include="Areas\User\Views\ManageAccount\Index.cshtml" />
+    <Content Include="Areas\User\Views\Order\Detail.cshtml" />
+    <Content Include="Areas\User\Views\Order\Index.cshtml" />
+    <Content Include="Areas\User\Views\Position\Index.cshtml" />
+    <Content Include="Areas\User\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\User\Views\_ViewStart.cshtml" />
     <None Include="Properties\PublishProfiles\wiskycms - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\wiskycms - FTP %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\wiskycms - FTP %284%29.pubxml" />
@@ -1300,6 +1308,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\User\Models\" />
     <Folder Include="bin\" />
     <Folder Include="Content\dropdownlistconverter\docsupport\" />
     <Folder Include="Content\fullcalendar-3.0.0\" />

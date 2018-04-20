@@ -17,9 +17,9 @@ namespace CapstoneData.Models.Entities
         public int Id { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public int UserId { get; set; }
-        public int BuyDate { get; set; }
-        public double Price { get; set; }
+        public int TypeId { get; set; }
     
+        public virtual LicenseType LicenseType { get; set; }
         public virtual User User { get; set; }
     }
 }

@@ -15,8 +15,11 @@
     <EntitySet Name="Devices" EntityType="CapstoneModel.Device" />
     <EntitySet Name="Districts" EntityType="CapstoneModel.District" />
     <EntitySet Name="Histories" EntityType="CapstoneModel.History" />
+    <EntitySet Name="LicenseTypes" EntityType="CapstoneModel.LicenseType" />
+    <EntitySet Name="Licienses" EntityType="CapstoneModel.Liciense" />
     <EntitySet Name="Maps" EntityType="CapstoneModel.Map" />
     <EntitySet Name="Markers" EntityType="CapstoneModel.Marker" />
+    <EntitySet Name="PackageLicenses" EntityType="CapstoneModel.PackageLicense" />
     <EntitySet Name="Product_position" EntityType="CapstoneModel.Product_position" />
     <EntitySet Name="Provinces" EntityType="CapstoneModel.Province" />
     <EntitySet Name="Rooms" EntityType="CapstoneModel.Room" />
@@ -45,9 +48,25 @@
       <End Role="Province" EntitySet="Provinces" />
       <End Role="District" EntitySet="Districts" />
     </AssociationSet>
+    <AssociationSet Name="FK_History_LicenseType" Association="CapstoneModel.FK_History_LicenseType">
+      <End Role="LicenseType" EntitySet="LicenseTypes" />
+      <End Role="History" EntitySet="Histories" />
+    </AssociationSet>
     <AssociationSet Name="FK_History_User" Association="CapstoneModel.FK_History_User">
       <End Role="User" EntitySet="Users" />
       <End Role="History" EntitySet="Histories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LicenseType_PackageLicense" Association="CapstoneModel.FK_LicenseType_PackageLicense">
+      <End Role="PackageLicense" EntitySet="PackageLicenses" />
+      <End Role="LicenseType" EntitySet="LicenseTypes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Liciense_PackageLicense" Association="CapstoneModel.FK_Liciense_PackageLicense">
+      <End Role="PackageLicense" EntitySet="PackageLicenses" />
+      <End Role="Liciense" EntitySet="Licienses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Liciense_User" Association="CapstoneModel.FK_Liciense_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Liciense" EntitySet="Licienses" />
     </AssociationSet>
     <AssociationSet Name="FK_Marker_Map" Association="CapstoneModel.FK_Marker_Map">
       <End Role="Map" EntitySet="Maps" />
@@ -115,9 +134,36 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="UserId" Type="Int32" Nullable="false" />
-    <Property Name="BuyDate" Type="Int32" Nullable="false" />
-    <Property Name="Price" Type="Double" Nullable="false" />
+    <Property Name="TypeId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="LicenseType" Relationship="CapstoneModel.FK_History_LicenseType" FromRole="History" ToRole="LicenseType" />
     <NavigationProperty Name="User" Relationship="CapstoneModel.FK_History_User" FromRole="History" ToRole="User" />
+  </EntityType>
+  <EntityType Name="LicenseType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="BuyDate" Type="Int32" />
+    <Property Name="Price" Type="Double" />
+    <Property Name="PackageId" Type="Int32" />
+    <NavigationProperty Name="Histories" Relationship="CapstoneModel.FK_History_LicenseType" FromRole="LicenseType" ToRole="History" />
+    <NavigationProperty Name="PackageLicense" Relationship="CapstoneModel.FK_LicenseType_PackageLicense" FromRole="LicenseType" ToRole="PackageLicense" />
+  </EntityType>
+  <EntityType Name="Liciense">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="DayOfPurchase" Type="Int32" Nullable="false" />
+    <Property Name="ExpireDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="PackageId" Type="Int32" Nullable="false" />
+    <Property Name="IsUse" Type="Boolean" Nullable="false" />
+    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="PackageLicense" Relationship="CapstoneModel.FK_Liciense_PackageLicense" FromRole="Liciense" ToRole="PackageLicense" />
+    <NavigationProperty Name="User" Relationship="CapstoneModel.FK_Liciense_User" FromRole="Liciense" ToRole="User" />
   </EntityType>
   <EntityType Name="Map">
     <Key>
@@ -150,6 +196,15 @@
     <Property Name="PosBY" Type="Int32" />
     <Property Name="Type" Type="Int32" />
     <NavigationProperty Name="Map" Relationship="CapstoneModel.FK_Marker_Map" FromRole="Marker" ToRole="Map" />
+  </EntityType>
+  <EntityType Name="PackageLicense">
+    <Key>
+      <PropertyRef Name="PackageId" />
+    </Key>
+    <Property Name="PackageId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="LicenseTypes" Relationship="CapstoneModel.FK_LicenseType_PackageLicense" FromRole="PackageLicense" ToRole="LicenseType" />
+    <NavigationProperty Name="Licienses" Relationship="CapstoneModel.FK_Liciense_PackageLicense" FromRole="PackageLicense" ToRole="Liciense" />
   </EntityType>
   <EntityType Name="Product_position">
     <Key>
@@ -204,6 +259,7 @@
     <Property Name="ExpireDate" Type="DateTime" Precision="3" />
     <NavigationProperty Name="Devices" Relationship="CapstoneModel.FK_Device_User" FromRole="User" ToRole="Device" />
     <NavigationProperty Name="Histories" Relationship="CapstoneModel.FK_History_User" FromRole="User" ToRole="History" />
+    <NavigationProperty Name="Licienses" Relationship="CapstoneModel.FK_Liciense_User" FromRole="User" ToRole="Liciense" />
     <NavigationProperty Name="Role" Relationship="CapstoneModel.FK_User_Role" FromRole="User" ToRole="Role" />
   </EntityType>
   <Association Name="FK_Building_District">
@@ -278,6 +334,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_History_LicenseType">
+    <End Type="CapstoneModel.LicenseType" Role="LicenseType" Multiplicity="1" />
+    <End Type="CapstoneModel.History" Role="History" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LicenseType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="History">
+        <PropertyRef Name="TypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_History_User">
     <End Type="CapstoneModel.User" Role="User" Multiplicity="1" />
     <End Type="CapstoneModel.History" Role="History" Multiplicity="*" />
@@ -286,6 +354,42 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="History">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LicenseType_PackageLicense">
+    <End Type="CapstoneModel.PackageLicense" Role="PackageLicense" Multiplicity="0..1" />
+    <End Type="CapstoneModel.LicenseType" Role="LicenseType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PackageLicense">
+        <PropertyRef Name="PackageId" />
+      </Principal>
+      <Dependent Role="LicenseType">
+        <PropertyRef Name="PackageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Liciense_PackageLicense">
+    <End Type="CapstoneModel.PackageLicense" Role="PackageLicense" Multiplicity="1" />
+    <End Type="CapstoneModel.Liciense" Role="Liciense" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PackageLicense">
+        <PropertyRef Name="PackageId" />
+      </Principal>
+      <Dependent Role="Liciense">
+        <PropertyRef Name="PackageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Liciense_User">
+    <End Type="CapstoneModel.User" Role="User" Multiplicity="1" />
+    <End Type="CapstoneModel.Liciense" Role="Liciense" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Liciense">
         <PropertyRef Name="UserId" />
       </Dependent>
     </ReferentialConstraint>

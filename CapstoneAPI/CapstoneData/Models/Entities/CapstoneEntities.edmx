@@ -51,26 +51,27 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
-          <Property Name="BuyDate" Type="int" Nullable="false" />
-          <Property Name="Price" Type="float" Nullable="false" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'Capstone.dbo.Liciense' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="LicenseType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="nvarchar" MaxLength="250" />
+          <Property Name="BuyDate" Type="int" />
+          <Property Name="Price" Type="float" />
+          <Property Name="PackageId" Type="int" />
+        </EntityType>
         <EntityType Name="Liciense">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="DayOfPurchase" />
-            <PropertyRef Name="ExpireDate" />
-            <PropertyRef Name="Type" />
-            <PropertyRef Name="IsUse" />
-            <PropertyRef Name="Active" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="DayOfPurchase" Type="int" Nullable="false" />
           <Property Name="ExpireDate" Type="datetime" Nullable="false" />
-          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="PackageId" Type="int" Nullable="false" />
           <Property Name="IsUse" Type="bit" Nullable="false" />
           <Property Name="Active" Type="bit" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" />
@@ -101,6 +102,13 @@ warning 6002: The table/view 'Capstone.dbo.Liciense' does not have a primary key
           <Property Name="PosBX" Type="int" />
           <Property Name="PosBY" Type="int" />
           <Property Name="Type" Type="int" />
+        </EntityType>
+        <EntityType Name="PackageLicense">
+          <Key>
+            <PropertyRef Name="PackageId" />
+          </Key>
+          <Property Name="PackageId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="Product_position">
           <Key>
@@ -206,6 +214,18 @@ warning 6002: The table/view 'Capstone.dbo.Liciense' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_History_LicenseType">
+          <End Role="LicenseType" Type="Self.LicenseType" Multiplicity="1" />
+          <End Role="History" Type="Self.History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LicenseType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="History">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_History_User">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="History" Type="Self.History" Multiplicity="*" />
@@ -215,6 +235,30 @@ warning 6002: The table/view 'Capstone.dbo.Liciense' does not have a primary key
             </Principal>
             <Dependent Role="History">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LicenseType_PackageLicense">
+          <End Role="PackageLicense" Type="Self.PackageLicense" Multiplicity="0..1" />
+          <End Role="LicenseType" Type="Self.LicenseType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PackageLicense">
+              <PropertyRef Name="PackageId" />
+            </Principal>
+            <Dependent Role="LicenseType">
+              <PropertyRef Name="PackageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Liciense_PackageLicense">
+          <End Role="PackageLicense" Type="Self.PackageLicense" Multiplicity="1" />
+          <End Role="Liciense" Type="Self.Liciense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PackageLicense">
+              <PropertyRef Name="PackageId" />
+            </Principal>
+            <Dependent Role="Liciense">
+              <PropertyRef Name="PackageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -296,25 +340,16 @@ warning 6002: The table/view 'Capstone.dbo.Liciense' does not have a primary key
           <EntitySet Name="Device" EntityType="Self.Device" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="District" EntityType="Self.District" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="History" EntityType="Self.History" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LicenseType" EntityType="Self.LicenseType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Liciense" EntityType="Self.Liciense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Map" EntityType="Self.Map" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Marker" EntityType="Self.Marker" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PackageLicense" EntityType="Self.PackageLicense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product_position" EntityType="Self.Product_position" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Room" EntityType="Self.Room" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Liciense" EntityType="Self.Liciense" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Liciense].[Id] AS [Id], 
-    [Liciense].[UserId] AS [UserId], 
-    [Liciense].[DayOfPurchase] AS [DayOfPurchase], 
-    [Liciense].[ExpireDate] AS [ExpireDate], 
-    [Liciense].[Type] AS [Type], 
-    [Liciense].[IsUse] AS [IsUse], 
-    [Liciense].[Active] AS [Active], 
-    [Liciense].[CreatedDate] AS [CreatedDate]
-    FROM [dbo].[Liciense] AS [Liciense]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_Building_District" Association="Self.FK_Building_District">
             <End Role="District" EntitySet="District" />
             <End Role="Building" EntitySet="Building" />
@@ -331,9 +366,21 @@ warning 6002: The table/view 'Capstone.dbo.Liciense' does not have a primary key
             <End Role="Province" EntitySet="Province" />
             <End Role="District" EntitySet="District" />
           </AssociationSet>
+          <AssociationSet Name="FK_History_LicenseType" Association="Self.FK_History_LicenseType">
+            <End Role="LicenseType" EntitySet="LicenseType" />
+            <End Role="History" EntitySet="History" />
+          </AssociationSet>
           <AssociationSet Name="FK_History_User" Association="Self.FK_History_User">
             <End Role="User" EntitySet="User" />
             <End Role="History" EntitySet="History" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LicenseType_PackageLicense" Association="Self.FK_LicenseType_PackageLicense">
+            <End Role="PackageLicense" EntitySet="PackageLicense" />
+            <End Role="LicenseType" EntitySet="LicenseType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Liciense_PackageLicense" Association="Self.FK_Liciense_PackageLicense">
+            <End Role="PackageLicense" EntitySet="PackageLicense" />
+            <End Role="Liciense" EntitySet="Liciense" />
           </AssociationSet>
           <AssociationSet Name="FK_Liciense_User" Association="Self.FK_Liciense_User">
             <End Role="User" EntitySet="User" />
@@ -379,13 +426,15 @@ warning 6002: The table/view 'Capstone.dbo.Liciense' does not have a primary key
           <EntitySet Name="Devices" EntityType="CapstoneModel.Device" />
           <EntitySet Name="Districts" EntityType="CapstoneModel.District" />
           <EntitySet Name="Histories" EntityType="CapstoneModel.History" />
+          <EntitySet Name="LicenseTypes" EntityType="CapstoneModel.LicenseType" />
+          <EntitySet Name="Licienses" EntityType="CapstoneModel.Liciense" />
           <EntitySet Name="Maps" EntityType="CapstoneModel.Map" />
           <EntitySet Name="Markers" EntityType="CapstoneModel.Marker" />
+          <EntitySet Name="PackageLicenses" EntityType="CapstoneModel.PackageLicense" />
           <EntitySet Name="Product_position" EntityType="CapstoneModel.Product_position" />
           <EntitySet Name="Provinces" EntityType="CapstoneModel.Province" />
           <EntitySet Name="Rooms" EntityType="CapstoneModel.Room" />
           <EntitySet Name="Users" EntityType="CapstoneModel.User" />
-          <EntitySet Name="Licienses" EntityType="CapstoneModel.Liciense" />
           <AssociationSet Name="FK_Building_District" Association="CapstoneModel.FK_Building_District">
             <End Role="District" EntitySet="Districts" />
             <End Role="Building" EntitySet="Buildings" />
@@ -410,9 +459,25 @@ warning 6002: The table/view 'Capstone.dbo.Liciense' does not have a primary key
             <End Role="Province" EntitySet="Provinces" />
             <End Role="District" EntitySet="Districts" />
           </AssociationSet>
+          <AssociationSet Name="FK_History_LicenseType" Association="CapstoneModel.FK_History_LicenseType">
+            <End Role="LicenseType" EntitySet="LicenseTypes" />
+            <End Role="History" EntitySet="Histories" />
+          </AssociationSet>
           <AssociationSet Name="FK_History_User" Association="CapstoneModel.FK_History_User">
             <End Role="User" EntitySet="Users" />
             <End Role="History" EntitySet="Histories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LicenseType_PackageLicense" Association="CapstoneModel.FK_LicenseType_PackageLicense">
+            <End Role="PackageLicense" EntitySet="PackageLicenses" />
+            <End Role="LicenseType" EntitySet="LicenseTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Liciense_PackageLicense" Association="CapstoneModel.FK_Liciense_PackageLicense">
+            <End Role="PackageLicense" EntitySet="PackageLicenses" />
+            <End Role="Liciense" EntitySet="Licienses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Liciense_User" Association="CapstoneModel.FK_Liciense_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Liciense" EntitySet="Licienses" />
           </AssociationSet>
           <AssociationSet Name="FK_Marker_Map" Association="CapstoneModel.FK_Marker_Map">
             <End Role="Map" EntitySet="Maps" />
@@ -425,10 +490,6 @@ warning 6002: The table/view 'Capstone.dbo.Liciense' does not have a primary key
           <AssociationSet Name="FK_User_Role" Association="CapstoneModel.FK_User_Role">
             <End Role="Role" EntitySet="Roles" />
             <End Role="User" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Liciense_User" Association="CapstoneModel.FK_Liciense_User">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Liciense" EntitySet="Licienses" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Building">
@@ -484,9 +545,36 @@ warning 6002: The table/view 'Capstone.dbo.Liciense' does not have a primary key
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="BuyDate" Type="Int32" Nullable="false" />
-          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="LicenseType" Relationship="CapstoneModel.FK_History_LicenseType" FromRole="History" ToRole="LicenseType" />
           <NavigationProperty Name="User" Relationship="CapstoneModel.FK_History_User" FromRole="History" ToRole="User" />
+        </EntityType>
+        <EntityType Name="LicenseType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="BuyDate" Type="Int32" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="PackageId" Type="Int32" />
+          <NavigationProperty Name="Histories" Relationship="CapstoneModel.FK_History_LicenseType" FromRole="LicenseType" ToRole="History" />
+          <NavigationProperty Name="PackageLicense" Relationship="CapstoneModel.FK_LicenseType_PackageLicense" FromRole="LicenseType" ToRole="PackageLicense" />
+        </EntityType>
+        <EntityType Name="Liciense">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="DayOfPurchase" Type="Int32" Nullable="false" />
+          <Property Name="ExpireDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PackageId" Type="Int32" Nullable="false" />
+          <Property Name="IsUse" Type="Boolean" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="PackageLicense" Relationship="CapstoneModel.FK_Liciense_PackageLicense" FromRole="Liciense" ToRole="PackageLicense" />
+          <NavigationProperty Name="User" Relationship="CapstoneModel.FK_Liciense_User" FromRole="Liciense" ToRole="User" />
         </EntityType>
         <EntityType Name="Map">
           <Key>
@@ -519,6 +607,15 @@ warning 6002: The table/view 'Capstone.dbo.Liciense' does not have a primary key
           <Property Name="PosBY" Type="Int32" />
           <Property Name="Type" Type="Int32" />
           <NavigationProperty Name="Map" Relationship="CapstoneModel.FK_Marker_Map" FromRole="Marker" ToRole="Map" />
+        </EntityType>
+        <EntityType Name="PackageLicense">
+          <Key>
+            <PropertyRef Name="PackageId" />
+          </Key>
+          <Property Name="PackageId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="LicenseTypes" Relationship="CapstoneModel.FK_LicenseType_PackageLicense" FromRole="PackageLicense" ToRole="LicenseType" />
+          <NavigationProperty Name="Licienses" Relationship="CapstoneModel.FK_Liciense_PackageLicense" FromRole="PackageLicense" ToRole="Liciense" />
         </EntityType>
         <EntityType Name="Product_position">
           <Key>
@@ -573,28 +670,8 @@ warning 6002: The table/view 'Capstone.dbo.Liciense' does not have a primary key
           <Property Name="ExpireDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Devices" Relationship="CapstoneModel.FK_Device_User" FromRole="User" ToRole="Device" />
           <NavigationProperty Name="Histories" Relationship="CapstoneModel.FK_History_User" FromRole="User" ToRole="History" />
-          <NavigationProperty Name="Role" Relationship="CapstoneModel.FK_User_Role" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="Licienses" Relationship="CapstoneModel.FK_Liciense_User" FromRole="User" ToRole="Liciense" />
-        </EntityType>
-        <EntityType Name="Liciense">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="DayOfPurchase" />
-            <PropertyRef Name="ExpireDate" />
-            <PropertyRef Name="Type" />
-            <PropertyRef Name="IsUse" />
-            <PropertyRef Name="Active" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="DayOfPurchase" Type="Int32" Nullable="false" />
-          <Property Name="ExpireDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Type" Type="Int32" Nullable="false" />
-          <Property Name="IsUse" Type="Boolean" Nullable="false" />
-          <Property Name="Active" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="User" Relationship="CapstoneModel.FK_Liciense_User" FromRole="Liciense" ToRole="User" />
+          <NavigationProperty Name="Role" Relationship="CapstoneModel.FK_User_Role" FromRole="User" ToRole="Role" />
         </EntityType>
         <Association Name="FK_Building_District">
           <End Type="CapstoneModel.District" Role="District" Multiplicity="1" />
@@ -668,6 +745,18 @@ warning 6002: The table/view 'Capstone.dbo.Liciense' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_History_LicenseType">
+          <End Type="CapstoneModel.LicenseType" Role="LicenseType" Multiplicity="1" />
+          <End Type="CapstoneModel.History" Role="History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LicenseType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="History">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_History_User">
           <End Type="CapstoneModel.User" Role="User" Multiplicity="1" />
           <End Type="CapstoneModel.History" Role="History" Multiplicity="*" />
@@ -676,6 +765,42 @@ warning 6002: The table/view 'Capstone.dbo.Liciense' does not have a primary key
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="History">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LicenseType_PackageLicense">
+          <End Type="CapstoneModel.PackageLicense" Role="PackageLicense" Multiplicity="0..1" />
+          <End Type="CapstoneModel.LicenseType" Role="LicenseType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PackageLicense">
+              <PropertyRef Name="PackageId" />
+            </Principal>
+            <Dependent Role="LicenseType">
+              <PropertyRef Name="PackageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Liciense_PackageLicense">
+          <End Type="CapstoneModel.PackageLicense" Role="PackageLicense" Multiplicity="1" />
+          <End Type="CapstoneModel.Liciense" Role="Liciense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PackageLicense">
+              <PropertyRef Name="PackageId" />
+            </Principal>
+            <Dependent Role="Liciense">
+              <PropertyRef Name="PackageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Liciense_User">
+          <End Type="CapstoneModel.User" Role="User" Multiplicity="1" />
+          <End Type="CapstoneModel.Liciense" Role="Liciense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Liciense">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -713,18 +838,6 @@ warning 6002: The table/view 'Capstone.dbo.Liciense' does not have a primary key
             </Principal>
             <Dependent Role="User">
               <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Liciense_User">
-          <End Type="CapstoneModel.User" Role="User" Multiplicity="1" />
-          <End Type="CapstoneModel.Liciense" Role="Liciense" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Liciense">
-              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -788,10 +901,34 @@ warning 6002: The table/view 'Capstone.dbo.Liciense' does not have a primary key
           <EntitySetMapping Name="Histories">
             <EntityTypeMapping TypeName="CapstoneModel.History">
               <MappingFragment StoreEntitySet="History">
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="BuyDate" ColumnName="BuyDate" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LicenseTypes">
+            <EntityTypeMapping TypeName="CapstoneModel.LicenseType">
+              <MappingFragment StoreEntitySet="LicenseType">
+                <ScalarProperty Name="PackageId" ColumnName="PackageId" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="BuyDate" ColumnName="BuyDate" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Licienses">
+            <EntityTypeMapping TypeName="CapstoneModel.Liciense">
+              <MappingFragment StoreEntitySet="Liciense">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="IsUse" ColumnName="IsUse" />
+                <ScalarProperty Name="PackageId" ColumnName="PackageId" />
+                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+                <ScalarProperty Name="DayOfPurchase" ColumnName="DayOfPurchase" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -822,6 +959,14 @@ warning 6002: The table/view 'Capstone.dbo.Liciense' does not have a primary key
                 <ScalarProperty Name="Latitude" ColumnName="Latitude" />
                 <ScalarProperty Name="Longitude" ColumnName="Longitude" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PackageLicenses">
+            <EntityTypeMapping TypeName="CapstoneModel.PackageLicense">
+              <MappingFragment StoreEntitySet="PackageLicense">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PackageId" ColumnName="PackageId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -874,20 +1019,6 @@ warning 6002: The table/view 'Capstone.dbo.Liciense' does not have a primary key
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Licienses">
-            <EntityTypeMapping TypeName="CapstoneModel.Liciense">
-              <MappingFragment StoreEntitySet="Liciense">
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="IsUse" ColumnName="IsUse" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
-                <ScalarProperty Name="DayOfPurchase" ColumnName="DayOfPurchase" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
