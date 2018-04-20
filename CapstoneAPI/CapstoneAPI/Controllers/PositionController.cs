@@ -186,7 +186,13 @@ namespace CapstoneAPI.Controllers
             if (device != null)
             {
                 IProduct_positionService productPositionService = this.Service<IProduct_positionService>();
-                List<Product_position> positions = productPositionService.getListByTime(deviceId, endDate, startDate);
+                Product_position positionAlt = productPositionService.trackingProduct(deviceId);
+                double altitude = 0.0;
+                if (positionAlt != null)
+                {
+                    altitude = positionAlt.Altitude.Value;
+                }
+                List<Product_position> positions = productPositionService.getListByTime(deviceId, endDate, startDate,altitude);
                 if (positions != null)
                 {
                     positions = positions.Select(q=> new Product_position()
