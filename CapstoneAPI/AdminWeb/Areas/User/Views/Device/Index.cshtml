@@ -74,13 +74,13 @@
 
 <div class="block-header">
     <h2>Danh sách thiết bị</h2>
-    @*<ul class="actions">
-            <li>
-                <button id="btnCreateLandingPage" type="button" class="btn btn-primary pull-right" onclick="createModal()">
-                    <i class="left-icon fa fa-plus"></i>Tạo mới
-                </button>
-            </li>
-        </ul>*@
+    <ul class="actions">
+        <li>
+            <button id="btnCreateLandingPage" type="button" class="btn btn-primary pull-right" onclick="createModal()">
+                <i class="left-icon fa fa-plus"></i>Thêm thiết bị
+            </button>
+        </li>
+    </ul>
 </div>
 
 <div class="row">
@@ -152,6 +152,38 @@
         </div>
     </div>
 </div>
+<div id="DeviceCreateModal" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3>Thông tin thiết bị</h3>
+            </div>
+            <form id="createDeviceForm" method="post">
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="customerUsername" class="col-sm-4 control-label">IMEI:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control col-md-6" id="Imeidevice">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerFullname" class="col-sm-4 control-label">Tên thiết bị:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control col-md-6" id="Namedevice">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="buyPoint">Tạo mới</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @section Scripts {
     <script src="~/Content/js/Campaign.js"></script>
     <script>
@@ -175,7 +207,7 @@
                 "bRetrieve": true,
                 "bServerSide": true,
                 "bScrollCollapse": true,
-                "sAjaxSource": "@Url.Action("DeviceDatatable", "Customer")",
+                "sAjaxSource": "@Url.Action("DeviceDatatable", "Device")",
                 "bProcessing": true,
                 "fnServerParams": function (aoData) {
                     //aoData.push({ "name": "id", "value": 10 });
@@ -206,7 +238,7 @@
                             if (data) {
                                 button = "<p class='btn btn-sm btn-primary')\/" + "\'>Đang hoạt động</p>";
                             } else {
-                                button = "<p class='btn btn-sm btn-primary')\/" + "\'>Tạm dừng</p>";
+                                button = "<p class='btn btn-sm btn-warning')\/" + "\'>Tạm dừng</p>";
                             }
                             return button;
                         },
@@ -216,8 +248,9 @@
                         "aTargets": [4],
                         "mRender": function (data, type, row) {
                             var data = row[1];
-                            return "<a class='btn btn-sm btn-primary' href='@Url.Action("History", "Customer")\/" + data + "\'><i class='fa fa-eye'></i></a>"
-                            + " <a class='btn btn-sm btn-primary' data-toggle='tooltip' title='Cập nhật' onclick='UpdateDevice(\"" + data + "\")'><i class='fa fa-pencil'></i></a>";
+                            return "<a class='btn btn-sm btn-primary' href='@Url.Action("History", "Device")\/" + data + "\'><i class='fa fa-eye'></i></a>"
+                            + "<a class='btn btn-sm btn-primary' data-toggle='tooltip' title='Cập nhật' onclick='UpdateDevice(\"" + data + "\")'><i class='fa fa-pencil'></i></a>"
+                            + "<a class='btn btn-sm btn-danger' data-toggle='tooltip' title='Cập nhật' onclick='DeleteDevice(\"" + data + "\")'><i class='fa fa-remove'></i></a>";
 
                             //    + " <a id='btnDemoLandingPage' class='btn btn-sm btn-primary' target='_blank' href='/BrandManager/LandingPages/ViewDemo?id=" + data + "'>View demo</i></a>";
                         },
@@ -233,7 +266,7 @@
 
             $.ajax({
                 type: "POST",
-                url: '@Url.Action("GetDeviceDetail", "Customer")',
+                url: '@Url.Action("GetDeviceDetail", "Device")',
                 data: { IMEI: IMEI },
                 success: function (result) {
                     if (result.success) {
@@ -251,11 +284,49 @@
             });
 
         }
+        function createModal() {
+            $('#DeviceCreateModal').modal('show');
+            $('#Imeidevice').val("");
+            $('#Namedevice').val("");
+        }
 
-        $('#updateDeviceForm').submit(function (e) {
+        $('#createDeviceForm').submit(function (e) {
             e.preventDefault();
-            var name = $('#deviceImei').val();
-            var point = +$('#deviceName').val();
+            var deviceImei = $('#Imeidevice').val();
+            var deviceName = $('#Namedevice').val();
+
+            var check = true;
+            if (deviceName.trim() == "" || deviceImei.trim() == "") {
+                check = false;
+                PnotifyFail("Vui lòng điền đủ thông tin");
+            }
+            if (check) {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AddDevice", "Device")',
+                    data: {
+                        IMEI: deviceImei,
+                        deviceName: deviceName,
+                    },
+                    dataType: "JSON",
+                    success: function (result) {
+                        if (result.success) {
+                            PnotifySuccess("Thêm thiết bị thành công");
+                            RefreshTable();
+                            $('#DeviceCreateModal').modal('hide');
+                        } else {
+                            PnotifyFail("Thêm thiết bị lỗi");
+                        }
+                    },
+                    error: function (error) {
+                        PnotifyFail("Cập nhật thông tin thiết bị bị lỗi");
+                    }
+                });
+            }
+        });
+
+        function DeleteDevice(deviceImei) {
+            //e.preventDefault();
             swal({
                 title: 'Cảnh báo',
                 text: "Bạn có chắc chắn muốn xóa không?",
@@ -268,18 +339,56 @@
                 confirmButtonColor: "#DD6B55",
                 closeOnConfirm: true
             }, function () {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("DeleteDevice", "Device")',
+                        data: {
+                            IMEI: deviceImei,
+                        },
+                        dataType: "JSON",
+                        success: function (result) {
+                            if (result.success) {
+                                PnotifySuccess("Xóa thông tin thiết bị thành công");
+                                RefreshTable();
+                            } else {
+                                PnotifyFail("Xóa thông tin thiết bị lỗi");
+                            }
+                        },
+                        error: function (error) {
+                            PnotifyFail("Xóa thông tin thiết bị bị lỗi");
+                        }
+                    });
+            });
+        };
+
+        $('#updateDeviceForm').submit(function (e) {
+            e.preventDefault();
+            var deviceImei = $('#deviceImei').val();
+            var deviceName = $('#deviceName').val();
+            swal({
+                title: 'Cảnh báo',
+                text: "Bạn có chắc chắn muốn cập nhật không?",
+                type: 'warning',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Không',
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                closeOnConfirm: true
+            }, function () {
                 var check = true;
-                if (point.trim() == "") {
+                if (deviceName.trim() == "") {
                     check = false;
                     PnotifyFail("Vui lòng điền đủ thông tin");
                 }
                 if (check) {
                     $.ajax({
                         type: "POST",
-                        url: '@Url.Action("BuyPoint", "Customer")',
+                        url: '@Url.Action("UpdateDevice", "Device")',
                         data: {
-                            username: name,
-                            point: point,
+                            IMEI: deviceImei,
+                            deviceName: deviceName,
                         },
                         dataType: "JSON",
                         success: function (result) {

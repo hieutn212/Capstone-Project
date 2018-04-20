@@ -119,13 +119,13 @@ namespace Wisky.Controllers
             {
                 if (user.RoleId == 1)
                 {
-                    returnUrl = ("/Admin/Accounts");
+                    returnUrl = Url.Action("AdminDetail", "Admin");
 
                 }
 
                 if (user.RoleId == 2)
                 {
-                    returnUrl = Url.Action("Accounts", "Admin");
+                    returnUrl = Url.Action("Accounts", "User");
                 }
 
                 //if (result == SignInStatus.Success)
@@ -147,6 +147,7 @@ namespace Wisky.Controllers
                 //}
                 Session["Userfullname"] = user.Fullname;
                 Session["Username"] = user.Username;
+                Session["IsRole"] = user.RoleId;
                 Session["LicienseType"] = null;
                 ILicienseService licienseService = this.Service<ILicienseService>();
                 try

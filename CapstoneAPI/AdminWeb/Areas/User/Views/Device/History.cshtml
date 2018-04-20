@@ -256,7 +256,7 @@
                 "bRetrieve": true,
                 "bServerSide": true,
                 "bScrollCollapse": true,
-                "sAjaxSource": "@Url.Action("PositionDatatable", "History")",
+                "sAjaxSource": "@Url.Action("PositionDatatable", "Position")",
                 "bProcessing": true,
                 "bFilter": true,
                 "fnServerParams": function (aoData) {
@@ -305,7 +305,7 @@
         function viewPointMap(id) {
             $.ajax({
                 type: "POST",
-                url: '@Url.Action("GetPointMap", "History")',
+                url: '@Url.Action("GetPointMap", "Position")',
                 data: { id: id },
                 success: function (result) {
                     if (result.success) {
@@ -362,7 +362,7 @@
         function getConners(id) {
             $.ajax({
                 type: "POST",
-                url: '@Url.Action("GetAllCornerWithMap", "History")',
+                url: '@Url.Action("GetAllCornerWithMap", "Position")',
                 data: { mapId: id },
                 success: function (result) {
                     if (result.success) {

@@ -43,11 +43,13 @@
         string userfullname = HttpContext.Current.User.Identity.Name;
         //string username = System.Web.HttpContext.Current.Request.LogonUserIdentity.Name;'
         string licienseType = "1";
+        string roleId = "1";
         string showORhide = "hidden";
         try
         {
             userfullname = Session["Userfullname"].ToString();
             licienseType = Session["LicienseType"].ToString();
+            roleId = Session["IsRole"].ToString();
             if (licienseType == "2")
             {
                 showORhide = "show";
@@ -78,6 +80,7 @@
                 <a href="@Url.Action("Index","Home",new {area ="BrandManager"})">
                    <img src="~/Content/images/logo clear.png" width="15%" height="100%">
                 </a>
+                @*Trang quản trị Điều hướng trong tòa nh*@
             </li>
         </ul>
 
@@ -143,33 +146,59 @@
                         </li>*@
                     @*@if (HttpContext.Current.User.IsInRole("Admin"))
                         {*@
-                    <li class="">
-                        <a href="@Url.Action("Index", "Accounts", new { area = "Admin"})">
-                            <i class="fa fa-home"></i>
-                            <span class="title">Trang chính</span>
-                        </a>
-                    </li>
+                    @if (roleId == "1")
+                    {
+                        <li class="">
+                            <a href="@Url.Action("Index", "AdminDetail", new { area = "Admin"})">
+                                <i class="fa fa-home"></i>
+                                <span class="title">Trang chính</span>
+                            </a>
+                        </li>
 
-                    <li class="@showORhide" id="tracking" >
-                        <a href="@Url.Action("Index", "Customer", new { area = "Admin"})">
-                            <i class="fa fa-mobile-phone"></i>
-                            <span class="title">Quản lý thiết bị</span>
-                        </a>
-                    </li>
+                        <li class="">
+                            <a href="@Url.Action("Index", "ManageUser", new { area = "Admin"})">
+                                <i class="fa fa-users"></i>
+                                <span class="title">Quản lý tài khoản</span>
+                            </a>
+                        </li>
 
-                    <li class="">
-                        <a href="@Url.Action("Index","ManageAccount", new { area = "Admin" })">
-                            <i class="fa fa-money"></i>
-                            <span class="title">Gia hạn tài khoản</span>
-                        </a>
-                    </li>
+                        <li class="">
+                            <a href="@Url.Action("Index","Report", new { area = "Admin" })">
+                                <i class="fa fa-area-chart"></i>
+                                <span class="title">Thống kê</span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="">
+                            <a href="@Url.Action("Index", "Accounts", new { area = "User"})">
+                                <i class="fa fa-home"></i>
+                                <span class="title">Trang chính</span>
+                            </a>
+                        </li>
 
-                    <li class="">
-                        <a href="@Url.Action("Index", "Order", new { area = "Admin"})">
-                            <i class="fa fa-calculator"></i>
-                            <span class="title">Lịch sử giao dịch </span>
-                        </a>
-                    </li>
+                        <li class="@showORhide" id="tracking">
+                            <a href="@Url.Action("Index", "Device", new { area = "User"})">
+                                <i class="fa fa-mobile-phone"></i>
+                                <span class="title">Quản lý thiết bị</span>
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a href="@Url.Action("Index","ManageAccount", new { area = "User" })">
+                                <i class="fa fa-money"></i>
+                                <span class="title">Gia hạn tài khoản</span>
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a href="@Url.Action("Index", "Order", new { area = "User"})">
+                                <i class="fa fa-calculator"></i>
+                                <span class="title">Lịch sử giao dịch </span>
+                            </a>
+                        </li>
+                    }
 
                     @*<li class="">
                         <a href="@Url.Action("Index", "Category", new { area = "Admin"})">

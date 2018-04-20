@@ -1,4 +1,6 @@
-﻿using SkyWeb.DatVM.Mvc.Autofac;
+﻿using CapstoneData.Models.Entities;
+using CapstoneData.Models.Entities.Services;
+using SkyWeb.DatVM.Mvc.Autofac;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,7 @@ using Wisky.Utility;
 
 namespace Wisky.Areas.Admin.Controllers
 {
-    public class ProductController : Controller
+    public class ReportController : Controller
     {
         // GET: Admin/Product
         public ActionResult Index()
@@ -18,57 +20,53 @@ namespace Wisky.Areas.Admin.Controllers
             return View();
         }
 
-        //public JsonResult ProductDatatable(JQueryDataTableParamModel param, int categoryId)
-        //{
-        //    try
-        //    {
-        //        var productService = this.Service<IProductService>();
-        //        IQueryable<Product> listProducts = listProducts = productService.GetAllProductWithCategoryId(categoryId); ;
+        public JsonResult DateReportTable(JQueryDataTableParamModel param, DateTime startTime, DateTime endTime)
+        {
+            var listDateReport = new List<ReportChartView>();
+            IHistoryService historyService = this.Service<IHistoryService>();
+            try
+            {
+                //lay du lieu tu database table datereport
+                var listReport = historyService.getAllList(startTime, endTime).ToList();
+                for (DateTime i = startTime; i < endTime; i = i.AddDays(1))
+                {
+                    DateTime check = i.AddDays(1);
+                    double normal = 0, vip = 0;
+                    var listNormal = historyService.GetActive(q => q.CreatedDate > i && q.CreatedDate <= check && q.LicenseType.PackageId == 1).ToList();
+                    var listVip = historyService.GetActive(q => q.CreatedDate > i && q.CreatedDate <= check && q.LicenseType.PackageId == 2).ToList();
+                    if (listNormal.Count > 0)
+                    {
+                        normal = listNormal.Sum(a => a.LicenseType.Price).Value;
+                    }
+                    if (listVip.Count > 0)
+                    {
+                        vip = listVip.Sum(a => a.LicenseType.Price).Value;
+                    }
+                    listDateReport.Add(new ReportChartView
+                    {
+                        Date = i.ToString("dd/MM/yyyy"),
+                        TotalNormal =normal,
+                        TotalVip = vip,
 
-        //        if (listProducts == null)
-        //        {
-        //            return Json(new
-        //            {
-        //                sEcho = param.sEcho,
-        //                iTotalRecords = 0,
-        //                iTotalDisplayRecords = 0,
-        //                aaData = new List<Product>()
-        //            }, JsonRequestBehavior.AllowGet);
-        //        }
-        //        var productList = listProducts.AsEnumerable()
-        //            .Where(a => (string.IsNullOrEmpty(param.sSearch) || StringConvert.EscapeName(a.Name).ToLower()
-        //                             .Contains(StringConvert.EscapeName(param.sSearch).ToLower())));
-        //        int count = 1;
-        //        var rp = productList
-        //            .Skip(param.iDisplayStart).Take(param.iDisplayLength)
-        //            .Select(p => new IConvertible[]
-        //            {
-        //            count++,
-        //            p.Name,
-        //            p.Price,
-        //            p.Status,
-        //            p.ProductId
-        //            });
-        //        var total = listProducts.Count();
-        //        return Json(new
-        //        {
-        //            sEcho = param.sEcho,
-        //            iTotalRecords = total,
-        //            iTotalDisplayRecords = total,
-        //            aaData = rp
-        //        }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return Json(new
-        //        {
-        //            sEcho = param.sEcho,
-        //            iTotalRecords = 0,
-        //            iTotalDisplayRecords = 0,
-        //            aaData = new List<Product>()
-        //        }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+                    });
+                }
+                var total = listDateReport.Count();
+                var rp = listDateReport
+                    .Skip(param.iDisplayStart).Take(param.iDisplayLength);
+                return Json(new
+                {
+                        sEcho = param.sEcho,
+                        iTotalRecords = total,
+                        iTotalDisplayRecords = total,
+                        aaData = rp,
+                        dataList = listDateReport,
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
 
         //public async Task<ActionResult> CreateProduct(string name, int price, List<int> categoryIds)
         //{
@@ -232,5 +230,17 @@ namespace Wisky.Areas.Admin.Controllers
         //        });
         //    }
         //}
+    }
+    public class ReportTableView
+    {
+        public string Date { get; set; }
+        public string Type { get; set; }
+        public double TotalAmount { get; set; }
+    }
+    public class ReportChartView
+    {
+        public string Date { get; set; }
+        public double TotalNormal { get; set; }
+        public double TotalVip { get; set; }
     }
 }

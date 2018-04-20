@@ -1,0 +1,316 @@
+﻿@{
+    ViewBag.Title = "THỐNG KÊ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    table tbody tr:hover {
+        cursor: pointer;
+    }
+
+        table tbody tr:hover td {
+            color: #3c8dbc;
+        }
+
+    .general-info, .setting {
+        background-color: #ffffff;
+        padding-top: 20px;
+        border-radius: 5px;
+    }
+
+        .setting .form-group input {
+            margin-left: 3%;
+            width: 94%;
+        }
+
+    .toggle-handle {
+        border-radius: 0;
+        /*height: 30px;*/
+    }
+
+    .toggle-off.btn {
+        padding-left: 30px;
+    }
+
+    .input-group-addon:hover {
+        cursor: pointer;
+        background: #367fa9;
+        color: white;
+    }
+
+    .fixedHeader {
+        position: fixed;
+    }
+
+    .modal-dialog {
+        transform: none !important;
+    }
+
+    .modal-content {
+        margin-top: 70px;
+    }
+
+    th, td {
+        vertical-align: middle;
+    }
+
+    table.dataTable thead .sorting,
+    table.dataTable thead .sorting_asc,
+    table.dataTable thead .sorting_desc {
+        background: none;
+    }
+
+    #LandingPageDatatable > tbody > tr > td {
+        vertical-align: middle;
+    }
+</style>
+
+@section Header
+{
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","Accounts")"><i class="left-icon fa fa-linux"></i>DashBoard</a></li>
+        <li><a href="@Url.Action("Index","Customer")"><i class="left-icon fa fa-linux"></i>Thống kê doanh thu</a></li>
+        <li class="active">@ViewData["Username"]</li>
+    </ol>
+}
+
+<div class="row">
+    <!-- Location chooser -->
+    <div class="col-md-12">
+
+        <!-- Header -->
+        <div class="block-header title-format">
+            <h2>Thống kê doanh thu</h2>
+        </div>
+
+
+        <!-- Daterange picker -->
+        <div class="calendar-format">
+            <div class="fg-line m-t-5">
+                <div id="reportrange" class="btn-datetime form-control">
+                    <i class="fa fa-calendar"></i>
+                    <span></span> <b class="caret"></b>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body card-padding">
+                <button id="btnCreateLandingPage" type="button" class="btn btn-primary pull-right" onclick="createModal()">
+                    <i class="left-icon fa fa-plus"></i>Hiển thị biểu đồ
+                </button>
+                <div id="chart_div" style="width: 100%; height: 500px;"></div>
+                <table id="historyDatatable" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                <label class="">Ngày</label>
+                            </th>
+                            <th>
+                                <label class="">Doanh thu gói thường</label>
+                            </th>
+                            <th>
+                                <label class="">Doanh thu gói Vip</label>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts {
+    <script src="~/Content/js/Campaign.js"></script>
+    <script>
+        var dataMap;
+        $(document).ready(function () {
+            setupDaterangepicker();
+            //getDataMap();
+            InitDatatable();
+            getDataMap();
+            //google.charts.load('current', { 'packages': ['corechart'] });
+            //google.charts.setOnLoadCallback(drawChart);
+            //drawChart();
+            $(document).on('onFadeOutComplete', '#loading-image', function () {
+                StartOverallTour();
+            });
+        });
+
+        //init dateRange picker
+        function setupDaterangepicker() {
+            $('#reportrange span').html(moment().add(-5, 'days').format('MMM D, YYYY') + ' - ' + moment().add(0, 'days').format('MMM D, YYYY'));
+            $('#reportrange').daterangepicker({
+                format: 'DD/MM/YYYY',
+                startDate: moment().add(-5, 'days'),
+                endDate: moment().add(0, 'days'),
+                minDate: '01/01/2012',
+                maxDate: '31/12/2100',
+                dateLimit: { days: 365 },
+                showDropdowns: true,
+                showWeekNumbers: true,
+                timePicker: false,
+                timePickerIncrement: 1,
+                timePicker12Hour: true,
+                parentEl: '.modal-body',
+                ranges: {
+                    '@Wisky.ResourcesLanguage.DateTimePicker.Today': [moment.utc().startOf('day'), moment.utc().endOf('day')],
+                    '@Wisky.ResourcesLanguage.DateTimePicker.Yesterday': [moment.utc().startOf('day').add(-1, 'days'), moment.utc().endOf('day').add(-1, 'days')],
+                    '@Wisky.ResourcesLanguage.DateTimePicker.ThisWeek': [moment().add(0, 'week').startOf('week'), moment().add(0, 'week').endOf('week')],
+                    '@Wisky.ResourcesLanguage.DateTimePicker.LastWeek': [moment().add(-1, 'week').startOf('week'), moment().add(-1, 'week').endOf('week')],
+                    '@Wisky.ResourcesLanguage.DateTimePicker.ThisMonth': [moment().add(0, 'month').startOf('month'), moment().add(0, 'month').endOf('month')],
+                    '@Wisky.ResourcesLanguage.DateTimePicker.LastMonth': [moment().add(-1, 'month').startOf('month'), moment().add(-1, 'month').endOf('month')]
+                },
+                opens: 'left',
+                drops: 'down',
+                buttonClasses: ['btn', 'btn-sm'],
+                applyClass: 'btn-primary',
+                cancelClass: 'btn-default',
+                separator: ' to ',
+                locale: {
+                    applyLabel: '@Wisky.ResourcesLanguage.DateTimePicker.Submit',
+                    cancelLabel: '@Wisky.ResourcesLanguage.DateTimePicker.Cancel',
+                    fromLabel: '@Wisky.ResourcesLanguage.DateTimePicker.From',
+                    toLabel: '@Wisky.ResourcesLanguage.DateTimePicker.To',
+                    customRangeLabel: '@Wisky.ResourcesLanguage.DateTimePicker.Custom',
+                    daysOfWeek: ['@Wisky.ResourcesLanguage.DateTimePicker.Sunday', '@Wisky.ResourcesLanguage.DateTimePicker.Monday', '@Wisky.ResourcesLanguage.DateTimePicker.Tuesday', '@Wisky.ResourcesLanguage.DateTimePicker.Wednesday', '@Wisky.ResourcesLanguage.DateTimePicker.Thursday', '@Wisky.ResourcesLanguage.DateTimePicker.Friday', '@Wisky.ResourcesLanguage.DateTimePicker.Sartuday'],
+                    monthNames: ['@Wisky.ResourcesLanguage.DateTimePicker.January', '@Wisky.ResourcesLanguage.DateTimePicker.February', '@Wisky.ResourcesLanguage.DateTimePicker.March', '@Wisky.ResourcesLanguage.DateTimePicker.April', '@Wisky.ResourcesLanguage.DateTimePicker.May', '@Wisky.ResourcesLanguage.DateTimePicker.June', '@Wisky.ResourcesLanguage.DateTimePicker.July', '@Wisky.ResourcesLanguage.DateTimePicker.August', '@Wisky.ResourcesLanguage.DateTimePicker.September', '@Wisky.ResourcesLanguage.DateTimePicker.October', '@Wisky.ResourcesLanguage.DateTimePicker.November', '@Wisky.ResourcesLanguage.DateTimePicker.December'],
+                    firstDay: 1
+                }
+            }, function (start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+
+                $('#reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
+            });
+
+
+            $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
+                RefreshTable();
+                getDataMap();
+            });
+        }
+
+        function RefreshTable() {
+            var oTable = $("#historyDatatable").dataTable();
+            oTable._fnPageChange(0);
+            oTable._fnAjaxUpdate();
+        }
+
+        function InitDatatable() {
+            $("#historyDatatable").dataTable({
+                "bFilter": true,
+                "bRetrieve": true,
+                "bServerSide": true,
+                "bScrollCollapse": true,
+                "sAjaxSource": "@Url.Action("DateReportTable", "Report")",
+                "bProcessing": true,
+                "bFilter": true,
+                "fnServerParams": function (aoData) {
+                    aoData.push(
+                        { "name": "startTime", "value": $('#reportrange').data('daterangepicker').startDate.toISOString() },
+                        { "name": "endTime", "value": $('#reportrange').data('daterangepicker').endDate.toISOString() }
+                    );
+                },
+                "oLanguage": {
+                    "sSearch": "Tìm kiếm: ",
+                    "sZeroRecords": "Không có danh mục nào",
+                    "sInfo": "Hiển thị từ _START_ đến _END_ trong tổng số _TOTAL_",
+                    "sEmptyTable": "Không có dữ liệu",
+                    "sInfoFiltered": " ",
+                    "sLengthMenu": "Hiển thị _MENU_ dòng",
+                    "sProcessing": "Đang xử lý...",
+                    "oPaginate": {
+                        "sNext": "<i class='fa fa-chevron-right'></i>",
+                        "sPrevious": "<i class='fa fa-chevron-left'></i>"
+                    }
+                },
+                "aoColumnDefs": [
+                    {
+                        "aTargets": [0, 1, 2],
+                        "bSortable": true,
+                    },
+                    {
+                        "aTargets": [0],
+                        "mRender": function (data, type, row) {
+                            var data = row.Date;
+                            return data;
+                        },
+                        "bSortable": false
+                    },
+                    {
+                        "aTargets": [1],
+                        "mRender": function (data, type, row) {
+                            var data = row.TotalNormal
+                            return data + "$" ;
+                        },
+                        "bSortable": false
+                    },
+                    {
+                        "aTargets": [2],
+                        "mRender": function (data, type, row) {
+                            var data = row.TotalVip;
+                            return data + "$";
+                        },
+                        "bSortable": false
+                    }
+                ],
+                "bAutoWidth": false,
+            }).fnSetFilteringDelay(1000);
+        }
+        function getDataMap() {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("DateReportTable", "Report")',
+                data: {
+                    startTime: $('#reportrange').data('daterangepicker').startDate.toISOString(),
+                    endTime: $('#reportrange').data('daterangepicker').endDate.toISOString()
+                },
+                success: function (result) {
+                    dataMap = result.dataList;
+                    google.charts.load('current', { 'packages': ['corechart'] });
+                    google.charts.setOnLoadCallback(drawChart);
+                },
+                error: function (error) {
+                    PnotifyFail("Có lỗi xảy ra!!!");
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+        function drawChart() {
+            var dataNew = new google.visualization.DataTable();
+            dataNew.addColumn('string', 'Ngày');
+            dataNew.addColumn('number', 'Gói Vip');
+            dataNew.addColumn('number', 'Gói thường')
+            dataNew.addRows(dataMap.length);
+            for (var i = 0; i < dataMap.length; i++) {
+                var subString = dataMap[i].Date.substr(-5, 5);
+                dataNew.setCell(i, 0, dataMap[i].Date.replace(subString, ""));
+                dataNew.setCell(i, 1, dataMap[i].TotalVip);
+                dataNew.setCell(i, 2, dataMap[i].TotalNormal);
+            }
+
+            var options = {
+                title: 'Thống kê doanh thu',
+                hAxis: { title: 'Ngày', titleTextStyle: { color: '#333' } },
+                vAxis: { minValue: 0 }
+            };
+
+            var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+            chart.draw(dataNew, options);
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+}
