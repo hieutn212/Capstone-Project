@@ -216,6 +216,9 @@
     <Compile Include="Models\Entities\Repositories\MarkerRepositoryGen.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\Repositories\PackageLicenseRepositoryGen.cs">
+      <DependentUpon>Repositories.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entities\Repositories\Product_positionRepositoryGen.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
@@ -280,6 +283,9 @@
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Services\MarkerServiceGen.cs">
+      <DependentUpon>Services.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Services\PackageLicenseServiceGen.cs">
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Services\Product_positionServiceGen.cs">

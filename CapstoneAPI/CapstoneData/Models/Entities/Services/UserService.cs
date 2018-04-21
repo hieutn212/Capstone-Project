@@ -13,6 +13,9 @@ namespace CapstoneData.Models.Entities.Services
         User GetByUsernameAndPassword(string username, string password);
         User GetByUsername(string username);
         User GetById(int id);
+        User GetAllById(int id);
+        IQueryable<User> GetAllUser();
+
         Boolean CheckExpireDay(String username);
         Boolean AddExpireDay(String username, Int64 totalDay);
     }
@@ -30,7 +33,14 @@ namespace CapstoneData.Models.Entities.Services
         {
             return this.GetActive(q => q.Username.Equals(username)).FirstOrDefault();
         }
-
+        public IQueryable<User> GetAllUser()
+        {
+            return this.Get(q => q.RoleId != 1);
+        }
+        public User GetAllById(int id)
+        {
+            return this.Get(q => q.Id == id).FirstOrDefault();
+        }
         public User GetById(int id)
         {
             return this.GetActive(q => q.Id == id).FirstOrDefault();

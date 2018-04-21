@@ -13,7 +13,7 @@ using Wisky.Utility;
 
 namespace Wisky.Areas.Admin.Controllers
 {
-    public class CustomerController : Controller
+    public class DeviceController : Controller
     {
         // GET: Admin/Customer
         public ActionResult Index()
@@ -110,43 +110,118 @@ namespace Wisky.Areas.Admin.Controllers
             }
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult> BuyPoint(string username, int point)
-        //{
-        //    try
-        //    {
-        //        var customerService = this.Service<IAspNetUserService>();
-        //        var customer = customerService.GetByUsername(username);
-        //        if (customer != null)
-        //        {
-        //            customer.Point += point;
-        //            customerService.Update(customer);
+        [HttpPost]
+        public async Task<ActionResult> DeleteDevice(string IMEI)
+        {
+            try
+            {
+                var deviceService = this.Service<IDeviceService>();
+                var device = deviceService.GetById(IMEI);
+                if (device != null)
+                {
+                    device.Active = false;
+                    deviceService.Update(device);
+                    return Json(new
+                    {
+                        success = true,
+                    });
+                }
+                return Json(new
+                {
+                    success = false,
+                });
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    success = false,
+                });
+            }
+        }
 
-        //            var historyService = this.Service<IHistoryService>();
-        //            await historyService.CreateAsync(new History()
-        //            {
-        //                CreatedDate = DateTime.Now,
-        //                CustomerId = customer.Id,
-        //                Point = point,
-        //            });
-        //            return Json(new
-        //            {
-        //                success = true,
-        //            });
-        //        }
-        //        return Json(new
-        //        {
-        //            success = false,
-        //        });
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return Json(new
-        //        {
-        //            success = false,
-        //        });
-        //    }
-        //}
+        [HttpPost]
+        public async Task<ActionResult> UpdateDevice(string IMEI, string deviceName)
+        {
+            try
+            {
+                var deviceService = this.Service<IDeviceService>();
+                var device = deviceService.GetById(IMEI);
+                if (device != null)
+                {
+                    device.Name = deviceName;
+                    deviceService.Update(device);
+                    return Json(new
+                    {
+                        success = true,
+                    });
+                }
+                return Json(new
+                {
+                    success = false,
+                });
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    success = false,
+                });
+            }
+        }
+        [HttpPost]
+        public async Task<ActionResult> AddDevice(string IMEI, string deviceName)
+        {
+            try
+            {
+                String username = Session["Username"].ToString();
+                int userId = 0;
+                if (username != null)
+                {
+                    var userService = this.Service<IUserService>();
+                    var user = userService.GetByUsername(username);
+                    userId = user.Id;
+                }
+                var deviceService = this.Service<IDeviceService>();
+                var device = deviceService.GetAllById(IMEI);                
+                if (device == null)
+                {
+                    Device model = new Device();
+                    model.Id = IMEI;
+                    model.Name = deviceName;
+                    model.Active = true;
+                    model.UserId = userId;
+                    deviceService.Create(model);
+                    return Json(new
+                    {
+                        success = true,
+                    });
+                } else
+                {
+                    if (device.UserId == userId)
+                    {
+                        device.Active = true;
+                        device.Name = deviceName;
+                        deviceService.Update(device);
+                        return Json(new
+                        {
+                            success = true,
+                        });
+                    }
+                }
+                return Json(new
+                {
+                    success = false,
+                });
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    success = false,
+                });
+            }
+        }
 
         public async Task<ActionResult> History(string id)
         {

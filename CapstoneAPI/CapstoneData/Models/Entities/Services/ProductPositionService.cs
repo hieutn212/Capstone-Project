@@ -15,7 +15,7 @@ namespace CapstoneData.Models.Entities.Services
         Task CreateProduct(Product_position model);
 
         IQueryable<Product_position> getListById(string IMEI, DateTime startDate, DateTime endDate);
-        List<Product_position> getListByTime(string IMEI, DateTime startDate, DateTime endDate);
+        List<Product_position> getListByTime(string IMEI, DateTime startDate, DateTime endDate, double altitude);
     }
 
     public partial class Product_positionService
@@ -38,9 +38,11 @@ namespace CapstoneData.Models.Entities.Services
             return this.GetActive(q => (q.DeviceId.ToUpper().Equals(IMEI.ToUpper())) && q.CreatedDate >= startDate && q.CreatedDate <= endDate).OrderByDescending(a => a.CreatedDate);
         }
 
-        public List<Product_position> getListByTime(string IMEI, DateTime startDate, DateTime endDate)
+        public List<Product_position> getListByTime(string IMEI, DateTime startDate, DateTime endDate, double altitude)
         {
-            return this.GetActive(q => (q.DeviceId.ToUpper().Equals(IMEI.ToUpper())) && q.CreatedDate >= startDate && q.CreatedDate <= endDate).OrderByDescending(a => a.CreatedDate).ToList();
+            return this.GetActive(q => (q.DeviceId.ToUpper().Equals(IMEI.ToUpper())) && q.CreatedDate >= startDate 
+            && q.CreatedDate <= endDate && q.Altitude <= (altitude+1) && q.Altitude >= (altitude-1))
+            .OrderByDescending(a => a.CreatedDate).ToList();
         }
 
     }

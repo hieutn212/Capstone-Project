@@ -9,6 +9,7 @@ namespace CapstoneData.Models.Entities.Services
     public partial interface IDeviceService
     {
         Device GetById(string id);
+        Device GetAllById(string id);
         Task CreateProduct(Device model);
         Device CheckProduct(string IMEI);
         List<DeviceViewModel> getByUserId(int userId);
@@ -18,6 +19,10 @@ namespace CapstoneData.Models.Entities.Services
         public Device GetById(string id)
         {
             return this.GetActive(q => q.Id.ToUpper().Equals(id.ToUpper())).FirstOrDefault();
+        }
+        public Device GetAllById(string id)
+        {
+            return this.Get(q => q.Id.ToUpper().Equals(id.ToUpper())).FirstOrDefault();
         }
         public async Task CreateProduct(Device model)
         {

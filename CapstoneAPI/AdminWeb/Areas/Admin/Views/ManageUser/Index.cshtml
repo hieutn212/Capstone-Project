@@ -1,6 +1,5 @@
-﻿@using CocShopData.Utility;
-@{
-    ViewBag.Title = "Quản lý Danh mục";
+﻿@{
+    ViewBag.Title = "Quản lý tài khoản";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
@@ -69,19 +68,19 @@
 {
     <ol class="breadcrumb">
         <li><a href="@Url.Action("Index","Accounts")"><i class="left-icon fa fa-linux"></i>DashBoard</a></li>
-        <li class="active">Quản lý Danh mục</li>
+        <li class="active">Quản lý tài khoản</li>
     </ol>
 }
 
 <div class="block-header">
-    <h2>Danh sách sản phẩm</h2>
-    <ul class="actions">
+    <h2>Danh sách tài khoản</h2>
+    @*<ul class="actions">
         <li>
             <button id="btnCreateLandingPage" type="button" class="btn btn-primary pull-right" onclick="createModal()">
                 <i class="left-icon fa fa-plus"></i>Tạo mới
             </button>
         </li>
-    </ul>
+    </ul>*@
 </div>
 
 <div class="row">
@@ -95,7 +94,22 @@
                                 <label class="">STT</label>
                             </th>
                             <th>
-                                <label class="">Tên danh mục</label>
+                                <label class="">Tên tài khoản</label>
+                            </th>
+                            <th>
+                                <label class="">Tên người dùng</label>
+                            </th>
+                            <th>
+                                <label class="">Số thiết bị</label>
+                            </th>
+                            <th>
+                                <label class="">Hạn sử dụng</label>
+                            </th>
+                            <th>
+                                <label class="">Loại tài khoản</label>
+                            </th>
+                            <th>
+                                <label class="">Trạng thái</label>
                             </th>
                             <th>
                                 <label class="">Thao tác</label>
@@ -187,10 +201,9 @@
                 "bRetrieve": true,
                 "bServerSide": true,
                 "bScrollCollapse": true,
-                "sAjaxSource": "@Url.Action("CategoryDatatable", "Category")",
+                "sAjaxSource": "@Url.Action("UserDatatable", "ManageUser")",
                 "bProcessing": true,
                 "fnServerParams": function (aoData) {
-                    aoData.push({ "name": "id", "value": 10 });
                 },
                 "oLanguage": {
                     "sSearch": "Tìm kiếm: ",
@@ -207,18 +220,47 @@
                 },
                 "aoColumnDefs": [
                     {
-                        "aTargets": [0, 1],
-                        "bSortable": true,
+                        "aTargets": [5],
+                        "mRender": function (data, type, row) {
+                            var data = row[5];
+                            var button = "";
+                            if (data == 1) {
+                                button = "<p class='btn btn-sm btn-primary')\/" + "\'>Tài khoản thường</p>";
+                            } else if (data ==2) {
+                                button = "<p class='btn btn-sm btn-success')\/" + "\'>Tài khoản Vip</p>";
+                            } else if (data == 0) {
+                                button = "<p class='btn btn-sm btn-warning')\/" + "\'>Đang hết hạn</p>";
+                            }
+                            return button;
+                        },
+                        "bSortable": false,
                     },
                     {
-                        "aTargets": [2],
+                        "aTargets": [6],
                         "mRender": function (data, type, row) {
-                            debugger
-                            var data = row[2];
-                            return "<a class='btn btn-sm btn-primary' data-toggle='tooltip' title='Chỉnh sửa' onclick='editModal(" + data + ")'><i class='glyphicon glyphicon-pencil'></i></a>"
-                                 + " <a class='btn btn-sm btn-danger' data-toggle='tooltip' title='Xóa' onclick='deleteCategory(" + data + ")'><i class='fa fa-trash'></i></a>";
-
-                            //    + " <a id='btnDemoLandingPage' class='btn btn-sm btn-primary' target='_blank' href='/BrandManager/LandingPages/ViewDemo?id=" + data + "'>View demo</i></a>";
+                            var data = row[6];
+                            var button = "";
+                            if (data) {
+                                button = "<p class='btn btn-sm btn-primary')\/" + "\'>Đang hoạt động</p>";
+                            } else {
+                                button = "<p class='btn btn-sm btn-danger')\/" + "\'>Đang khóa</p>";
+                            }
+                            return button;
+                        },
+                        "bSortable": false,
+                    },
+                    {
+                        "aTargets": [7],
+                        "mRender": function (data, type, row) {
+                            var data = row[7];
+                            var checkData = row[6];
+                            var button = "";
+                            if (checkData) {
+                                button = "<a class='btn btn-sm btn-warning' data-toggle='tooltip' title='Khóa' onclick='deActiveAccount(" + data + ")'><i class='glyphicon glyphicon-remove-sign'></i></a>"
+                            } else {
+                                button = "<a class='btn btn-sm btn-success' data-toggle='tooltip' title='Mở' onclick='ActiveAccount(" + data + ")'><i class='glyphicon glyphicon-ok-sign'></i></a>"
+                            }
+                            return button;
                         },
                         "bSortable": false
                     },
@@ -228,48 +270,10 @@
             }).fnSetFilteringDelay(1000);
         }
 
-        function createModal() {
-            $('#createModal').modal('show');
-            $('#categoryName').val("");
-        }
-
-        $('#createCategoryForm').submit(function (e) {
-            e.preventDefault();
-            var name = $('#categoryName').val();
-            var check = true;
-            if (name.length == 0) {
-                check = false;
-                PnotifyFail("Thêm tên danh mục");
-            }
-            if (check) {
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("CreateCategory", "Category")',
-                    data: {
-                        name: name,
-                    },
-                    dataType: "JSON",
-                    success: function (result) {
-                        if (result.success) {
-                            PnotifySuccess("Thêm danh mục thành công");
-                            RefreshTable();
-                            $('#createModal').modal('hide');
-                        } else {
-                            PnotifyFail("Thêm danh mục lỗi");
-                        }
-                    },
-                    error: function (error) {
-                        PnotifyFail("Thêm danh mục bị lỗi");
-                    }
-                });
-            }
-        });
-
-        //delete category
-        function deleteCategory(categoryId) {
+        function deActiveAccount(userId) {
             swal({
                 title: 'Cảnh báo',
-                text: "Bạn có chắc chắn muốn xóa không?",
+                text: "Bạn có chắc chắn muốn khóa không?",
                 type: 'warning',
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
@@ -281,18 +285,54 @@
             }, function () {
                 $.ajax({
                     type: "POST",
-                    url: '@Url.Action("Delete", "Category")',
-                    data: { categoryId: categoryId },
+                    url: '@Url.Action("DeActiveAccount", "ManageUser")',
+                    data: {
+                        userId: userId,
+                    },
+                    dataType: "JSON",
                     success: function (result) {
                         if (result.success) {
-                            PnotifySuccess("Xóa thành công!!!")
+                            PnotifySuccess("Tài khoản đã bị khóa");
                             RefreshTable();
                         } else {
-                            PnotifyFail("Xóa thất bại");
+                            PnotifyFail("Thao tác có lỗi");
                         }
                     },
                     error: function (error) {
-                        PnotifyFail("Có lỗi xảy ra!!!");
+                        PnotifyFail("Thao tác bị lỗi");
+                    }
+                });
+            });
+        }
+
+        //delete category
+        function ActiveAccount(userId) {
+            swal({
+                title: 'Cảnh báo',
+                text: "Bạn có chắc chắn muốn mở không?",
+                type: 'warning',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Không',
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                closeOnConfirm: true
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("ActiveAccount", "ManageUser")',
+                    data: { userId: userId },
+                    success: function (result) {
+                        if (result.success) {
+                            PnotifySuccess("Mở khóa tài khoản thành công!!!")
+                            RefreshTable();
+                        } else {
+                            PnotifyFail("Mở khóa tài khoản thất bại");
+                        }
+                    },
+                    error: function (error) {
+                        PnotifyFail("Mở khóa tài khoản có lỗi xảy ra!!!");
                     }
                 });
             });
@@ -314,7 +354,7 @@
                     url: '@Url.Action("EditCategory", "Category")',
                     data: {
                         name: name,
-                        id : id,
+                        id: id,
                     },
                     dataType: "JSON",
                     success: function (result) {
