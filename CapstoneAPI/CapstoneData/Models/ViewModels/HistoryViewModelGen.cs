@@ -18,8 +18,7 @@ namespace CapstoneData.Models.ViewModels
     			public virtual int Id { get; set; }
     			public virtual System.DateTime CreatedDate { get; set; }
     			public virtual int UserId { get; set; }
-    			public virtual int BuyDate { get; set; }
-    			public virtual double Price { get; set; }
+    			public virtual int TypeId { get; set; }
     	
     	public HistoryViewModel() : base() { }
     	public HistoryViewModel(CapstoneData.Models.Entities.History entity) : base(entity) { }

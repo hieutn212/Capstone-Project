@@ -312,42 +312,32 @@
                         $('#DeviceModal').modal('show');
                         var canvas = document.getElementById("myCanvas");
                         var ctx = canvas.getContext("2d");
-                        var img = document.getElementById("mapFloor1");;
-                        for (var i = 0; i < result.length; i++) {
+                        var img = document.getElementById("mapFloor1");
                             if (result.Altitude == 0) {
                                 img = document.getElementById("mapFloor1");
-                                break;
                             } else if (result.Altitude > 0 && result.Altitude <= 6.8) {
                                 img = document.getElementById("mapFloor1");
-                                break;
                             }
                             else if (result.Altitude > 6.8 && result.Altitude <= 9.9) {
                                 img = document.getElementById("mapFloor1");
-                                break;
                             }
                             else if (result.Altitude > 9.9 && result.Altitude <= 13.3) {
                                 img = document.getElementById("mapFloor1");
-                                break;
                             }
                             else if (result.Altitude > 13.3 && result.Altitude <= 17.3) {
                                 img = document.getElementById("mapFloor2");
-                                break;
                             } else if (result.Altitude > 17.3 && result.Altitude <= 20.4) {
                                 img = document.getElementById("mapFloor3");
-                                break;
                             } else if (result.Altitude > 20.4 && result.Altitude <= 24.3) {
                                 img = document.getElementById("mapFloor4");
-                                break;
                             } else if (result.Altitude > 24.3) {
                                 img = document.getElementById("mapFloor5");
-                                break;
-                            }
                         }
                         ctx.drawImage(img, 0, 0, 600, 960);
                         getPointMap(result.Latitude, result.Longitude);
-                        ctx.fillStyle = "#FF0000";
+                        ctx.fillStyle = "#0800ff";
                         if (posX != 0 && posY != 0) {
-                            ctx.fillRect(posX, posY, 8, 8);
+                            ctx.fillRect(posX, posY, 15, 15);
                         }
                     } else {
                         PnotifyFail("Có lỗi xảy ra!!!");

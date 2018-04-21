@@ -265,6 +265,8 @@
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Admin\Controllers\HistoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LandingAppsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ManageAccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -806,9 +808,17 @@
     <Content Include="Content\images\icon-palm.png" />
     <Content Include="Content\images\loader.gif" />
     <Content Include="Content\images\lobby-2.jpg" />
+    <Content Include="Content\images\logo black.png" />
+    <Content Include="Content\images\logo clear.png" />
+    <Content Include="Content\images\logo mini.png" />
     <Content Include="Content\images\logo-wisky-blue.png" />
     <Content Include="Content\images\logo-wisky-white.png" />
     <Content Include="Content\images\logo-wisky.png" />
+    <Content Include="Content\images\Maps\Floor1.png" />
+    <Content Include="Content\images\Maps\Floor2.png" />
+    <Content Include="Content\images\Maps\Floor3.png" />
+    <Content Include="Content\images\Maps\Floor4.png" />
+    <Content Include="Content\images\Maps\Floor5.png" />
     <Content Include="Content\images\no-photo.jpg" />
     <Content Include="Content\images\pizza.jpg" />
     <Content Include="Content\images\shortvideo.mp4" />
@@ -1211,6 +1221,7 @@
     <Content Include="Areas\Admin\Views\Customer\History.cshtml" />
     <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Order\Detail.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageAccount\Index.cshtml" />
     <None Include="Properties\PublishProfiles\wiskycms - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\wiskycms - FTP %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\wiskycms - FTP %284%29.pubxml" />

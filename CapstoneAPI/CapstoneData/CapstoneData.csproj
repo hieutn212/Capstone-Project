@@ -147,6 +147,18 @@
     <Compile Include="Models\Entities\HistoryRefined.cs">
       <DependentUpon>EntityRefinery.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\LicenseType.cs">
+      <DependentUpon>CapstoneEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\LicenseTypeRefined.cs">
+      <DependentUpon>EntityRefinery.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Liciense.cs">
+      <DependentUpon>CapstoneEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\LicienseRefined.cs">
+      <DependentUpon>EntityRefinery.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entities\Map.cs">
       <DependentUpon>CapstoneEntities.tt</DependentUpon>
     </Compile>
@@ -157,6 +169,12 @@
       <DependentUpon>CapstoneEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\MarkerRefined.cs">
+      <DependentUpon>EntityRefinery.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\PackageLicense.cs">
+      <DependentUpon>CapstoneEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\PackageLicenseRefined.cs">
       <DependentUpon>EntityRefinery.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Product_position.cs">
@@ -184,6 +202,12 @@
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Repositories\HistoryRepositoryGen.cs">
+      <DependentUpon>Repositories.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Repositories\LicenseTypeRepositoryGen.cs">
+      <DependentUpon>Repositories.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Repositories\LicienseRepositoryGen.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Repositories\MapRepositoryGen.cs">
@@ -239,7 +263,16 @@
     <Compile Include="Models\Entities\Services\DistrictServiceGen.cs">
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\Services\HistoryService.cs" />
     <Compile Include="Models\Entities\Services\HistoryServiceGen.cs">
+      <DependentUpon>Services.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Services\LicenseTypeService.cs" />
+    <Compile Include="Models\Entities\Services\LicenseTypeServiceGen.cs">
+      <DependentUpon>Services.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Services\LicienseService.cs" />
+    <Compile Include="Models\Entities\Services\LicienseServiceGen.cs">
       <DependentUpon>Services.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Services\MapService.cs" />
@@ -293,10 +326,19 @@
     <Compile Include="Models\ViewModels\HistoryViewModelGen.cs">
       <DependentUpon>ViewModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\LicenseTypeViewModelGen.cs">
+      <DependentUpon>ViewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewModels\LicienseViewModelGen.cs">
+      <DependentUpon>ViewModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewModels\MapViewModelGen.cs">
       <DependentUpon>ViewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\MarkerViewModelGen.cs">
+      <DependentUpon>ViewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewModels\PackageLicenseViewModelGen.cs">
       <DependentUpon>ViewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\Product_positionViewModelGen.cs">
@@ -329,13 +371,47 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>CapstoneEntities.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="bin\Debug\CapstoneData.dll.config" />
     <None Include="Models\Entities\CapstoneEntities.edmx.diagram">
       <DependentUpon>CapstoneEntities.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <Folder Include="bin\Release\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\Autofac.dll" />
+    <Content Include="bin\Debug\Autofac.Integration.Mvc.dll" />
+    <Content Include="bin\Debug\Autofac.Integration.Mvc.xml" />
+    <Content Include="bin\Debug\Autofac.xml" />
+    <Content Include="bin\Debug\AutoMapper.dll" />
+    <Content Include="bin\Debug\AutoMapper.xml" />
+    <Content Include="bin\Debug\CapstoneData.dll" />
+    <Content Include="bin\Debug\CapstoneData.pdb" />
+    <Content Include="bin\Debug\EntityFramework.dll" />
+    <Content Include="bin\Debug\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\Debug\EntityFramework.SqlServer.xml" />
+    <Content Include="bin\Debug\EntityFramework.xml" />
+    <Content Include="bin\Debug\Microsoft.AspNet.Identity.Core.dll" />
+    <Content Include="bin\Debug\Microsoft.AspNet.Identity.Core.xml" />
+    <Content Include="bin\Debug\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\Debug\Newtonsoft.Json.dll" />
+    <Content Include="bin\Debug\Newtonsoft.Json.xml" />
+    <Content Include="bin\Debug\SkyWeb.DatVM.Data.dll" />
+    <Content Include="bin\Debug\SkyWeb.DatVM.Mvc.dll" />
+    <Content Include="bin\Debug\System.Web.Helpers.dll" />
+    <Content Include="bin\Debug\System.Web.Helpers.xml" />
+    <Content Include="bin\Debug\System.Web.Mvc.dll" />
+    <Content Include="bin\Debug\System.Web.Mvc.xml" />
+    <Content Include="bin\Debug\System.Web.Razor.dll" />
+    <Content Include="bin\Debug\System.Web.Razor.xml" />
+    <Content Include="bin\Debug\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\Debug\System.Web.WebPages.Deployment.xml" />
+    <Content Include="bin\Debug\System.Web.WebPages.dll" />
+    <Content Include="bin\Debug\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\Debug\System.Web.WebPages.Razor.xml" />
+    <Content Include="bin\Debug\System.Web.WebPages.xml" />
     <Content Include="Models\Entities\CapstoneEntities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>CapstoneEntities.edmx</DependentUpon>
