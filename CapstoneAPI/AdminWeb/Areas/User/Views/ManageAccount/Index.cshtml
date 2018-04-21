@@ -376,7 +376,7 @@
         //function AddNewLicense() {
         //    var checkedValue = $('.check-box:checked').val();
         //    var username = Session["Username"].ToString();
-        //    window.location.href = "http://localhost:36110/Admin/ManageAccount/AddNewLicense?username=" + username + "&day=" + checkedValue;
+        //    window.location.href = "http://localhost:36110/User/ManageAccount/AddNewLicense?username=" + username + "&day=" + checkedValue;
         //}
 
         paypal.Button.render({
@@ -422,7 +422,7 @@
 
                     window.alert('Payment Complete!');
 
-                    window.location.href = "http://localhost:36110/Admin/ManageAccount/AddNewLicense?username=" + name + "&LicenseTypeId=" + Checked.substr(0, 1);
+                    window.location.href = "http://localhost:36110/User/ManageAccount/AddNewLicense?username=" + name + "&LicenseTypeId=" + Checked.substr(0, 1);
                 })
 
             }

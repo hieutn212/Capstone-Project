@@ -48,7 +48,10 @@
         try
         {
             userfullname = Session["Userfullname"].ToString();
-            licienseType = Session["LicienseType"].ToString();
+            if (Session["LicienseType"] != null)
+            {
+                licienseType = Session["LicienseType"].ToString();
+            }
             roleId = Session["IsRole"].ToString();
             if (licienseType == "2")
             {
