@@ -1,0 +1,181 @@
+﻿@{
+    ViewBag.Title = "THỐNG KÊ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    table tbody tr:hover {
+        cursor: pointer;
+    }
+
+        table tbody tr:hover td {
+            color: #3c8dbc;
+        }
+
+    .general-info, .setting {
+        background-color: #ffffff;
+        padding-top: 20px;
+        border-radius: 5px;
+    }
+
+        .setting .form-group input {
+            margin-left: 3%;
+            width: 94%;
+        }
+
+    .toggle-handle {
+        border-radius: 0;
+        /*height: 30px;*/
+    }
+
+    .toggle-off.btn {
+        padding-left: 30px;
+    }
+
+    .input-group-addon:hover {
+        cursor: pointer;
+        background: #367fa9;
+        color: white;
+    }
+
+    .fixedHeader {
+        position: fixed;
+    }
+
+    .modal-dialog {
+        transform: none !important;
+    }
+
+    .modal-content {
+        margin-top: 70px;
+    }
+
+    th, td {
+        vertical-align: middle;
+    }
+
+    table.dataTable thead .sorting,
+    table.dataTable thead .sorting_asc,
+    table.dataTable thead .sorting_desc {
+        background: none;
+    }
+
+    #LandingPageDatatable > tbody > tr > td {
+        vertical-align: middle;
+    }
+</style>
+
+@section Header
+{
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","Accounts")"><i class="left-icon fa fa-linux"></i>DashBoard</a></li>
+        <li><a href="@Url.Action("Index","Map")"><i class="left-icon fa fa-linux"></i>Quản lý bản đồ</a></li>
+        <li class="active">@ViewData["Username"]</li>
+    </ol>
+}
+
+<div class="block-header">
+    <h2>Quản lý tòa nhà</h2>
+    <ul class="actions">
+        <li>
+            <button id="btnCreateLandingPage" type="button" class="btn btn-primary pull-right" onclick="createModal()">
+                <i class="left-icon fa fa-plus"></i>Thêm bản đồ
+            </button>
+        </li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body card-padding">
+                <table id="historyDatatable" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                <label class="">STT</label>
+                            </th>
+                            <th>
+                                <label class="">Tên tòa nhà</label>
+                            </th>
+                            <th>
+                                <label class="">Địa chỉ</label>
+                            </th>
+                            <th>
+                                <label class="">Thao tác</label>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/Content/js/Campaign.js"></script>
+    <script>
+        $(document).ready(function () {
+            InitDatatable();
+            $(document).on('onFadeOutComplete', '#loading-image', function () {
+                StartOverallTour();
+            });
+        });
+
+        //init dateRange picker
+        function RefreshTable() {
+            var oTable = $("#historyDatatable").dataTable();
+            oTable._fnPageChange(0);
+            oTable._fnAjaxUpdate();
+        }
+
+        function InitDatatable() {
+            $("#historyDatatable").dataTable({
+                "bFilter": true,
+                "bRetrieve": true,
+                "bServerSide": true,
+                "bScrollCollapse": true,
+                "sAjaxSource": "@Url.Action("BuildingDatatable", "Building")",
+                "bProcessing": true,
+                "bFilter": true,
+                "fnServerParams": function (aoData) {
+                    aoData.push(
+                    );
+                },
+                "oLanguage": {
+                    "sSearch": "Tìm kiếm: ",
+                    "sZeroRecords": "Không có danh mục nào",
+                    "sInfo": "Hiển thị từ _START_ đến _END_ trong tổng số _TOTAL_",
+                    "sEmptyTable": "Không có dữ liệu",
+                    "sInfoFiltered": " ",
+                    "sLengthMenu": "Hiển thị _MENU_ dòng",
+                    "sProcessing": "Đang xử lý...",
+                    "oPaginate": {
+                        "sNext": "<i class='fa fa-chevron-right'></i>",
+                        "sPrevious": "<i class='fa fa-chevron-left'></i>"
+                    }
+                },
+                "aoColumnDefs": [
+                    {
+                        "aTargets": [0, 1, 2],
+                        "bSortable": true,
+                    },
+                    {
+                        "aTargets": [3],
+                        "mRender": function (data, type, row) {
+                            var data = row[3];
+                            return "<a class='btn btn-sm btn-primary' href='@Url.Action("MapIndex", "Building")\/" + data + "\'><i class='fa fa-eye'></i></a>";
+                        },
+                        "bSortable": false
+                    },
+                ],
+                "bAutoWidth": false,
+            }).fnSetFilteringDelay(1000);
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+}
