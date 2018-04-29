@@ -262,8 +262,10 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminDetailController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BuildingController.cs" />
     <Compile Include="Areas\Admin\Controllers\HistoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\ManageUserController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MapController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportController.cs" />
     <Compile Include="Areas\User\Controllers\AccountsController.cs" />
     <Compile Include="Areas\User\Controllers\DeviceController.cs" />
@@ -1219,6 +1221,9 @@
     <Content Include="Areas\User\Views\Position\Index.cshtml" />
     <Content Include="Areas\User\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\User\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\User\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Building\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Building\MapIndex.cshtml" />
     <None Include="Properties\PublishProfiles\wiskycms - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\wiskycms - FTP %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\wiskycms - FTP %284%29.pubxml" />
