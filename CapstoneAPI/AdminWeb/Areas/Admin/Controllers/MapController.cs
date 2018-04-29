@@ -78,9 +78,41 @@ namespace Wisky.Areas.Admin.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
+        public ActionResult GetMapDetail(int mapId)
+        {
+            try
+            {
+                var mapService = this.Service<IMapService>();
+                var map = mapService.getMapById(mapId);
+                if (map != null)
+                {
+                    return Json(new
+                    {
+                        success = true,
+                        mapId = map.Id,
+                        mapName = map.Name,
+                        mapFloor = map.Floor,
+                        mapAltitutde = map.Altitude,
+                        mapUrl = map.MapUrl,
+                    });
+                }
+                return Json(new
+                {
+                    success = false,
+                });
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    success = false,
+                });
+            }
+        }
 
         [HttpPost]
-        public async Task<ActionResult> AddMap()
+        public ActionResult AddMap()
         {
             try
             {
@@ -106,24 +138,61 @@ namespace Wisky.Areas.Admin.Controllers
                         model.BuildingId = int.Parse(buildingId);
                         mapService.Create(model);
                     }
-                    return Json(new
-                    {
-                        success = true,
-                    });
+                    return this.RedirectToAction("Index", "ManageAccount", new { area = "User" });
                 } else
                 {
-                    return Json(new
-                    {
-                        success = false,
-                    });
+                    return this.RedirectToAction("Index", "ManageAccount", new { area = "User" });
+
                 }
             }
             catch (Exception e)
             {
-                return Json(new
+                return this.RedirectToAction("Index", "ManageAccount", new { area = "User" });
+            }
+        }
+        public ActionResult UpdateMap()
+        {
+            try
+            {
+                var file = Request.Files[0];
+                var mapName = Request.Params[0];
+                var mapFloor = Request.Params[1];
+                var mapAltitude = Request.Params[2];
+                var buildingId = Request.Params[3];
+                Map model = new Map();
+                var mapService = this.Service<IMapService>();
+                var maps = mapService.GetActive(a => a.Name.ToUpper().Equals(mapName.ToUpper()));
+                if (maps.Count() == 0 || maps != null)
                 {
-                    success = false,
-                });
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(file.FileName);
+                        var pathWeb = Path.Combine(Server.MapPath("/Maps/"), mapName);
+                        var pathApi = pathWeb.Replace("AdminWeb", "CapstoneAPI");
+                        file.SaveAs(pathApi);
+                        model.Altitude = Double.Parse(mapAltitude);
+                        model.Name = mapName;
+                        model.MapUrl = "maps/" + mapName + ".png";
+                        model.BuildingId = int.Parse(buildingId);
+                        mapService.Update(model);
+                    } else
+                    {
+                        model.Altitude = Double.Parse(mapAltitude);
+                        model.Name = mapName;
+                        model.MapUrl = "maps/" + mapName + ".png";
+                        model.BuildingId = int.Parse(buildingId);
+                        mapService.Update(model);
+                    }
+                    return this.RedirectToAction("Index", "ManageAccount", new { area = "User" });
+                }
+                else
+                {
+                    return this.RedirectToAction("Index", "ManageAccount", new { area = "User" });
+                }
+            }
+            catch (Exception e)
+            {
+                return this.RedirectToAction("Index", "ManageAccount", new { area = "User" });
             }
         }
     }
