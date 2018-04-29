@@ -162,43 +162,57 @@
                     </div>
                     <input type="submit" name="Submit" id="Submit" value="Upload" class="btn btn-primary"/>
                     }
-                    @*<form id="createMapForm" method="post">
-                            <div class="modal-body">
-                                <div class="form-horizontal">
-                                    <div class="form-group">
-                                        <label for="mapName" class="col-sm-4 control-label">Tên bản đồ:</label>
-                                        <div class="col-sm-6">
-                                            <input type="text" class="form-control col-md-6" id="mapName">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="mapFloor" class="col-sm-4 control-label">Tên tầng:</label>
-                                        <div class="col-sm-6">
-                                            <input type="text" class="form-control col-md-6" id="mapFloor">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="mapUrl" class="col-sm-4 control-label">Mô tả:</label>
-                                        <div class="col-sm-6">
-                                            <input type="file"  required class="form-control col-md-6" id="mapUrl">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="mapAltitutde" class="col-sm-4 control-label">Độ cao:</label>
-                                        <div class="col-sm-6">
-                                            <input type="text" class="form-control col-md-6" id="mapAltitude">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary" id="buyPoint">Tạo mới</button>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
-                            </div>
-                        </form>*@
                 </div>
             </div>
         </div>
+
+    <div id="UpdateModal" enctype="multipart/form-data" class="modal fade" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3>Cập nhật bản đồ</h3>
+                </div>
+                @using (Html.BeginForm("UpdateMap", "Map", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label for="mapName" class="col-sm-4 control-label">Tên bản đồ:</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control col-md-6" id="nameMap" name="mapName">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mapFloor" class="col-sm-4 control-label">Tên tầng:</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control col-md-6" id="floorMap" name="mapFloor">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mapUrl" class="col-sm-4 control-label">Mô tả:</label>
+                                    <div class="col-sm-6">
+                                        <input type="file" class="form-control col-md-6" name="FileUpload" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mapAltitutde" class="col-sm-4 control-label">Độ cao:</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control col-md-6" id="altitudeMap" name="mapAltitude">
+                                    </div>
+                                </div>
+
+                                <input hidden type="text" value="" id="idMap" name="mapId" />
+                            </div>
+                        </div>
+                    </div>
+                    <input type="submit" name="Submit" id="Submit" value="Upload" class="btn btn-sm btn-primary" />
+                }
+            </div>
+        </div>
+    </div>
+
     </div>
 
 
@@ -258,7 +272,7 @@
                                 "mRender": function (data, type, row) {
                                     var data = row[3];
                                     //return "<img src='/Content/images/" + data + "' height ='100px' width ='100px'/>";
-                                    return "<img src='http://localhost:57305/" + data + "'/>";
+                                    return "<img src='http://localhost:57305/" + data + "' height ='100px' width ='100px'/>";
                                 },
                                 "bSortable": false
                             },
@@ -266,7 +280,7 @@
                                 "aTargets": [5],
                                 "mRender": function (data, type, row) {
                                     var data = row[5];
-                                    return "<a class='btn btn-sm btn-primary' href='@Url.Action("Index", "Map")\/" + data + "\'><i class='fa fa-pencil'></i></a>";
+                                    return "<a class='btn btn-sm btn-primary' data-toggle='tooltip' title='Chi tiết' onclick='updateModal(" + data + ")'><i class='fa fa-pencil'></i></a>"
                                 },
                                 "bSortable": false
                             },
@@ -285,6 +299,33 @@
                 $('#mapFloor').val("");
                 $('#mapUrl').val("");
                 $('#mapAltitude').val("");
+            }
+            function updateModal(id) {
+                getMapInfor(id);
+            }
+            function getMapInfor(id) {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetMapDetail", "Map")',
+                    data: {
+                        mapId: id,
+                    },
+                    dataType: "JSON",
+                    success: function (result) {
+                        if (result.success) {
+                            $('#nameMap').val(result.mapName);
+                            $('#floorMap').val(result.mapFloor);
+                            $('#altitudeMap').val(result.mapAltitutde);
+                            $('#idMap').val(result.mapId);
+                            $('#UpdateModal').modal('show');
+                        } else {
+                            PnotifyFail("Update bản đồ lỗi");
+                        }
+                    },
+                    error: function (error) {
+                        PnotifyFail("Update bản đồ bị lỗi");
+                    }
+                });
             }
             $('#createMapForm').submit(function (e) {
                 e.preventDefault();
