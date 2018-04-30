@@ -48,7 +48,10 @@
         try
         {
             userfullname = Session["Userfullname"].ToString();
-            licienseType = Session["LicienseType"].ToString();
+            if (Session["LicienseType"] != null)
+            {
+                licienseType = Session["LicienseType"].ToString();
+            }
             roleId = Session["IsRole"].ToString();
             if (licienseType == "2")
             {
@@ -159,6 +162,12 @@
                             <a href="@Url.Action("Index", "ManageUser", new { area = "Admin"})">
                                 <i class="fa fa-users"></i>
                                 <span class="title">Quản lý tài khoản</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="@Url.Action("Index", "Building", new { area = "Admin"})">
+                                <i class="fa fa-users"></i>
+                                <span class="title">Quản lý bản đồ</span>
                             </a>
                         </li>
 

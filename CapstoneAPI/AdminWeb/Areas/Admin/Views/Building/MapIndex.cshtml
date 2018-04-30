@@ -1,0 +1,381 @@
+﻿@{
+    ViewBag.Title = "Quản lý bản đồ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    table tbody tr:hover {
+        cursor: pointer;
+    }
+
+        table tbody tr:hover td {
+            color: #3c8dbc;
+        }
+
+    .general-info, .setting {
+        background-color: #ffffff;
+        padding-top: 20px;
+        border-radius: 5px;
+    }
+
+        .setting .form-group input {
+            margin-left: 3%;
+            width: 94%;
+        }
+
+    .toggle-handle {
+        border-radius: 0;
+        /*height: 30px;*/
+    }
+
+    .toggle-off.btn {
+        padding-left: 30px;
+    }
+
+    .input-group-addon:hover {
+        cursor: pointer;
+        background: #367fa9;
+        color: white;
+    }
+
+    .fixedHeader {
+        position: fixed;
+    }
+
+    .modal-dialog {
+        transform: none !important;
+    }
+
+    .modal-content {
+        margin-top: 70px;
+    }
+
+    th, td {
+        vertical-align: middle;
+    }
+
+    table.dataTable thead .sorting,
+    table.dataTable thead .sorting_asc,
+    table.dataTable thead .sorting_desc {
+        background: none;
+    }
+
+    #LandingPageDatatable > tbody > tr > td {
+        vertical-align: middle;
+    }
+</style>
+
+@section Header
+{
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","Accounts")"><i class="left-icon fa fa-linux"></i>DashBoard</a></li>
+        <li><a href="@Url.Action("MapIndex","Building")"><i class="left-icon fa fa-linux"></i>Quản lý bản đồ</a></li>
+        <li class="active">@ViewData["Username"]</li>
+    </ol>
+}
+
+<div class="block-header">
+    <h2>Danh sách bản đồ</h2>
+    <ul class="actions">
+        <li>
+            <button id="btnCreateLandingPage" type="button" class="btn btn-primary pull-right" onclick="createModal()">
+                <i class="left-icon fa fa-plus"></i>Thêm bản đồ
+            </button>
+        </li>
+    </ul>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body card-padding">
+                <table id="historyDatatable" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                <label class="">STT</label>
+                            </th>
+                            <th>
+                                <label class="">Tên bản đồ</label>
+                            </th>
+                            <th>
+                                <label class="">Tầng</label>
+                            </th>
+                            <th>
+                                <label class="">Mô tả</label>
+                            </th>
+                            <th>
+                                <label class="">Độ cao</label>
+                            </th>
+                            <th>
+                                <label class="">Thao tác</label>
+                            </th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="DeviceModal" enctype="multipart/form-data" class="modal fade" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3>Thêm mới bản đồ</h3>
+                </div>
+                @using (Html.BeginForm("AddMap", "Map", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                { 
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label for="mapName" class="col-sm-4 control-label">Tên bản đồ:</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control col-md-6" name="mapName">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mapFloor" class="col-sm-4 control-label">Tên tầng:</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control col-md-6" name="mapFloor">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mapUrl" class="col-sm-4 control-label">Mô tả:</label>
+                                    <div class="col-sm-6">
+                                        <input type="file" class="form-control col-md-6" name="FileUpload" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mapAltitutde" class="col-sm-4 control-label">Độ cao:</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control col-md-6" name="mapAltitude">
+                                    </div>
+                                </div>
+                                <input hidden type="text" value="@ViewBag.BuildingId" name="buildingId"/>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="submit" name="Submit" id="Submit" value="Upload" class="btn btn-primary"/>
+                    }
+                </div>
+            </div>
+        </div>
+
+    <div id="UpdateModal" enctype="multipart/form-data" class="modal fade" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3>Cập nhật bản đồ</h3>
+                </div>
+                @using (Html.BeginForm("UpdateMap", "Map", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label for="mapName" class="col-sm-4 control-label">Tên bản đồ:</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control col-md-6" id="nameMap" name="mapName">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mapFloor" class="col-sm-4 control-label">Tên tầng:</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control col-md-6" id="floorMap" name="mapFloor">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mapUrl" class="col-sm-4 control-label">Mô tả:</label>
+                                    <div class="col-sm-6">
+                                        <input type="file" class="form-control col-md-6" name="FileUpload" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mapAltitutde" class="col-sm-4 control-label">Độ cao:</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control col-md-6" id="altitudeMap" name="mapAltitude">
+                                    </div>
+                                </div>
+
+                                <input hidden type="text" value="" id="idMap" name="mapId" />
+                            </div>
+                        </div>
+                    </div>
+                    <input type="submit" name="Submit" id="Submit" value="Upload" class="btn btn-sm btn-primary" />
+                }
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+
+
+
+
+    @section Scripts {
+        <script src="~/Content/js/Campaign.js"></script>
+        <script>
+            $(document).ready(function () {
+                InitDatatable();
+                $(document).on('onFadeOutComplete', '#loading-image', function () {
+                    StartOverallTour();
+                });
+            });
+
+            //init dateRange picker
+            function RefreshTable() {
+                var oTable = $("#historyDatatable").dataTable();
+                oTable._fnPageChange(0);
+                oTable._fnAjaxUpdate();
+            }
+
+            function InitDatatable() {
+                $("#historyDatatable").dataTable({
+                    "bFilter": true,
+                    "bRetrieve": true,
+                    "bServerSide": true,
+                    "bScrollCollapse": true,
+                    "sAjaxSource": "@Url.Action("MapDatatable", "Map")",
+                    "bProcessing": true,
+                    "bFilter": true,
+                    "fnServerParams": function (aoData) {
+                        aoData.push(
+                        );
+                    },
+                    "oLanguage": {
+                        "sSearch": "Tìm kiếm: ",
+                        "sZeroRecords": "Không có danh mục nào",
+                        "sInfo": "Hiển thị từ _START_ đến _END_ trong tổng số _TOTAL_",
+                        "sEmptyTable": "Không có dữ liệu",
+                        "sInfoFiltered": " ",
+                        "sLengthMenu": "Hiển thị _MENU_ dòng",
+                        "sProcessing": "Đang xử lý...",
+                        "oPaginate": {
+                            "sNext": "<i class='fa fa-chevron-right'></i>",
+                            "sPrevious": "<i class='fa fa-chevron-left'></i>"
+                        }
+                    },
+                    "aoColumnDefs": [
+                            {
+                                "aTargets": [0, 1, 2],
+                                "bSortable": true,
+                            },
+                            {
+                                "aTargets": [3],
+                                "mRender": function (data, type, row) {
+                                    var data = row[3];
+                                    //return "<img src='/Content/images/" + data + "' height ='100px' width ='100px'/>";
+                                    return "<img src='http://localhost:57305/" + data + "' height ='100px' width ='100px'/>";
+                                },
+                                "bSortable": false
+                            },
+                            {
+                                "aTargets": [5],
+                                "mRender": function (data, type, row) {
+                                    var data = row[5];
+                                    return "<a class='btn btn-sm btn-primary' data-toggle='tooltip' title='Chi tiết' onclick='updateModal(" + data + ")'><i class='fa fa-pencil'></i></a>"
+                                },
+                                "bSortable": false
+                            },
+                    ],
+                    "bAutoWidth": false,
+                }).fnSetFilteringDelay(1000);
+            }
+        </script>
+        <script>
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+            function createModal() {
+                $('#DeviceModal').modal('show');
+                $('#mapName').val("");
+                $('#mapFloor').val("");
+                $('#mapUrl').val("");
+                $('#mapAltitude').val("");
+            }
+            function updateModal(id) {
+                getMapInfor(id);
+            }
+            function getMapInfor(id) {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetMapDetail", "Map")',
+                    data: {
+                        mapId: id,
+                    },
+                    dataType: "JSON",
+                    success: function (result) {
+                        if (result.success) {
+                            $('#nameMap').val(result.mapName);
+                            $('#floorMap').val(result.mapFloor);
+                            $('#altitudeMap').val(result.mapAltitutde);
+                            $('#idMap').val(result.mapId);
+                            $('#UpdateModal').modal('show');
+                        } else {
+                            PnotifyFail("Update bản đồ lỗi");
+                        }
+                    },
+                    error: function (error) {
+                        PnotifyFail("Update bản đồ bị lỗi");
+                    }
+                });
+            }
+            $('#createMapForm').submit(function (e) {
+                e.preventDefault();
+                var mapName = $('#mapName').val();
+                var mapFloor = $('#mapFloor').val();
+                var mapUrl = $('#mapUrl').val();
+                var mapAltitude = $('#mapAltitude').val();
+                swal({
+                    title: 'Cảnh báo',
+                    text: "Bạn có chắc chắn muốn them không?",
+                    type: 'warning',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Không',
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    closeOnConfirm: true
+                }, function () {
+                    var check = true;
+                    //if (mapName.trim == "" || mapFloor.trim == "" || mapAltitude.trim == "") {
+                    //    check = false;
+                    //    PnotifyFail("Vui lòng điền đủ thông tin");
+                    //}
+                    if (check) {
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("AddMap", "Map")',
+                            data: {
+                                nameMap: mapName,
+                                floorMap: mapFloor,
+                                urlMap: mapUrl,
+                                altitudeMap: mapAltitude,
+                            },
+                            dataType: "JSON",
+                            success: function (result) {
+                                if (result.success) {
+                                    PnotifySuccess("Thêm bản đồ thành công");
+                                    RefreshTable();
+                                    $('#DeviceModal').modal('hide');
+                                } else {
+                                    PnotifyFail("Thêm bản đồ lỗi");
+                                }
+                            },
+                            error: function (error) {
+                                PnotifyFail("Thêm bản đồ bị lỗi");
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
+    }

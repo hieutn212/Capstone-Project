@@ -52,7 +52,8 @@ namespace CapstoneAPI.Controllers
                         Content = new JsonContent("Device is exist")
                     };
                 }
-            } else
+            }
+            else
             {
                 return new HttpResponseMessage()
                 {
@@ -96,6 +97,81 @@ namespace CapstoneAPI.Controllers
                 };
             }
         }
+
+        public HttpResponseMessage getInfoProduct(string IMEI)
+        {
+            IDeviceService deviceService = this.Service<IDeviceService>();
+            Device list = deviceService.GetById(IMEI);
+            if (list == null)
+            {
+                return new HttpResponseMessage()
+                {
+                    StatusCode = System.Net.HttpStatusCode.NotFound,
+                    Content = new JsonContent("List device is empty")
+                };
+            }
+            else
+            {
+                list = new Device()
+                {
+                    Id = list.Id,
+                    Name = list.Name,
+                    UserId = list.UserId,
+                    Active = list.Active,
+                };
+                return new HttpResponseMessage()
+                {
+                    StatusCode = System.Net.HttpStatusCode.OK,
+                    Content = new JsonContent(list)
+                };
+            }
+        }
+        public HttpResponseMessage UpdateProduct(string IMEI, string name)
+        {
+            IDeviceService deviceService = this.Service<IDeviceService>();
+
+            Device model = deviceService.GetById(IMEI);
+            model.Name = name;
+            try
+            {
+                deviceService.Update(model);
+                return new HttpResponseMessage()
+                {
+                    StatusCode = System.Net.HttpStatusCode.OK,
+                    Content = new JsonContent("Add device is success")
+                };
+            }
+            catch (Exception e)
+            {
+                return new HttpResponseMessage()
+                {
+                    StatusCode = System.Net.HttpStatusCode.BadRequest,
+                    Content = new JsonContent("An error occurred. Please try again.")
+                };
+            }
+        }
+        public HttpResponseMessage DeActiveProduct(string IMEI)
+        {
+            IDeviceService deviceService = this.Service<IDeviceService>();
+            Device model = deviceService.GetById(IMEI);
+            model.Active = false;
+            try
+            {
+                deviceService.Update(model);
+                return new HttpResponseMessage()
+                {
+                    StatusCode = System.Net.HttpStatusCode.OK,
+                    Content = new JsonContent("Delete device is success")
+                };
+            }
+            catch (Exception e)
+            {
+                return new HttpResponseMessage()
+                {
+                    StatusCode = System.Net.HttpStatusCode.BadRequest,
+                    Content = new JsonContent("An error occurred. Please try again.")
+                };
+            }
+        }
     }
-    
 }

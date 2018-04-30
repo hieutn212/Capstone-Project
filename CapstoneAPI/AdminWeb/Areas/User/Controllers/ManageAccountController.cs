@@ -88,7 +88,7 @@ namespace Wisky.Areas.Admin.Controllers
                     user.ExpireDate = licienseService.getIsUseLiciense(user.Id).ExpireDate;
                     userService.Update(user);
                 }             
-                return this.RedirectToAction("Index", "ManageAccount", new { area = "Admin" });
+                return this.RedirectToAction("Index", "ManageAccount", new { area = "User" });
             }
             catch (Exception e)
             {

@@ -1,10 +1,14 @@
 ﻿
 using CapstoneData.Models.Entities;
 using CapstoneData.Models.Entities.Services;
+using Newtonsoft.Json;
 using SkyWeb.DatVM.Mvc.Autofac;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Wisky.Models;
@@ -24,27 +28,17 @@ namespace Wisky.Areas.Admin.Controllers
             return View();
         }
 
-        public JsonResult PositionDatatable(JQueryDataTableParamModel param, string IMEI, DateTime startDate, DateTime endDate)
+        public async Task<JsonResult> PositionDatatable(JQueryDataTableParamModel param, string IMEI, DateTime startDate, DateTime endDate)
         {
             try
             {
-                var deviceService = this.Service<IDeviceService>();
-                var device = deviceService.GetById(IMEI);
-
-                if (device != null)
+                HttpClient httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = await httpClient.GetAsync
+                    ("http://localhost:57305/api/position/getAllPosition?deviceId=" + IMEI + "&startDate=" + startDate + "&endDate=" + endDate);
+                if (response.StatusCode.ToString() == "OK")
                 {
-                    IProduct_positionService positionService = this.Service<IProduct_positionService>();
-                    IQueryable<Product_position> listPosition = positionService.getListById(IMEI, startDate, endDate);
-                    if (listPosition == null)
-                    {
-                        return Json(new
-                        {
-                            sEcho = param.sEcho,
-                            iTotalRecords = 0,
-                            iTotalDisplayRecords = 0,
-                            aaData = new List<Product_position>()
-                        }, JsonRequestBehavior.AllowGet);
-                    }
+                    var listPosition = JsonConvert.DeserializeObject<List<Product_position>>(response.Content.ReadAsStringAsync().Result);
                     var positionList = listPosition.AsEnumerable()
                         .Where(a => (string.IsNullOrEmpty(param.sSearch) || StringConvert.EscapeName(a.DeviceId).ToLower()
                                          .Contains(StringConvert.EscapeName(param.sSearch).ToLower())));
@@ -69,13 +63,16 @@ namespace Wisky.Areas.Admin.Controllers
                         aaData = rp
                     }, JsonRequestBehavior.AllowGet);
                 }
-                return Json(new
+                else
                 {
-                    sEcho = param.sEcho,
-                    iTotalRecords = 0,
-                    iTotalDisplayRecords = 0,
-                    aaData = new List<Product_position>()
-                }, JsonRequestBehavior.AllowGet);
+                    return Json(new
+                    {
+                        sEcho = param.sEcho,
+                        iTotalRecords = 0,
+                        iTotalDisplayRecords = 0,
+                        aaData = new List<Product_position>()
+                    }, JsonRequestBehavior.AllowGet);
+                }
             }
             catch (Exception e)
             {
@@ -89,14 +86,17 @@ namespace Wisky.Areas.Admin.Controllers
             }
         }
         [HttpPost]
-        public ActionResult GetPointMap(int id)
+        public async Task<ActionResult> GetPointMap(int id)
         {
             try
             {
-                var positionService = this.Service<IProduct_positionService>();
-                Product_position position = positionService.GetActive(q => q.Id == id).FirstOrDefault();
-                if (position != null)
+                HttpClient httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = await httpClient.GetAsync
+                    ("http://localhost:57305/api/position/getPointMap?id=" + id);
+                if (response.StatusCode.ToString() == "OK")
                 {
+                    var position = JsonConvert.DeserializeObject<Product_position>(response.Content.ReadAsStringAsync().Result);
                     return Json(new
                     {
                         success = true,
@@ -120,15 +120,18 @@ namespace Wisky.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult GetAllCornerWithMap(int mapId)
+        public async Task<ActionResult> GetAllCornerWithMap(int mapId)
         {
             try
             {
-                ICornerService cornerService = this.Service<ICornerService>();
-                List<Corner> corners = cornerService.GetListCornerWithMapId(mapId);
-
-                if (corners != null)
+                HttpClient httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = await httpClient.GetAsync
+                    ("http://localhost:57305/api/Corner/GetAllCornerWithMap?mapId=" + mapId);
+                if (response.StatusCode.ToString() == "OK")
                 {
+                    var corners = JsonConvert.DeserializeObject<List<Corner>>(response.Content.ReadAsStringAsync().Result);
+
                     corners = corners.Select(q => new Corner()
                     {
                         Description = q.Description,
@@ -140,17 +143,19 @@ namespace Wisky.Areas.Admin.Controllers
                         Position = q.Position
                     }).ToList();
 
-                        return Json(new
-                        {
-                            success = true,
-                            result = corners,
-                        });
+                    return Json(new
+                    {
+                        success = true,
+                        result = corners,
+                    });
                 }
-
-                return Json( new 
+                else
                 {
-                    success = false,
-                });
+                    return Json(new
+                    {
+                        success = false,
+                    });
+                }
             }
             catch (Exception e)
             {

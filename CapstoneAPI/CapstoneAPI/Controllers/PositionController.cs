@@ -176,6 +176,34 @@ namespace CapstoneAPI.Controllers
                 };
             }
         }
+        public HttpResponseMessage getPointMap(int id)
+        {
+                var positionService = this.Service<IProduct_positionService>();
+                Product_position position = positionService.GetActive(q => q.Id == id).FirstOrDefault();
+                if (position != null)
+                {
+                    Product_position positionModel = new Product_position()
+                    {
+                        Id = position.Id,
+                        Longitude = position.Longitude,
+                        Latitude = position.Latitude,
+                        Altitude = position.Altitude,
+                    };
+                    return new HttpResponseMessage()
+                    {
+                        StatusCode = System.Net.HttpStatusCode.OK,
+                        Content = new JsonContent(positionModel)
+                    };
+                }
+                else
+                {
+                    return new HttpResponseMessage()
+                    {
+                        StatusCode = System.Net.HttpStatusCode.NotFound,
+                        Content = new JsonContent("Can not find device")
+                    };
+                }
+        }
 
         public HttpResponseMessage trackingProductWithTime(string deviceId, int timeSearch)
         {
@@ -196,6 +224,51 @@ namespace CapstoneAPI.Controllers
                 if (positions != null)
                 {
                     positions = positions.Select(q=> new Product_position()
+                    {
+                        Id = q.Id,
+                        DeviceId = q.DeviceId,
+                        Altitude = q.Altitude,
+                        Latitude = q.Latitude,
+                        Longitude = q.Longitude,
+                        CreatedDate = q.CreatedDate,
+                        Active = q.Active,
+                    }).ToList();
+                    return new HttpResponseMessage()
+                    {
+                        StatusCode = System.Net.HttpStatusCode.OK,
+                        Content = new JsonContent(positions)
+                    };
+                }
+                else
+                {
+                    return new HttpResponseMessage()
+                    {
+                        StatusCode = System.Net.HttpStatusCode.NotFound,
+                        Content = new JsonContent("Can not find device")
+                    };
+                }
+            }
+            else
+            {
+                return new HttpResponseMessage()
+                {
+                    StatusCode = System.Net.HttpStatusCode.NotFound,
+                    Content = new JsonContent("Device is not exist")
+                };
+            }
+        }
+
+        public HttpResponseMessage getAllPosition(string deviceId, DateTime startDate, DateTime endDate)
+        {
+            IDeviceService deviceService = this.Service<IDeviceService>();
+            Device device = deviceService.GetById(deviceId);
+            if (device != null)
+            {
+                IProduct_positionService productPositionService = this.Service<IProduct_positionService>();
+                List<Product_position> positions = productPositionService.getListById(deviceId, startDate, endDate).ToList();
+                if (positions != null)
+                {
+                    positions = positions.Select(q => new Product_position()
                     {
                         Id = q.Id,
                         DeviceId = q.DeviceId,

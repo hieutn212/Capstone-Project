@@ -70,6 +70,50 @@ namespace CapstoneAPI.Controllers
             }
         }
 
+        public HttpResponseMessage GetUserInfo(string username)
+        {
+            try
+            {
+                IUserService userService = this.Service<IUserService>();
+                ILicienseService licenseService = this.Service<ILicienseService>();
+                User user = userService.GetByUsername(username);
+
+                if (user != null)
+                {
+                    User model = new User()
+                    {
+                        Id = user.Id,
+                        Username = user.Username,
+                        Password = user.Password,
+                        Birthday = user.Birthday,
+                        Fullname = user.Fullname,
+                        RoleId = user.RoleId,
+                        Active = user.Active,
+                        ExpireDate = user.ExpireDate,
+                    };
+                    return new HttpResponseMessage()
+                    {
+                        StatusCode = System.Net.HttpStatusCode.OK,
+                        Content = new JsonContent(model)
+                    };
+                }
+
+                return new HttpResponseMessage()
+                {
+                    StatusCode = System.Net.HttpStatusCode.NotFound,
+                    Content = new JsonContent("Unauthorized"),
+                };
+            }
+            catch (Exception e)
+            {
+                return new HttpResponseMessage()
+                {
+                    StatusCode = System.Net.HttpStatusCode.BadRequest,
+                    Content = new JsonContent(e.Message)
+                };
+            }
+        }
+
         [HttpPost]
         public HttpResponseMessage CreateAccount(string username, string password, int roleId, string fullname, DateTime birthday, bool active)
         {
