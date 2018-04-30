@@ -236,6 +236,11 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Maps\Floor1.png" />
+    <Content Include="Maps\Floor2.png" />
+    <Content Include="Maps\Floor3.png" />
+    <Content Include="Maps\Floor4.png" />
+    <Content Include="Maps\Floor5.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
