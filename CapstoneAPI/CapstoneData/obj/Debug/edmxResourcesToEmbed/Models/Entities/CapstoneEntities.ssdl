@@ -9,6 +9,8 @@
     <Property Name="District" Type="int" Nullable="false" />
     <Property Name="Address" Type="nvarchar" MaxLength="250" />
     <Property Name="Active" Type="bit" Nullable="false" />
+    <Property Name="Width" Type="float" />
+    <Property Name="Length" Type="float" />
   </EntityType>
   <EntityType Name="Corner">
     <Key>
