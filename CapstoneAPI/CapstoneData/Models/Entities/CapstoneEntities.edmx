@@ -14,6 +14,8 @@
           <Property Name="District" Type="int" Nullable="false" />
           <Property Name="Address" Type="nvarchar" MaxLength="250" />
           <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="Width" Type="float" />
+          <Property Name="Length" Type="float" />
         </EntityType>
         <EntityType Name="Corner">
           <Key>
@@ -501,6 +503,8 @@
           <Property Name="District" Type="Int32" Nullable="false" />
           <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="Width" Type="Double" />
+          <Property Name="Length" Type="Double" />
           <NavigationProperty Name="District1" Relationship="CapstoneModel.FK_Building_District" FromRole="Building" ToRole="District" />
           <NavigationProperty Name="Maps" Relationship="CapstoneModel.FK_Map_Building" FromRole="Building" ToRole="Map" />
         </EntityType>
@@ -858,6 +862,8 @@
           <EntitySetMapping Name="Buildings">
             <EntityTypeMapping TypeName="CapstoneModel.Building">
               <MappingFragment StoreEntitySet="Building">
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
                 <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="District" ColumnName="District" />

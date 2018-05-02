@@ -90,6 +90,8 @@
     <Property Name="District" Type="Int32" Nullable="false" />
     <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Active" Type="Boolean" Nullable="false" />
+    <Property Name="Width" Type="Double" />
+    <Property Name="Length" Type="Double" />
     <NavigationProperty Name="District1" Relationship="CapstoneModel.FK_Building_District" FromRole="Building" ToRole="District" />
     <NavigationProperty Name="Maps" Relationship="CapstoneModel.FK_Map_Building" FromRole="Building" ToRole="Map" />
   </EntityType>

@@ -12,6 +12,8 @@
     <EntitySetMapping Name="Buildings">
       <EntityTypeMapping TypeName="CapstoneModel.Building">
         <MappingFragment StoreEntitySet="Building">
+          <ScalarProperty Name="Length" ColumnName="Length" />
+          <ScalarProperty Name="Width" ColumnName="Width" />
           <ScalarProperty Name="Active" ColumnName="Active" />
           <ScalarProperty Name="Address" ColumnName="Address" />
           <ScalarProperty Name="District" ColumnName="District" />

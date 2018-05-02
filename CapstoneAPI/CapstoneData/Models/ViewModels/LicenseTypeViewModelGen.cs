@@ -12,19 +12,17 @@ namespace CapstoneData.Models.ViewModels
     using System;
     using System.Collections.Generic;
     
-    public partial class BuildingViewModel : SkyWeb.DatVM.Mvc.BaseEntityViewModel<CapstoneData.Models.Entities.Building>
+    public partial class LicenseTypeViewModel : SkyWeb.DatVM.Mvc.BaseEntityViewModel<CapstoneData.Models.Entities.LicenseType>
     {
     	
     			public virtual int Id { get; set; }
-    			public virtual string Name { get; set; }
-    			public virtual int District { get; set; }
-    			public virtual string Address { get; set; }
-    			public virtual bool Active { get; set; }
-    			public virtual Nullable<double> Width { get; set; }
-    			public virtual Nullable<double> Length { get; set; }
+    			public virtual string TypeName { get; set; }
+    			public virtual Nullable<int> BuyDate { get; set; }
+    			public virtual Nullable<double> Price { get; set; }
+    			public virtual Nullable<int> PackageId { get; set; }
     	
-    	public BuildingViewModel() : base() { }
-    	public BuildingViewModel(CapstoneData.Models.Entities.Building entity) : base(entity) { }
+    	public LicenseTypeViewModel() : base() { }
+    	public LicenseTypeViewModel(CapstoneData.Models.Entities.LicenseType entity) : base(entity) { }
     
     }
 }
