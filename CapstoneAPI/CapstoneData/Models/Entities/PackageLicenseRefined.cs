@@ -12,14 +12,7 @@ namespace CapstoneData.Models.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class History
+    public partial class PackageLicense : SkyWeb.DatVM.Data.IEntity
     {
-        public int Id { get; set; }
-        public System.DateTime CreatedDate { get; set; }
-        public int UserId { get; set; }
-        public int TypeId { get; set; }
-    
-        public virtual LicenseType LicenseType { get; set; }
-        public virtual User User { get; set; }
     }
 }

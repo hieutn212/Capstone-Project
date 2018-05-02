@@ -7,19 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CapstoneData.Models.Entities
+namespace CapstoneData.Models.ViewModels
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class History
+    public partial class PackageLicenseViewModel : SkyWeb.DatVM.Mvc.BaseEntityViewModel<CapstoneData.Models.Entities.PackageLicense>
     {
-        public int Id { get; set; }
-        public System.DateTime CreatedDate { get; set; }
-        public int UserId { get; set; }
-        public int TypeId { get; set; }
+    	
+    			public virtual int PackageId { get; set; }
+    			public virtual string Name { get; set; }
+    	
+    	public PackageLicenseViewModel() : base() { }
+    	public PackageLicenseViewModel(CapstoneData.Models.Entities.PackageLicense entity) : base(entity) { }
     
-        public virtual LicenseType LicenseType { get; set; }
-        public virtual User User { get; set; }
     }
 }

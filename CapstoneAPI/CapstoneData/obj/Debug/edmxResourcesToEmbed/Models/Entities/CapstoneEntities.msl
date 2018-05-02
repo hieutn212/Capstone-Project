@@ -12,6 +12,8 @@
     <EntitySetMapping Name="Buildings">
       <EntityTypeMapping TypeName="CapstoneModel.Building">
         <MappingFragment StoreEntitySet="Building">
+          <ScalarProperty Name="Length" ColumnName="Length" />
+          <ScalarProperty Name="Width" ColumnName="Width" />
           <ScalarProperty Name="Active" ColumnName="Active" />
           <ScalarProperty Name="Address" ColumnName="Address" />
           <ScalarProperty Name="District" ColumnName="District" />
@@ -55,10 +57,34 @@
     <EntitySetMapping Name="Histories">
       <EntityTypeMapping TypeName="CapstoneModel.History">
         <MappingFragment StoreEntitySet="History">
-          <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="BuyDate" ColumnName="BuyDate" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LicenseTypes">
+      <EntityTypeMapping TypeName="CapstoneModel.LicenseType">
+        <MappingFragment StoreEntitySet="LicenseType">
+          <ScalarProperty Name="PackageId" ColumnName="PackageId" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="BuyDate" ColumnName="BuyDate" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Licienses">
+      <EntityTypeMapping TypeName="CapstoneModel.Liciense">
+        <MappingFragment StoreEntitySet="Liciense">
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="IsUse" ColumnName="IsUse" />
+          <ScalarProperty Name="PackageId" ColumnName="PackageId" />
+          <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+          <ScalarProperty Name="DayOfPurchase" ColumnName="DayOfPurchase" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -89,6 +115,14 @@
           <ScalarProperty Name="Latitude" ColumnName="Latitude" />
           <ScalarProperty Name="Longitude" ColumnName="Longitude" />
           <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PackageLicenses">
+      <EntityTypeMapping TypeName="CapstoneModel.PackageLicense">
+        <MappingFragment StoreEntitySet="PackageLicense">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="PackageId" ColumnName="PackageId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

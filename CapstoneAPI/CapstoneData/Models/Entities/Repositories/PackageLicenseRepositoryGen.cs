@@ -7,19 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CapstoneData.Models.Entities
+namespace CapstoneData.Models.Entities.Repositories
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class History
-    {
-        public int Id { get; set; }
-        public System.DateTime CreatedDate { get; set; }
-        public int UserId { get; set; }
-        public int TypeId { get; set; }
     
-        public virtual LicenseType LicenseType { get; set; }
-        public virtual User User { get; set; }
+    public partial interface IPackageLicenseRepository : SkyWeb.DatVM.Data.IBaseRepository<PackageLicense>
+    {
+    }
+    
+    public partial class PackageLicenseRepository : SkyWeb.DatVM.Data.BaseRepository<PackageLicense>, IPackageLicenseRepository
+    {
+    	public PackageLicenseRepository(System.Data.Entity.DbContext dbContext) : base(dbContext)
+        {
+        }
     }
 }

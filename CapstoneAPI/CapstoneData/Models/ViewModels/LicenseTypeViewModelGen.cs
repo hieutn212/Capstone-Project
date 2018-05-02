@@ -12,16 +12,17 @@ namespace CapstoneData.Models.ViewModels
     using System;
     using System.Collections.Generic;
     
-    public partial class HistoryViewModel : SkyWeb.DatVM.Mvc.BaseEntityViewModel<CapstoneData.Models.Entities.History>
+    public partial class LicenseTypeViewModel : SkyWeb.DatVM.Mvc.BaseEntityViewModel<CapstoneData.Models.Entities.LicenseType>
     {
     	
     			public virtual int Id { get; set; }
-    			public virtual System.DateTime CreatedDate { get; set; }
-    			public virtual int UserId { get; set; }
-    			public virtual int TypeId { get; set; }
+    			public virtual string TypeName { get; set; }
+    			public virtual Nullable<int> BuyDate { get; set; }
+    			public virtual Nullable<double> Price { get; set; }
+    			public virtual Nullable<int> PackageId { get; set; }
     	
-    	public HistoryViewModel() : base() { }
-    	public HistoryViewModel(CapstoneData.Models.Entities.History entity) : base(entity) { }
+    	public LicenseTypeViewModel() : base() { }
+    	public LicenseTypeViewModel(CapstoneData.Models.Entities.LicenseType entity) : base(entity) { }
     
     }
 }

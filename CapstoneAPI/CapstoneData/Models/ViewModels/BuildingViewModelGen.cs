@@ -20,6 +20,8 @@ namespace CapstoneData.Models.ViewModels
     			public virtual int District { get; set; }
     			public virtual string Address { get; set; }
     			public virtual bool Active { get; set; }
+    			public virtual Nullable<double> Width { get; set; }
+    			public virtual Nullable<double> Length { get; set; }
     	
     	public BuildingViewModel() : base() { }
     	public BuildingViewModel(CapstoneData.Models.Entities.Building entity) : base(entity) { }

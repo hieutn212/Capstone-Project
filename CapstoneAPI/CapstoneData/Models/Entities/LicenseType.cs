@@ -12,24 +12,22 @@ namespace CapstoneData.Models.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class Building
+    public partial class LicenseType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Building()
+        public LicenseType()
         {
-            this.Maps = new HashSet<Map>();
+            this.Histories = new HashSet<History>();
         }
     
         public int Id { get; set; }
-        public string Name { get; set; }
-        public int District { get; set; }
-        public string Address { get; set; }
-        public bool Active { get; set; }
-        public Nullable<double> Width { get; set; }
-        public Nullable<double> Length { get; set; }
+        public string TypeName { get; set; }
+        public Nullable<int> BuyDate { get; set; }
+        public Nullable<double> Price { get; set; }
+        public Nullable<int> PackageId { get; set; }
     
-        public virtual District District1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Map> Maps { get; set; }
+        public virtual ICollection<History> Histories { get; set; }
+        public virtual PackageLicense PackageLicense { get; set; }
     }
 }

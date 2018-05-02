@@ -7,19 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CapstoneData.Models.Entities
+namespace CapstoneData.Models.Entities.Services
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class History
-    {
-        public int Id { get; set; }
-        public System.DateTime CreatedDate { get; set; }
-        public int UserId { get; set; }
-        public int TypeId { get; set; }
     
-        public virtual LicenseType LicenseType { get; set; }
-        public virtual User User { get; set; }
+    public partial interface ILicenseTypeService : SkyWeb.DatVM.Data.IBaseService<LicenseType>
+    {
+    }
+    
+    public partial class LicenseTypeService : SkyWeb.DatVM.Data.BaseService<LicenseType>, ILicenseTypeService
+    {
+        public LicenseTypeService(SkyWeb.DatVM.Data.IUnitOfWork unitOfWork, Repositories.ILicenseTypeRepository repository) : base(unitOfWork, repository)
+        {
+        }
     }
 }

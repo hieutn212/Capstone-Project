@@ -19,7 +19,7 @@ namespace CapstoneData.Models.ViewModels
     			public virtual int UserId { get; set; }
     			public virtual int DayOfPurchase { get; set; }
     			public virtual System.DateTime ExpireDate { get; set; }
-    			public virtual int Type { get; set; }
+    			public virtual int PackageId { get; set; }
     			public virtual bool IsUse { get; set; }
     			public virtual bool Active { get; set; }
     			public virtual Nullable<System.DateTime> CreatedDate { get; set; }

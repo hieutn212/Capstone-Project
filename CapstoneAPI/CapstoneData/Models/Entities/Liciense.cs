@@ -18,11 +18,12 @@ namespace CapstoneData.Models.Entities
         public int UserId { get; set; }
         public int DayOfPurchase { get; set; }
         public System.DateTime ExpireDate { get; set; }
-        public int Type { get; set; }
+        public int PackageId { get; set; }
         public bool IsUse { get; set; }
         public bool Active { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
     
+        public virtual PackageLicense PackageLicense { get; set; }
         public virtual User User { get; set; }
     }
 }
