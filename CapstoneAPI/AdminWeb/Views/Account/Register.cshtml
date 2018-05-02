@@ -18,6 +18,7 @@
     <link href="~/Content/template-material/css/app.min.1.css" rel="stylesheet">
     <link href="~/Content/template-material/css/app.min.2.css" rel="stylesheet">
     <link href="~/Content/css/login.css" rel="stylesheet" />
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <h2>@ViewBag.Title</h2>
 <body class="login-content">
@@ -25,6 +26,7 @@
     <div class="lc-block toggled" id="l-login">
         <div class="row modal-header">
         </div>
+        @using reCAPTCHA.MVC
         @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
@@ -44,6 +46,12 @@
                 </div>
             </div>
             <div class="form-group">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
                 @Html.LabelFor(m => m.Fullname, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
                     @Html.TextBoxFor(m => m.Fullname, new { @class = "form-control" })
@@ -52,14 +60,18 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Birthday, new { @class = "col-md-2 control-label"})
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Birthday, new { @class = "form-control", @type = "date" })
+                    @Html.TextBoxFor(m => m.Birthday, "{0:MM/dd/yyyy}", new { @class = "form-control date", @type = "date" })
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
+            @Html.Recaptcha()
+            @Html.ValidationMessage("ReCaptcha")
+
+            <div class="form-group" style="margin-top:5px">
+                <div class="col-md-offset-2 col-md-7">
                     <input type="submit" class="btn btn-default" value="Register" />
                 </div>
             </div>
+            <a href="@Url.Action("Login","Account",new {area= string.Empty})" class="pull-left">Back to Login site</a><br>
         }
     </div>
 

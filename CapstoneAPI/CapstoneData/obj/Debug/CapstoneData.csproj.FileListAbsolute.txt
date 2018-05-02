@@ -66,3 +66,15 @@ F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\Microsoft.AspNet
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\obj\Debug\CapstoneData.csprojResolveAssemblyReference.cache
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\SkyWeb.DatVM.Data.dll
 F:\Capstone\Capstone-Project\CapstoneAPI\CapstoneData\bin\Debug\SkyWeb.DatVM.Mvc.dll
+C:\Users\Nguyen Nhut Quang\Desktop\Capstone.doc\CapstonFinaldm\CapstoneAPI\CapstoneData\bin\Debug\CapstoneData.dll.config
+C:\Users\Nguyen Nhut Quang\Desktop\Capstone.doc\CapstonFinaldm\CapstoneAPI\CapstoneData\bin\Debug\CapstoneData.dll
+C:\Users\Nguyen Nhut Quang\Desktop\Capstone.doc\CapstonFinaldm\CapstoneAPI\CapstoneData\bin\Debug\CapstoneData.pdb
+C:\Users\Nguyen Nhut Quang\Desktop\Capstone.doc\CapstonFinaldm\CapstoneAPI\CapstoneData\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\Nguyen Nhut Quang\Desktop\Capstone.doc\CapstonFinaldm\CapstoneAPI\CapstoneData\bin\Debug\System.Web.Http.dll
+C:\Users\Nguyen Nhut Quang\Desktop\Capstone.doc\CapstonFinaldm\CapstoneAPI\CapstoneData\bin\Debug\System.Web.Http.WebHost.dll
+C:\Users\Nguyen Nhut Quang\Desktop\Capstone.doc\CapstonFinaldm\CapstoneAPI\CapstoneData\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\Nguyen Nhut Quang\Desktop\Capstone.doc\CapstonFinaldm\CapstoneAPI\CapstoneData\bin\Debug\System.Web.Http.xml
+C:\Users\Nguyen Nhut Quang\Desktop\Capstone.doc\CapstonFinaldm\CapstoneAPI\CapstoneData\bin\Debug\System.Web.Http.WebHost.xml
+C:\Users\Nguyen Nhut Quang\Desktop\Capstone.doc\CapstonFinaldm\CapstoneAPI\CapstoneData\obj\Debug\CapstoneData.dll
+C:\Users\Nguyen Nhut Quang\Desktop\Capstone.doc\CapstonFinaldm\CapstoneAPI\CapstoneData\obj\Debug\CapstoneData.pdb
+C:\Users\Nguyen Nhut Quang\Desktop\Capstone.doc\CapstonFinaldm\CapstoneAPI\CapstoneData\obj\Debug\CapstoneData.csprojResolveAssemblyReference.cache
