@@ -15,6 +15,7 @@ using SkyWeb.DatVM.Mvc.Autofac;
 using CapstoneData.Utility;
 using CapstoneData.Models.Entities.Services;
 using CapstoneData.Models.Entities;
+using reCAPTCHA.MVC;
 
 namespace Wisky.Controllers
 {
@@ -115,6 +116,12 @@ namespace Wisky.Controllers
             //var user = await UserManager.FindAsync(model.Username, model.Password);
             IUserService userService = this.Service<IUserService>();
             User user = userService.GetByUsernameAndPassword(model.Username, model.Password);
+            if(user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid Username or Password.");
+
+                return View();
+            }
             if (user != null)
             {
                 if (user.RoleId == 1)
@@ -224,12 +231,25 @@ namespace Wisky.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterUserViewModel model)
+        [CaptchaValidator]
+        public async Task<ActionResult> Register(RegisterUserViewModel model, bool captchaValid)
         {
             if (ModelState.IsValid)
             {
                 IUserService userService = this.Service<IUserService>();
                 User newUser = userService.GetByUsername(model.Username);
+                if(newUser != null)
+                {
+                    ModelState.AddModelError(string.Empty, "User Name already exists.");
+
+                    return View();
+                }
+                if (!captchaValid)
+                {
+                    ModelState.AddModelError(string.Empty, "Please confirm the captcha!");
+
+                    return View();
+                }
                 if (newUser == null)
                 {
                     try

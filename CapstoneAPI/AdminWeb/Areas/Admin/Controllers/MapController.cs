@@ -138,16 +138,16 @@ namespace Wisky.Areas.Admin.Controllers
                         model.BuildingId = int.Parse(buildingId);
                         mapService.Create(model);
                     }
-                    return this.RedirectToAction("Index", "ManageAccount", new { area = "User" });
+                    return this.RedirectToAction("Index", "Building", new { area = "Admin" });
                 } else
                 {
-                    return this.RedirectToAction("Index", "ManageAccount", new { area = "User" });
+                    return this.RedirectToAction("Index", "Building", new { area = "Admin" });
 
                 }
             }
             catch (Exception e)
             {
-                return this.RedirectToAction("Index", "ManageAccount", new { area = "User" });
+                return this.RedirectToAction("Index", "Building", new { area = "Admin" });
             }
         }
         public ActionResult UpdateMap()
@@ -183,16 +183,16 @@ namespace Wisky.Areas.Admin.Controllers
                         model.BuildingId = int.Parse(buildingId);
                         mapService.Update(model);
                     }
-                    return this.RedirectToAction("Index", "ManageAccount", new { area = "User" });
+                    return this.RedirectToAction("Index", "Building", new { area = "Admin" });
                 }
                 else
                 {
-                    return this.RedirectToAction("Index", "ManageAccount", new { area = "User" });
+                    return this.RedirectToAction("Index", "Building", new { area = "Admmin" });
                 }
             }
             catch (Exception e)
             {
-                return this.RedirectToAction("Index", "ManageAccount", new { area = "User" });
+                return this.RedirectToAction("Index", "Building", new { area = "Admin" });
             }
         }
     }

@@ -1,9 +1,12 @@
 ﻿using CapstoneData.Models.Entities;
 using CapstoneData.Models.Entities.Services;
+using Newtonsoft.Json;
 using SkyWeb.DatVM.Mvc.Autofac;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Services;
@@ -27,67 +30,21 @@ namespace Wisky.Areas.Admin.Controllers
                 return View();
         }
 
-        [WebMethod]
-        public ActionResult AddNewLicense(String username, int LicenseTypeId)
+        //[WebMethod]
+        public async System.Threading.Tasks.Task<ActionResult> AddNewLicense(String username, int LicenseTypeId)
         {
             try
             {
-
-                ILicenseTypeService licenseTypeService = this.Service<ILicenseTypeService>();
-                var licenseType = licenseTypeService.getLicenseById(LicenseTypeId);
-
-                IUserService userService = this.Service<IUserService>();
-                IHistoryService historyService = this.Service<IHistoryService>();
-                userService.AddExpireDay(username, (Int64) licenseType.BuyDate);
-                User user = userService.GetByUsername(username);
-
-                var licienseService = this.Service<ILicienseService>();
-                //var listUserLiense = licienseService.getListByUserId(user.Id);
-
-                //var dayToAdd = listUserLiense.FirstOrDefault(q => q.Type == type).ExpireDate;
-                var flag = false;
-                if (isCreated(user.Id, (int)licenseType.PackageId))
+                HttpClient httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                
+                HttpResponseMessage response = await httpClient.GetAsync
+                    (ShareDataConnection.IPconnection + "api/License/getNewLicense?username=" + username + "&LicenseTypeId=" + LicenseTypeId);
+                var result = JsonConvert.DeserializeObject<string>(response.Content.ReadAsStringAsync().Result);
+                if(response.StatusCode.ToString() == "OK")
                 {
-                    var liciense = licienseService.getLicienseByUserIdAndType(user.Id, (int)licenseType.PackageId);
-                    DateTime currentDay = DateTime.Now;
-                    if (currentDay.CompareTo(liciense.ExpireDate) == -1)
-                    {
-                        currentDay = liciense.ExpireDate;
-                    }
-                    if (liciense.CreatedDate != null)
-                    {
-                        liciense.CreatedDate = currentDay;
-                    }
-                    liciense.DayOfPurchase = liciense.DayOfPurchase + (int)licenseType.BuyDate;
-                    liciense.ExpireDate = currentDay.AddDays((int)licenseType.BuyDate);
-                    liciense.Active = true;
-                    flag = licienseService.AddNewLiciense(user.Id, liciense);
+                    Session["LicienseType"] = result.ToString();
                 }
-                else
-                {
-                    var liciense = new Liciense();
-                    liciense.UserId = user.Id;
-                    liciense.ExpireDate = DateTime.Now.AddDays((Int64)licenseType.BuyDate);
-                    liciense.CreatedDate = DateTime.Now;
-                    liciense.Active = true;
-                    liciense.DayOfPurchase = (int)licenseType.BuyDate;
-                    liciense.IsUse = true;
-                    liciense.PackageId = (int)licenseType.PackageId;
-                    flag = licienseService.AddNewLiciense(user.Id, liciense);
-                }
-                if (flag)
-                {
-                    Session["LicienseType"] = licienseService.getIsUseLiciense(user.Id).PackageId.ToString();
-
-                    //create history
-                    History history = new History();
-                    history.TypeId = licenseType.Id;
-                    history.UserId = user.Id;
-                    history.CreatedDate = DateTime.Now;
-                    historyService.Create(history);
-                    user.ExpireDate = licienseService.getIsUseLiciense(user.Id).ExpireDate;
-                    userService.Update(user);
-                }             
                 return this.RedirectToAction("Index", "ManageAccount", new { area = "User" });
             }
             catch (Exception e)
@@ -97,22 +54,17 @@ namespace Wisky.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetListLicenseType()
+        public async System.Threading.Tasks.Task<ActionResult> GetListLicenseType()
         {
             try
             {
-                var licenseTypeService = this.Service<ILicenseTypeService>();
-                List<LicenseType> licenseType = licenseTypeService.getAllList();
-                if (licenseType != null)
-                {
-                    licenseType = licenseType.Select(q => new LicenseType()
-                    {
-                        Id = q.Id,
-                        TypeName = q.TypeName,
-                        BuyDate = q.BuyDate,
-                        Price = q.Price,
-                        PackageId = q.PackageId,
-                    }).ToList();
+                HttpClient httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = await httpClient.GetAsync
+                    (ShareDataConnection.IPconnection + "api/License/getAllListLicense");
+                var licenseType = JsonConvert.DeserializeObject<List<LicenseType>>(response.Content.ReadAsStringAsync().Result);
+                if (response.StatusCode.ToString() == "OK")
+                {                
                     return Json(new
                     {
                         success = true,
@@ -133,19 +85,19 @@ namespace Wisky.Areas.Admin.Controllers
             }
         }
 
-        public Boolean isCreated(int userId, int type)
-        {
-            try
-            {
-                var licienseService = this.Service<ILicienseService>();
-                var liciense = licienseService.getLicienseByUserIdAndType(userId, type);
-                if (liciense != null) return true;
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-            return false;
-        }
+        //public Boolean isCreated(int userId, int type)
+        //{
+        //    try
+        //    {
+        //        var licienseService = this.Service<ILicienseService>();
+        //        var liciense = licienseService.getLicienseByUserIdAndType(userId, type);
+        //        if (liciense != null) return true;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new Exception(e.Message);
+        //    }
+        //    return false;
+        //}
     }
 }

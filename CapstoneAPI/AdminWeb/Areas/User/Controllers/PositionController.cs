@@ -35,7 +35,7 @@ namespace Wisky.Areas.Admin.Controllers
                 HttpClient httpClient = new HttpClient();
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage response = await httpClient.GetAsync
-                    ("http://localhost:57305/api/position/getAllPosition?deviceId=" + IMEI + "&startDate=" + startDate + "&endDate=" + endDate);
+                    (ShareDataConnection.IPconnection + "api/position/getAllPosition?deviceId=" + IMEI + "&startDate=" + startDate + "&endDate=" + endDate);
                 if (response.StatusCode.ToString() == "OK")
                 {
                     var listPosition = JsonConvert.DeserializeObject<List<Product_position>>(response.Content.ReadAsStringAsync().Result);
@@ -93,7 +93,7 @@ namespace Wisky.Areas.Admin.Controllers
                 HttpClient httpClient = new HttpClient();
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage response = await httpClient.GetAsync
-                    ("http://localhost:57305/api/position/getPointMap?id=" + id);
+                    (ShareDataConnection.IPconnection + "api/position/getPointMap?id=" + id);
                 if (response.StatusCode.ToString() == "OK")
                 {
                     var position = JsonConvert.DeserializeObject<Product_position>(response.Content.ReadAsStringAsync().Result);
@@ -127,7 +127,7 @@ namespace Wisky.Areas.Admin.Controllers
                 HttpClient httpClient = new HttpClient();
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage response = await httpClient.GetAsync
-                    ("http://localhost:57305/api/Corner/GetAllCornerWithMap?mapId=" + mapId);
+                    (ShareDataConnection.IPconnection + "api/Corner/GetAllCornerWithMap?mapId=" + mapId);
                 if (response.StatusCode.ToString() == "OK")
                 {
                     var corners = JsonConvert.DeserializeObject<List<Corner>>(response.Content.ReadAsStringAsync().Result);

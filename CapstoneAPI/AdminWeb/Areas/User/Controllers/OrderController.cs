@@ -35,10 +35,10 @@ namespace Wisky.Areas.Admin.Controllers
                 HttpClient httpClient = new HttpClient();
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage responseUser = await httpClient.GetAsync
-                    ("http://localhost:57305/api/user/GetUserInfo?username=" + Session["Username"].ToString());
+                    (ShareDataConnection.IPconnection + "api/user/GetUserInfo?username=" + Session["Username"].ToString());
                 var user = JsonConvert.DeserializeObject<User>(responseUser.Content.ReadAsStringAsync().Result);
                 HttpResponseMessage response = await httpClient.GetAsync
-                   ("http://localhost:57305/api/order/getAllHistory?userId=" + user.Id + "&startDate=" + startDate + "&endDate=" + endDate);
+                   (ShareDataConnection.IPconnection + "api/order/getAllHistory?userId=" + user.Id + "&startDate=" + startDate + "&endDate=" + endDate);
                 if (response.StatusCode.ToString() == "OK")
                 {
                     var listHistorys = JsonConvert.DeserializeObject<List<HistoryViewModel>>(response.Content.ReadAsStringAsync().Result);

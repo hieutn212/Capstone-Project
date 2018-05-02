@@ -35,7 +35,7 @@ namespace Wisky.Areas.Admin.Controllers
                 ViewBag.TotalAccount = userTotal.Count();
                 ViewBag.TotalDevice = deviceService.GetActive().Count();
                 DateTime bt = (DateTime)user.Birthday;
-                ViewBag.BirthDay = String.Format("{0:dd/MM/yyyy}", bt);
+                //ViewBag.BirthDay = String.Format("{0:dd/MM/yyyy}", bt);
             }
             catch (Exception e)
             {
