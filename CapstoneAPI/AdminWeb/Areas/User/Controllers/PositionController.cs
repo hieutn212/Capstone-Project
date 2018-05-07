@@ -120,6 +120,44 @@ namespace Wisky.Areas.Admin.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<ActionResult> GetListPointMap(string deviceId, int timeSearch)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = await httpClient.GetAsync
+                    (ShareDataConnection.IPconnection + "api/position/getTrackingProductWithTime?deviceId=" + deviceId + "&timeSearch=" + timeSearch);
+                if (response.StatusCode.ToString() == "OK")
+                {
+                    var positions = JsonConvert.DeserializeObject<List<Product_position>>(response.Content.ReadAsStringAsync().Result);
+                    return Json(new
+                    {
+                        success = true,
+                        ID = positions[0].DeviceId,
+                        Longitude = positions[0].Longitude,
+                        Latitude = positions[0].Latitude,
+                        Altitude = positions[0].Altitude,
+                        count = positions.Count(),
+                        listPosition = positions
+                    });
+                }
+                return Json(new
+                {
+                    success = false,
+                });
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    success = false,
+                });
+            }
+        }
+
+
         public async Task<ActionResult> GetAllCornerWithMap(int mapId)
         {
             try

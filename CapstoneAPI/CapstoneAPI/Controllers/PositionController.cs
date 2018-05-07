@@ -208,6 +208,7 @@ namespace CapstoneAPI.Controllers
         public HttpResponseMessage trackingProductWithTime(string deviceId, int timeSearch)
         {
             IDeviceService deviceService = this.Service<IDeviceService>();
+            IProduct_positionService position = this.Service<IProduct_positionService>();
             Device device = deviceService.GetById(deviceId);
             DateTime startDate = DateTime.Now;
             DateTime endDate = startDate.AddMinutes(timeSearch*(-1));
@@ -224,6 +225,60 @@ namespace CapstoneAPI.Controllers
                 if (positions != null)
                 {
                     positions = positions.Select(q=> new Product_position()
+                    {
+                        Id = q.Id,
+                        DeviceId = q.DeviceId,
+                        Altitude = q.Altitude,
+                        Latitude = q.Latitude,
+                        Longitude = q.Longitude,
+                        CreatedDate = q.CreatedDate,
+                        Active = q.Active,
+                    }).ToList();
+                    return new HttpResponseMessage()
+                    {
+                        StatusCode = System.Net.HttpStatusCode.OK,
+                        Content = new JsonContent(positions)
+                    };
+                }
+                else
+                {
+                    return new HttpResponseMessage()
+                    {
+                        StatusCode = System.Net.HttpStatusCode.NotFound,
+                        Content = new JsonContent("Can not find device")
+                    };
+                }
+            }
+            else
+            {
+                return new HttpResponseMessage()
+                {
+                    StatusCode = System.Net.HttpStatusCode.NotFound,
+                    Content = new JsonContent("Device is not exist")
+                };
+            }
+        }
+
+        public HttpResponseMessage getTrackingProductWithTime(string deviceId, int timeSearch)
+        {
+            IDeviceService deviceService = this.Service<IDeviceService>();
+            IProduct_positionService position = this.Service<IProduct_positionService>();
+            Device device = deviceService.GetById(deviceId);
+            DateTime startDate = DateTime.Now;
+            DateTime endDate = startDate.AddMinutes(timeSearch * (-1));
+            if (device != null)
+            {
+                IProduct_positionService productPositionService = this.Service<IProduct_positionService>();
+                Product_position positionAlt = productPositionService.trackingProduct(deviceId);
+                double altitude = 0.0;
+                if (positionAlt != null)
+                {
+                    altitude = positionAlt.Altitude.Value;
+                }
+                List<Product_position> positions = productPositionService.getListByTime(deviceId, endDate, startDate, altitude);
+                if (positions != null)
+                {
+                    positions = positions.Select(q => new Product_position()
                     {
                         Id = q.Id,
                         DeviceId = q.DeviceId,

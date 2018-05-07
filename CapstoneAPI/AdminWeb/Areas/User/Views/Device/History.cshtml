@@ -81,7 +81,27 @@
         <div class="block-header title-format">
             <h2>Lịch sử hoạt động của '@ViewData["Username"]'</h2>
             <input hidden type="text" value="@ViewData["IMEI"]" id="txtIMEI" />
-        </div>
+            <button type="button" class="btn btn-primary fa-pull-right" style="margin-left:3px" onclick="viewListOfPointMap()">
+                <i class="fa fa-search"></i>
+            </button>
+                
+                <span class="panel-primary">QUÁ TRÌNH DI CHUYỂN TRONG</span>
+
+                <select id="timeTracking">
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                    <option value="6">6</option>
+                    <option value="8">8</option>
+                    <option value="10">10</option>
+                    <option value="12">12</option>
+                    <option value="14">14</option>
+                    <option value="16">16</option>
+                    <option value="18">18</option>
+                    <option value="20">20</option>
+                </select>
+                <span class="panel-primary">PHÚT GẦN NHẤT</span>
+            
+            </div>
 
 
         <!-- Daterange picker -->
@@ -92,28 +112,8 @@
                     <span></span> <b class="caret"></b>
                 </div>
             </div>
-        </div>
-        <!--Social Type Picker -->
-        @*<div class="menu-filter">
-                <div class="btn-group">
-                    <button type="button" id="btn-accountTypes" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" id="accountType-menu"></ul>
-                </div>
-                <input type="hidden" id="AccountTypeId" name="LocationId" value="-1" />
-            </div>*@
 
-        <!--Location type picker-->
-        @*<div class="menu-filter">
-                <div class="btn-group">
-                    <button type="button" id="btn-locations" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" id="location-menu"></ul>
-                </div>
-                <input type="hidden" id="LocationId" name="LocationId" value="-1" />
-            </div>*@
+        </div>
     </div>
 </div>
 
@@ -127,15 +127,6 @@
                             <th>
                                 <label class="">STT</label>
                             </th>
-                            @*<th>
-                                    <label class="">Latitude</label>
-                                </th>
-                                <th>
-                                    <label class="">Longitude</label>
-                                </th>
-                                <th>
-                                    <label class="">Altitude</label>
-                                </th>*@
                             <th>
                                 <label class="">Ngày tạo</label>
                             </th>
@@ -156,6 +147,7 @@
                     @*<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>*@
                     @*<h3>Vị trí thiết bị</h3>*@
                 </div>
+                <img src="~/Content/images/Maps/FloorG.png" id="mapFloorG" width="600" hidden height="960" />
                 <img src="~/Content/images/Maps/Floor1.png" id="mapFloor1" width="600" hidden height="960" />
                 <img src="~/Content/images/Maps/Floor2.png" id="mapFloor2" width="600" hidden height="960" />
                 <img src="~/Content/images/Maps/Floor3.png" id="mapFloor3" width="600" hidden height="960" />
@@ -178,6 +170,8 @@
         var corners = null;
         var posX = 0;
         var posY = 0;
+        var posx = 0;
+        var posy = 0;
         var width = 600;
         var height = 960;
         $(document).ready(function () {
@@ -238,8 +232,7 @@
 
 
             $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
-                //startDate = picker.startDate.format('DD/MM/YYYY');
-                //endDate = picker.endDate.format('DD/MM/YYYY');
+                
                 RefreshTable();
             });
         }
@@ -312,32 +305,38 @@
                         $('#DeviceModal').modal('show');
                         var canvas = document.getElementById("myCanvas");
                         var ctx = canvas.getContext("2d");
+                        //ctx.clearRect(0, 0, 600, 960);
                         var img = document.getElementById("mapFloor1");
                             if (result.Altitude == 0) {
-                                img = document.getElementById("mapFloor1");
-                            } else if (result.Altitude > 0 && result.Altitude <= 6.8) {
+                                img = document.getElementById("mapFloor1");                           
+                            }
+                            else if (result.Altitude > 0 && result.Altitude <= 10.2) {
+                                img = document.getElementById("mapFloorG");
+                            }
+                            else if (result.Altitude > 10.2 && result.Altitude <= 13.2) {
                                 img = document.getElementById("mapFloor1");
                             }
-                            else if (result.Altitude > 6.8 && result.Altitude <= 9.9) {
-                                img = document.getElementById("mapFloor1");
-                            }
-                            else if (result.Altitude > 9.9 && result.Altitude <= 13.3) {
-                                img = document.getElementById("mapFloor1");
-                            }
-                            else if (result.Altitude > 13.3 && result.Altitude <= 17.3) {
+                            else if (result.Altitude > 13.2 && result.Altitude <= 16.8) {
                                 img = document.getElementById("mapFloor2");
-                            } else if (result.Altitude > 17.3 && result.Altitude <= 20.4) {
+                            } else if (result.Altitude > 16.8 && result.Altitude <= 19.7) {
                                 img = document.getElementById("mapFloor3");
-                            } else if (result.Altitude > 20.4 && result.Altitude <= 24.3) {
+                            } else if (result.Altitude > 19.7 && result.Altitude <= 23) {
                                 img = document.getElementById("mapFloor4");
-                            } else if (result.Altitude > 24.3) {
+                            } else if (result.Altitude > 23) {
                                 img = document.getElementById("mapFloor5");
-                        }
+                            }
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
                         ctx.drawImage(img, 0, 0, 600, 960);
                         getPointMap(result.Latitude, result.Longitude);
                         ctx.fillStyle = "#0800ff";
                         if (posX != 0 && posY != 0) {
-                            ctx.fillRect(posX, posY, 15, 15);
+                            //ctx.fillRect(posX, posY, 15, 15);
+                            ctx.beginPath();
+                            ctx.arc(posX,posY,10,0,2*Math.PI);
+                            ctx.fillStyle="#0800ff";
+                            ctx.fill();
+                            ctx.lineWidth=3;
+                            
                         }
                     } else {
                         PnotifyFail("Có lỗi xảy ra!!!");
@@ -349,6 +348,84 @@
             });
 
         }
+
+        function viewListOfPointMap() {
+            var deviceId = $("#txtIMEI").val();
+            var timeSearch = $("#timeTracking").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetListPointMap", "Position")',
+                data: { deviceId: deviceId, timeSearch: timeSearch },
+                success: function (result) {
+                    if (result.success) {
+                        $('#DeviceModal').modal('show');
+                        var canvas = document.getElementById("myCanvas");
+                        var ctx = canvas.getContext("2d");
+                        var img = document.getElementById("mapFloor1");
+                        if (result.Altitude == 0) {
+                            img = document.getElementById("mapFloor1");
+                        }
+                        else if (result.Altitude > 0 && result.Altitude <= 10.2) {
+                            img = document.getElementById("mapFloorG");
+                        }
+                        else if (result.Altitude > 10.2 && result.Altitude <= 13.2) {
+                            img = document.getElementById("mapFloor1");
+                        }
+                        else if (result.Altitude > 13.2 && result.Altitude <= 16.8) {
+                            img = document.getElementById("mapFloor2");
+                        } else if (result.Altitude > 16.8 && result.Altitude <= 19.7) {
+                            img = document.getElementById("mapFloor3");
+                        } else if (result.Altitude > 19.7 && result.Altitude <= 23) {
+                            img = document.getElementById("mapFloor4");
+                        } else if (result.Altitude > 23) {
+                            img = document.getElementById("mapFloor5");
+                        }
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        ctx.drawImage(img, 0, 0, 600, 960);                       
+                        ctx.fillStyle = "#00cc66";
+                        for (var i = result.count - 1; i >= 0 ; i--) {
+                            getPointMap(result.listPosition[i].Latitude, result.listPosition[i].Longitude);
+                            if (i > 1) {
+                                getNextPointMap(result.listPosition[i -1].Latitude, result.listPosition[i -1].Longitude);
+                            }                           
+                            ctx.beginPath();
+                                if (posX != 0 && posY != 0) {                                  
+                                    ctx.arc(posX, posY, 10, 0, 2 * Math.PI);
+                                    ctx.fillStyle = "#00ccff";
+                                    //if (i == 0) {
+                                    //    ctx.fillStyle = "#0033cc";
+                                    //}                                   
+                                    ctx.fill();
+                                    //ctx.lineWidth = 3;
+                                }
+                                if (posx != 0 && posy != 0) {                                  
+                                    ctx.arc(posx, posy, 10, 0, 2 * Math.PI);
+                                    ctx.fillStyle = "#00ccff";
+                                    
+                                    if (i == 0) {
+                                        ctx.fillStyle = "#0066ff";
+                                    }
+                                    ctx.fill();
+                                    //ctx.moveTo(posX, posY);
+                                    ctx.lineTo(posx, posy);
+                                    ctx.lineWidth = 3;
+                                    ctx.strokeStyle = "#b3f0ff";
+                                    ctx.stroke();
+                                }
+                            }
+                            //ctx.fillRect(posX, posY, 15, 15);
+                            //ctx.fillRect(posX + 10, posY + 10, 15, 15);
+                    } else {
+                        PnotifyFail("Không có dữ liệu trọng khoảng thời gian này!!!");
+                    }
+                },
+                error: function (error) {
+                    PnotifyFail("Không có dữ liệu trọng khoảng thời gian này!!!");
+                }
+            });
+
+        }
+
         function getConners(id) {
             $.ajax({
                 type: "POST",
@@ -447,6 +524,88 @@
             } else {
                 posX = 0;
                 posY = 0;
+            }
+        }
+
+        function getNextPointMap(latitude, longitude) {
+            var corner = 1;
+            var min = PerpendicularDistance(corners.result[0], corners.result[1], longitude, latitude);
+            var perpendicular = PerpendicularDistance(corners.result[1], corners.result[2], longitude, latitude);
+            if (perpendicular <= min) {
+                min = perpendicular;
+                corner = 2;
+            }
+            perpendicular = PerpendicularDistance(corners.result[2], corners.result[3], longitude, latitude);
+            if (perpendicular <= min) {
+                min = perpendicular;
+                corner = 3;
+            }
+            perpendicular = PerpendicularDistance(corners.result[3], corners.result[0], longitude, latitude);
+            if (perpendicular <= min) {
+                min = perpendicular;
+                corner = 4;
+            }
+            var checkX = 0;
+            var checkY = 0;
+            if (corner == 1) {
+                //29  18
+                var currentCorner1 = corners.result[1];
+                var currentCorner2 = corners.result[0];
+                var distance2 = HaversineInM(latitude, longitude, currentCorner1.Latitude, currentCorner1.Longitude);
+                var distanceCorner = HaversineInM(currentCorner2.Latitude, currentCorner2.Longitude,
+                        currentCorner1.Latitude, currentCorner1.Longitude);
+                var temp = getPixelWithPer(min, distance2);
+                checkY = height / distanceCorner * temp;
+                currentCorner2 = corners.result[2];
+                distanceCorner = HaversineInM(currentCorner1.Latitude, currentCorner1.Longitude,
+                        currentCorner2.Latitude, currentCorner2.Longitude);
+                checkX = (width / distanceCorner * min);
+            } else if (corner == 3) {
+                var currentCorner1 = corners.result[2];
+                var currentCorner2 = corners.result[3];
+                var distance2 = HaversineInM(latitude, longitude, currentCorner1.Latitude, currentCorner1.Longitude);
+                var distanceCorner = HaversineInM(currentCorner2.Latitude, currentCorner2.Longitude,
+                        currentCorner1.Latitude, currentCorner1.Longitude);
+                var temp = getPixelWithPer(min, distance2);
+                checkY = (height / distanceCorner * temp);
+                currentCorner2 = corners.result[1];
+                distanceCorner = HaversineInM(currentCorner1.Latitude, currentCorner1.Longitude,
+                        currentCorner2.Latitude, currentCorner2.Longitude);
+                var x = distanceCorner - (min);
+                checkX = (width / distanceCorner * x);
+            } else if (corner == 2) {
+                var currentCorner1 = corners.result[2];
+                var currentCorner2 = corners.result[1];
+                var distance2 = HaversineInM(latitude, longitude, currentCorner2.Latitude, currentCorner2.Longitude);
+                var distanceCorner = HaversineInM(currentCorner2.Latitude, currentCorner2.Longitude,
+                        currentCorner1.Latitude, currentCorner1.Longitude);
+                var temp = getPixelWithPer(min, distance2);
+                checkX = (width / distanceCorner * temp);
+                currentCorner1 = corners.result[0];
+                distanceCorner = HaversineInM(currentCorner1.Latitude, currentCorner1.Longitude,
+                        currentCorner2.Latitude, currentCorner2.Longitude);
+                checkY = (height / distanceCorner * min);
+            } else if (corner == 4) {
+                var currentCorner1 = corners.result[3];
+                var currentCorner2 = corners.result[0];
+                var distance2 = HaversineInM(latitude, longitude, currentCorner2.Latitude, currentCorner2.Longitude);
+                var distanceCorner = HaversineInM(currentCorner2.Latitude, currentCorner2.Longitude,
+                        currentCorner1.Latitude, currentCorner1.Longitude);
+                var temp = getPixelWithPer(min, distance2);
+                checkX = (width / distanceCorner * temp);
+                currentCorner2 = corners.result[2];
+                distanceCorner = HaversineInM(currentCorner1.Latitude, currentCorner1.Longitude,
+                        currentCorner2.Latitude, currentCorner2.Longitude);
+                var x = distanceCorner - min;
+                checkY = (height / distanceCorner * x);
+            }
+
+            if ((checkX <= width && checkX >= 0) && (checkY <= height && checkY >= 0)) {
+                posx = checkX;
+                posy = checkY;
+            } else {
+                posx = 0;
+                posy = 0;
             }
         }
 
